@@ -1,0 +1,158 @@
+<head>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+	<script src="http://api.thebatplayer.fm/client/js/analytics.js"></script>
+
+	<style>
+		.widget-header {margin-top: 0px;}
+	</style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse" role="navigation">
+
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		  		<span class="sr-only">Toggle navigation</span>
+		  		<i class="icon-cog"></i>
+			</button>
+			<a class="navbar-brand" href="/">The Bat Player</a>
+		</div>
+
+	</div> <!-- /.container -->
+</nav>
+    
+<div class="subnavbar">
+
+	<div class="subnavbar-inner">
+	
+		<div class="container">
+
+			<div class="subnav">
+				<ul class="mainnav">
+				
+					<li>
+						<a href="./index.html">
+							<i class="fa fa-home"></i>
+							<span>Home</span>
+						</a>	    				
+					</li>
+
+					<li>
+						<a href="./stations.html">
+							<i class="fa fa-music"></i>
+							<span>Stations</span>
+						</a>	    				
+					</li>
+
+					<li>
+						<a href="./services.html">
+							<i class="fa fa-cloud"></i>
+							<span>Services</span>
+						</a>	    				
+					</li>
+
+					<li class="active">
+						<a href="./lighting.html">
+							<i class="fa fa-lightbulb-o"></i>
+							<span>Lighting</span>
+						</a>	    				
+					</li>
+
+<!-- 					<li>
+						<a href="./advanced.html">
+							<i class="fa fa-cogs"></i>
+							<span>Advanced</span>
+						</a>	    				
+					</li> -->
+				
+				</ul>
+			</div> <!-- /.subnav-collapse -->
+
+		</div> <!-- /container -->
+	
+	</div> <!-- /subnavbar-inner -->
+
+</div> <!-- /subnavbar -->
+
+
+<div class="main">
+	<div class="container">
+
+		<div class="jumbotron hue-disabled">
+			<h1>Bummer</h1>
+			<p>The Bat Player doesn't seem to see a Hue Lighting system enabled at your place.  If you ever get one you can check back here and we can enable it.</p>
+		</div>
+
+		<div class="widget stacked">
+				
+			<div class="widget-header">
+				<h3>Philips Hue Lighting Configuration</h3>
+			</div> <!-- /widget-header -->
+	
+			<div class="widget-content">
+				
+				<p>The Bat Player can adjust your lights automagically to what is displayed on your screen.  Any number of <a href="http://meethue.com/">Philips Hue</a> bulbs can be selected and controlled here. Use the <strong>Up</strong> and <strong>Down</strong> keys to toggle between different brightness modes for a brighter or dimmer environment.</p>
+
+				<div class="jumbotron hue-enabled" style="display: none">
+					<h1 id="header">Sweet!</h1>
+					<p id="instruction">The Bat Player detects that you have a Hue Lighting system.  We can set that up for you here if you like.  If not, that's cool too.</p>
+					<p><a class="btn btn-primary btn-lg" role="button" id="enable-lighting-button">Setup Lighting</a></p>
+				</div>
+
+				<div id="light-selection" style="display:none">
+					<table class="table lights">
+						<tr>
+							<th style="width:40px">Enabled</th>
+							<th>Name</th>
+						</tr>
+
+					</table>
+
+					<div>
+						<p><h4>You can adjust how bright or dark The Bat Player is allowed to set your lights.</h4></p>
+					  	<label for="amount">Allowed brightness range:</label>
+					  	<span id="brightness-values"></span>
+					  	<div id="slider-range"></div>
+					</div>
+					
+				</div>
+
+				<button class="btn btn-success" id="save-button" style="display:none">Save Lights</button>
+
+			</div> <!-- /widget-content -->
+
+		</div>
+	</div>
+</div>
+</body>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://thebatplayer.fm/theme/css/base-admin-3.css" rel="stylesheet">
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="css/adminstyles.css" rel="stylesheet">
+<link rel="stylesheet" href="http://thebatplayer.fm/theme/js/plugins/msgGrowl/css/msgGrowl.css" type="text/css" charset="utf-8" />
+<link rel="http://thebatplayer.fm/theme/css/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css">
+<link href="http://thebatplayer.fm/js/switch/main.css" rel="stylesheet">
+<link href="http://thebatplayer.fm/js/switch/jquery.switchButton.css" rel="stylesheet">
+<link href="http://thebatplayer.fm/theme/css/custom.css" rel="stylesheet">
+<link href="http://thebatplayer.fm/theme/css/client.css" rel="stylesheet">
+
+<script src="//code.jquery.com/ui/1.10.0/jquery-ui.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://thebatplayer.fm/js/switch/jquery.switchButton.js"></script>
+<script src="http://thebatplayer.fm/theme/js/plugins/msgGrowl/js/msgGrowl.min.js"></script>
+<script src="http://thebatplayer.fm/js/admin.js"></script>
+
+<script id="light-template" type="text/x-handlebars-template">
+	{{#each lights}}
+		<tr class="single-light">
+			<td><center><input type="checkbox" name="enabled" value="{{ this.id }}" id="checkbox-{{ this.id }}"></i></center></td>
+			<td>{{ this.name }}</td>
+		</tr>
+	{{/each}}
+</script>
+<script src="js/lighting.js"></script>
+<script>addAction("Web configuration lighting page loaded.");</script>

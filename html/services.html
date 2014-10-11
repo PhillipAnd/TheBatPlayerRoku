@@ -1,0 +1,158 @@
+<head>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>	
+	<script src="http://api.thebatplayer.fm/client/js/analytics.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse" role="navigation">
+
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		  		<span class="sr-only">Toggle navigation</span>
+		  		<i class="icon-cog"></i>
+			</button>
+			<a class="navbar-brand" href="/">The Bat Player</a>
+		</div>
+
+	</div> <!-- /.container -->
+</nav>
+    
+
+
+
+    
+<div class="subnavbar">
+
+	<div class="subnavbar-inner">
+	
+		<div class="container">
+
+			<div class="subnav">
+				<ul class="mainnav">
+				
+					<li class="">
+						<a href="./index.html">
+							<i class="fa fa-home"></i>
+							<span>Home</span>
+						</a>	    				
+					</li>
+
+					<li>
+						<a href="./stations.html">
+							<i class="fa fa-music"></i>
+							<span>Stations</span>
+						</a>	    				
+					</li>
+
+					<li class="active">
+						<a href="./services.html">
+							<i class="fa fa-cloud"></i>
+							<span>Services</span>
+						</a>	    				
+					</li>
+
+					<li>
+						<a href="./lighting.html">
+							<i class="fa fa-lightbulb-o"></i>
+							<span>Lighting</span>
+						</a>	    				
+					</li>
+
+<!-- 					<li>
+						<a href="./advanced.html">
+							<i class="fa fa-cogs"></i>
+							<span>Advanced</span>
+						</a>	    				
+					</li> -->
+				
+				</ul>
+			</div> <!-- /.subnav-collapse -->
+
+		</div> <!-- /container -->
+	
+	</div> <!-- /subnavbar-inner -->
+
+</div> <!-- /subnavbar -->
+
+<div class="main">
+	<div class="container">
+
+		<div class="widget stacked">
+				
+			<div class="widget-header">
+				<i class="icon-file"></i>
+				<h3>Last.FM Configuration</h3>
+			</div> <!-- /widget-header -->
+	
+			<div class="widget-content">
+				
+				<p>Enable up to two different Last.FM accounts for scrobbling purposes.  Each can be toggled on and off independantly using the <i>Option</i> key on your remote.</p>
+				<table class="table">
+					<tr>
+						<th></th>
+						<th>Name</th>
+						<th>Enable</th>
+					</tr>
+
+					<tbody id="lastfm-users">
+						<tr id="user-row-0">
+							<td><center><i class="fa"></i></center></td>
+							<td>
+								<input class="user" id="username-0" name="username-0" placeholder="Username" readonly>
+							</td>
+							<td>
+								<button id="auth-button-0" data-user="0" class="btn btn-default auth-button">Authenticate</button>
+							</td>
+						</tr>
+
+						<tr id="user-row-1">
+							<td><center><i class="fa"></i></center></td>
+							<td>
+								<input class="user" id="username-1" name="username-1" placeholder="Username" readonly>
+							</td>
+							<td>
+								<button id="auth-button-1" data-user="1" class="btn btn-default auth-button">Authenticate</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="widget-header">
+					<i class="icon-file"></i>
+					<h3>Rdio</h3>
+				</div> <!-- /widget-header -->
+		
+				<div class="widget-content">
+					<div id="rdio-login">
+						<center>
+							<p id="rdio-auth-status">
+								Login with Rdio to add songs to a special Bat Player playlist to refer to later.
+							</p>
+							<img width="30%" src="http://thebatplayer.fm/images/rdiologo.png">
+						</center>
+					</div>
+				</div>		
+			</div>
+	</div>
+</div>
+</body>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://thebatplayer.fm/theme/css/base-admin-3.css" rel="stylesheet">
+<link href="http://thebatplayer.fm/theme/css/custom.css" rel="stylesheet">
+<link href="http://thebatplayer.fm/theme/css/client.css" rel="stylesheet">
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="http://thebatplayer.fm/theme/js/plugins/msgGrowl/css/msgGrowl.css" type="text/css" charset="utf-8" />
+<link rel="stylesheet" href="http://thebatplayer.fm/theme/js/plugins/msgbox/jquery.msgbox.css" type="text/css" charset="utf-8" />
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://thebatplayer.fm/theme/js/plugins/msgGrowl/js/msgGrowl.min.js"></script>
+<script src="http://thebatplayer.fm/theme/js/plugins/msgbox/jquery.msgbox.js"></script>
+<script src="http://thebatplayer.fm/js/admin.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+<script src="http://thebatplayer.fm/js/lastfm.js"></script>
+<script>addAction("Web configuration services page loaded.");</script>
