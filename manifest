@@ -1,0 +1,19 @@
+title=The Bat Player
+subtitle=The Best Internet Radio
+screensaver_title=Internet Radio
+screensaver_private=1
+splash_color=#9b0000
+
+mm_icon_focus_hd=pkg:/images/icon-hd.png
+mm_icon_side_hd=pkg:/images/icon-hd.png
+
+mm_icon_focus_sd=pkg:/images/icon-sd.png
+mm_icon_side_sd=pkg:/images/icon-sd.png
+
+splash_screen_hd=pkg:/images/launch_image-HD.png
+splash_screen_sd=pkg:/images/launch_image-SD.png
+
+splash_min_time=0
+major_version=1
+minor_version=0
+build_version=00001
