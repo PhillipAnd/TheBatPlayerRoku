@@ -151,7 +151,7 @@ Function GetDropShadowColorForSong(song as Object) as integer
 	brightness = GetBrightnessForSong(song)
 	
 	if brightness < 40 AND brightness <> 0 AND brightness > 25
-		dropShadowColor = &h99999944'&hF0C2B210
+		dropShadowColor = &hAAAAAA33
 	else 
 		dropShadowColor = &h000000FF
 	end if
