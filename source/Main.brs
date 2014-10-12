@@ -14,7 +14,6 @@ Sub Main()
     InitFonts()
     StartServerWithPort(GetPort())
     InitLastFM()
-    ' SetMainAppIsRunning()
     ListStations()
     StartEventLoop()
 End Sub

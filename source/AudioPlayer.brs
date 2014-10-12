@@ -22,10 +22,9 @@ Function AudioInit() As Object
 	o.setupSong			= audioPlayer_setup
 	o.clearContent			= audioPlayer_clear_content
 	o.setContentList		= audioPlayer_set_content_list
-	' o.getMsgEvents			= audioPlayer_getmsg
 	o.reset = audioPlayer_reset
 	audioPlayer			= CreateObject("roAudioPlayer")
-	o.port 				= GetPort()'CreateObject("roMessagePort") 'Message will be coming out when a track is done
+	o.port 				= GetPort()
 	audioPlayer.SetMessagePort(o.port)
 	o.audioPlayer			= audioPlayer
 	o.failCounter = 0
@@ -65,14 +64,9 @@ Sub audioPlayer_newstate(newstate as integer)
 	if newstate = 0 then			' STOPPED
 		m.audioPlayer.Stop()
 		m.isPlayState = 0
-	else if newstate = 1 then		' PAUSED
-		' m.audioPlayer.Pause()
-		m.isPlayState = 1
 	else if newstate = 2 then		' PLAYING
 		if m.isplaystate = 0
 			m.audioPlayer.play()	' STOP->START
-		else
-			' m.audioPlayer.Resume()	' PAUSE->START
 		endif
 		m.isPlayState = 2
 	endif
@@ -95,23 +89,3 @@ REM ******************************************************
 Sub audioPlayer_set_content_list(contentList As Object) 
 	m.audioPlayer.SetContentList(contentList)
 End Sub
-
-
-' REM ******************************************************
-' REM
-' REM Get Message events
-' REM Return with audioplayer events or events for the 'escape' active screen
-' REM
-' REM ******************************************************
-' Function audioPlayer_getmsg(timeout as Integer, escape as String) As Object
-' 	'print "In audioPlayer get selection - Waiting for msg escape=" ; escape
-' 	' while true
-' 	'     msg = wait(timeout, m.port)
-' 	'     print "Got msg = "; type(msg)
-' 	'     if type(msg) = "roAudioPlayerEvent" return msg
-' 	'     if type(msg) = escape return msg
-' 	'     ' if type(msg) = "Invalid" return msg
-' 	'     ' eat all other messages
-' 	' end while
-' End Function
-

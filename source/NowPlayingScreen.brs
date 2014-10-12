@@ -190,12 +190,6 @@ Function UpdateScreen()
     NowPlayingScreen.loadingScreen = invalid
   end if
 
-  ' posterScreen = GetGlobalAA().StationScreen
-  ' if posterScreen <> invalid then
-  '   posterScreen.close()
-  '   GetGlobalAA().Delete("StationScreen")
-  ' end if 
-
 End Function
 
 Function GetNowPlayingScreen() as Object
@@ -331,7 +325,6 @@ Function RefreshNowPlayingScreen()
   
   RunGarbageCollector()
   UpdateScreen()
-  ' DrawScreen()
 
   if song.metadataFault <> true AND song.artist <> invalid AND song.title <> invalid
     Analytics_TrackChanged(song.artist, song.title, song.stationName)

@@ -15,7 +15,6 @@ Sub Show_Audio_Screen(song as Object)
 
     ResetNowPlayingScreen()
     GetGlobalAA().AddReplace("NowPlaying", true)
-    ' GetGlobalAA().AddReplace("IsStationSelectorDisplayed", false)
 
     if GetGlobalAA().DoesExist("AudioPlayer") then
       Audio = GetGlobalAA().AudioPlayer
@@ -26,7 +25,6 @@ Sub Show_Audio_Screen(song as Object)
       GetGlobalAA().AudioPlayer = Audio
     end if
 
-    ' ' start playing
     Audio.setPlayState(0)
     Audio.setupSong(song.feedurl, song.streamformat)
     Audio.audioplayer.setNext(0)
