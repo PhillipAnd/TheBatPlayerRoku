@@ -1,45 +1,38 @@
 REM Global event loop
 
 
-
-
-
 Sub HandleStationSelector (msg as Object)
-	' if GetGlobalAA().IsStationSelectorDisplayed = true
+	if type(msg)="roPosterScreenEvent"
+		posterScreen = GetGlobalAA().StationScreen
+    	key = msg.GetIndex()
 
-		if type(msg)="roPosterScreenEvent"
-			posterScreen = GetGlobalAA().StationScreen
-	    	key = msg.GetIndex()
+		if msg.isAdSelected()
+			'Show message
+			ShowConfigurationMessage(posterScreen)
+		else if msg.isListItemSelected()
+			StationList = GetGlobalAA().StationList
 
-			if msg.isAdSelected()
-				'Show message
-				ShowConfigurationMessage(posterScreen)
-			else if msg.isListItemSelected()
-				StationList = GetGlobalAA().StationList
+	        selectionIndex = msg.GetIndex()
+	        
+	        Station = StationList.posteritems[selectionIndex]
+			Analytics_StationSelected(Station.stationName, Station.feedurl)
 
-		        ' print "msg: ";msg.GetMessage();"idx: ";msg.GetIndex()
-		        selectionIndex = msg.GetIndex()
-		        
-		        Station = StationList.posteritems[selectionIndex]
-				Analytics_StationSelected(Station.stationName, Station.feedurl)
+	        GetGlobalAA().AddReplace("SongObject", Station)
+	        Show_Audio_Screen(Station)
+	        DisplayStationLoading(Station)
+			' posterScreen.close()
+	    else if msg.GetIndex() = 0
+		    	if posterScreen <> invalid
+					'posterScreen.close()
+				end if
+			end
+		else if msg.isScreenClosed()
+		  	GetGlobalAA().AddReplace("IsStationSelectorDisplayed", false)
+			return
+	    end if
 
-		        GetGlobalAA().AddReplace("SongObject", Station)
-		        Show_Audio_Screen(Station)
-		        DisplayStationLoading(Station)
-				' posterScreen.close()
-		    else if msg.GetIndex() = 0
-			    	if posterScreen <> invalid
-						'posterScreen.close()
-					end if
-				end
-			else if msg.isScreenClosed()
-			  	GetGlobalAA().AddReplace("IsStationSelectorDisplayed", false)
-				return
-		    end if
+    endif
 
-	    endif
-
-	 ' end if
 End Sub
 
 
@@ -133,13 +126,6 @@ Sub HandleAudioPlayerEvent(msg as Object)
 	        Get_Metadata(song, GetPort())
 	    else if msg.isRequestSucceeded()
 	        print "ending song:"; msg.GetIndex()
-	        'audio.setPlayState(0)	' stop the player, wait for user input
-	    ' else if msg.isRequestFailed()
-	    '     BatLog("failed to play station: " + song.feedurl)
-	    '     if NOT song.DoesExist("failCounter") THEN 
-	    '     	song.failCounter = 0
-	    '     End if
-	    '     song.failCounter = song.failCounter + 1
 	    else if msg.isRequestFailed()
         	Audio = GetGlobalAA().AudioPlayer
 	    	if Audio.failCounter < 5 then
@@ -161,12 +147,11 @@ Sub HandleDownloadEvents(msg)
 	if type(msg) = "roUrlEvent" then
 		Identity = str(msg.GetSourceIdentity())
 
-		' print msg.GetString()
+		' print msg.GetString() 'Uncomment for troubleshooting
 		
 		if msg.GetFailureReason() <> invalid then
 			IsDownloadingFile = IsDownloading(Identity)
 			if IsDownloadingFile = true then
-				'print "DOWNLOAD COMPLETE: " + Identity
 				song = GetGlobalAA().SongObject
 				if GetGlobalAA().IsStationSelectorDisplayed <> true
 					UpdateScreen()
@@ -240,7 +225,6 @@ function StartEventLoop()
 		if GetGlobalAA().IsStationSelectorDisplayed <> true
 			NowPlayingScreen = GetNowPlayingScreen()
 		
-			' if NowPlayingScreen <> invalid AND NowPlayingScreen.screen <> invalid AND NowPlayingScreen.loadingScreen = invalid AND NowPlayingScreen.DoesExist("song") then
 			if NowPlayingScreen <> invalid AND NowPlayingScreen.screen <> invalid AND NowPlayingScreen.DoesExist("song")
 				DrawScreen()
 			end if

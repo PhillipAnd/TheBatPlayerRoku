@@ -99,3 +99,12 @@ Function ShowConfigurationMessage(stationSelectionScreen as object)
         HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
     end while 
 End Function
+
+Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Object
+    item = CreateObject("roAssociativeArray")
+    item.ShortDescriptionLine1 = desc1
+    item.ShortDescriptionLine2 = desc2
+    item.HDPosterUrl = "pkg:/images/" + id + "/Poster_Logo_HD.png"
+    item.SDPosterUrl = item.HDPosterUrl
+    return item
+end Function
