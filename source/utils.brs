@@ -76,7 +76,10 @@ Function HandleJSON(jsonString as String)
 
     'Station details if available
     if jsonObject.station <> invalid
-      song.StationDetails = jsonObject.station
+      if NOT song.DoesExist("StationDetails") OR song.StationDetails.listeners <> jsonObject.station.listeners
+        song.StationDetails = jsonObject.station
+        song.StationDetails.updated = true
+      end if
     end if
 
     song.Title = jsonObject.song
@@ -268,3 +271,8 @@ Function DeParenString(stringToUpdate as string) as string
   end if
   return stringToUpdate
 End Function
+
+Function StringRemoveHTMLTags(baseStr as String) as String
+    r = CreateObject("roRegex", "<[^<]+?>", "i")
+    return r.replaceAll(baseStr, "")
+end function

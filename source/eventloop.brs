@@ -84,6 +84,7 @@ End Sub
 
 Sub HandleTimers()
 	song = GetGlobalAA().SongObject
+	NowPlayingScreen = GetNowPlayingScreen()
 
 	if GetGlobalAA().IsStationSelectorDisplayed <> true then
 		timer = GetNowPlayingTimer()
@@ -97,15 +98,21 @@ Sub HandleTimers()
 
 
 		'LastFM Scrobbles
-		if GetNowPlayingScreen().scrobbleTimer <> invalid THEN
-			if GetNowPlayingScreen().scrobbleTimer.totalSeconds() >= 10 then
+		if NowPlayingScreen.scrobbleTimer <> invalid THEN
+			if NowPlayingScreen.scrobbleTimer.totalSeconds() >= 10 then
 				if song.Artist <> invalid and song.Title <> invalid and song.metadatafault <> true and song.metadataFetched = true
-					GetNowPlayingScreen().scrobbleTimer = invalid
+					NowPlayingScreen.scrobbleTimer = invalid
       				ScrobbleTrack(song.Artist, song.Title)
       			end if
       		end if
       	end if
       	
+
+      	'Now Playing on other stations
+      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 420
+  		    NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
+      		CreateOtherStationsNowPlaying()
+      	end if
 	end if
 
 End Sub
@@ -124,9 +131,7 @@ Sub HandleAudioPlayerEvent(msg as Object)
 	        song.failCounter = 0
 	        ' Audio.audioplayer.Seek(-180000)
 	        Get_Metadata(song, GetPort())
-	    else if msg.isRequestSucceeded()
-	        print "ending song:"; msg.GetIndex()
-	    else if msg.isRequestFailed()
+	    else if msg.isRequestSucceeded() OR msg.isRequestFailed()
         	Audio = GetGlobalAA().AudioPlayer
 	    	if Audio.failCounter < 5 then
 	        	print "FullResult: End of Stream.  Restarting.  Failures: " + str(Audio.failCounter)
@@ -188,6 +193,12 @@ Sub HandleDownloadEvents(msg)
 				if str(transfer.GetIdentity()) = Identity
 					RdioSearchResult(msg.GetString())
 				end if
+			end if
+
+
+			'Downloads for what other stations are playing
+			if (IsOtherStationsValidDownload(msg))
+				CompletedOtherStationsMetadata(msg)
 			end if
 
 		else

@@ -1,12 +1,10 @@
 'Called only once when the Now Playing screen is displayed
 Function CreateNowPlayingScreen() as Object
-	' print "*** CREATING NEW SCREEN ***"
 
   Analytics = GetSession().Analytics
   Analytics.ViewScreen("Now Playing")
 
 	NowPlayingScreen = CreateObject("roAssociativeArray")
-	song = NowPlayingScreen.song
 
 	NowPlayingScreen.headerFont = GetHeaderFont()
   NowPlayingScreen.boldFont = GetLargeBoldFont()
@@ -15,7 +13,7 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.songNameFont = GetSongNameFont()
 
   NowPlayingScreen.HeaderLogo = CreateObject("roBitmap", "pkg:/images/bat.png")
-
+  NowPlayingScreen.StationDetailsLabel = invalid
   NowPlayingScreen.BackgroundImage = invalid
   NowPlayingScreen.PreviousBackgroundImage = invalid
 
@@ -32,6 +30,10 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.UpdateArtistImage = "true"
   NowPlayingScreen.UpdateAlbumImage = "true"
 
+
+  NowPlayingScreen.ScrobbleTimer = invalid
+  NowPlayingScreen.NowPlayingOtherStationsTimer = invalid
+
   NowPlayingScreen.popup = invalid
   NowPlayingScreen.loadingScreen = invalid
 
@@ -43,6 +45,9 @@ End Function
 Function ResetNowPlayingScreen()
 	GetGlobalAA().Delete("NowPlayingScreen")
 	GetGlobalAA().Delete("Song")
+  NowPlayingScreen = GetNowPlayingScreen()
+  NowPlayingScreen.NowPlayingOtherStationsTimer = CreateObject("roTimespan")
+  NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
 End Function
 
 'Called whenever the data for the screen changes (song)
@@ -277,6 +282,10 @@ Function DrawScreen()
       NowPlayingScreen.popup.draw(NowPlayingScreen.screen)
     End if
 
+    if NowPlayingScreen.OtherStationsNowPlaying <> invalid
+      NowPlayingScreen.OtherStationsNowPlaying.Draw(NowPlayingScreen.screen)
+    end if
+
 		NowPlayingScreen.screen.SwapBuffers()
 	end if
 
@@ -346,8 +355,13 @@ Function DrawStationDetailsLabel(NowPlayingScreen as object)
     if NowPlayingScreen.song.stationDetails <> invalid then
       stationListeners = NowPlayingScreen.song.stationDetails.Listeners
       stationBitrate = NowPlayingScreen.song.stationDetails.bitrate
-      stationDetailsLabel = StationDetailsLabel(stationListeners, stationBitrate)
-      stationDetailsLabel.draw(NowPlayingScreen.screen)
+
+      if NowPlayingScreen.song.StationDetails.updated
+        NowPlayingScreen.stationDetailsLabel = StationDetailsLabel(stationListeners, stationBitrate)
+        NowPlayingScreen.song.StationDetails.updated = false
+      end if
+
+      NowPlayingScreen.stationDetailsLabel.draw(NowPlayingScreen.screen)
     end if
 End Function
 
