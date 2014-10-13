@@ -15,7 +15,7 @@ Sub Main()
     StartServerWithPort(GetPort())
     InitLastFM()
     ListStations()
-    StartEventLoop()
+    StartEventLoop()    
 End Sub
 
 Function InitBatPlayer()
