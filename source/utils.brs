@@ -133,7 +133,10 @@ Function HandleJSON(jsonString as String)
   endif
 
  if shouldRefresh = true then
+     song.popularity = invalid
+
       RefreshNowPlayingScreen()
+      'FetchPopularityForArtistName(song.Artist)
 
       GetGlobalAA().lastSongTitle = song.Title
 

@@ -84,7 +84,7 @@ Function otherStationsNowPlaying_draw(screen as Object)
 	m.TextX = m.TextX - 4
 	
 	'We're done
-	if m.BackgroundViewY <= -80 AND m.ReadyToDestroy = true
+	if m.BackgroundViewY <= -180 AND m.ReadyToDestroy = true
 		m.Destroy()
 
 	'Animate out

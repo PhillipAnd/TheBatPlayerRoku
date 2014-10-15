@@ -13,19 +13,13 @@ Sub HandleStationSelector (msg as Object)
 			StationList = GetGlobalAA().StationList
 
 	        selectionIndex = msg.GetIndex()
-	        
+
 	        Station = StationList.posteritems[selectionIndex]
 			Analytics_StationSelected(Station.stationName, Station.feedurl)
 
 	        GetGlobalAA().AddReplace("SongObject", Station)
 	        Show_Audio_Screen(Station)
 	        DisplayStationLoading(Station)
-			' posterScreen.close()
-	    else if msg.GetIndex() = 0
-		    	if posterScreen <> invalid
-					'posterScreen.close()
-				end if
-			end
 		else if msg.isScreenClosed()
 		  	GetGlobalAA().AddReplace("IsStationSelectorDisplayed", false)
 			return
@@ -67,7 +61,7 @@ Sub HandleNowPlayingScreenEvent (msg as Object)
 
 	  else if key = 4 then
 	  	song = GetGlobalAA().SongObject
-	  	if song <> invalid then AttemptToAddToRdioPlaylist(song.artist, song.title)
+	  	'if song <> invalid then AttemptToAddToRdioPlaylist(song.artist, song.title)
 
 	  else if key = 0 then
 	    'Exit
@@ -109,7 +103,7 @@ Sub HandleTimers()
       	
 
       	'Now Playing on other stations
-      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 420
+      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 520
   		    NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
       		CreateOtherStationsNowPlaying()
       	end if
@@ -148,11 +142,14 @@ Sub HandleAudioPlayerEvent(msg as Object)
 	endif
 End Sub
 
+
+
 Sub HandleDownloadEvents(msg)
 	if type(msg) = "roUrlEvent" then
 		Identity = str(msg.GetSourceIdentity())
+		Session = GetSession()
 
-		' print msg.GetString() 'Uncomment for troubleshooting
+		'print msg.GetString() 'Uncomment for troubleshooting
 		
 		if msg.GetFailureReason() <> invalid then
 			IsDownloadingFile = IsDownloading(Identity)
@@ -199,6 +196,12 @@ Sub HandleDownloadEvents(msg)
 			'Downloads for what other stations are playing
 			if (IsOtherStationsValidDownload(msg))
 				CompletedOtherStationsMetadata(msg)
+			end if
+
+
+			'Artist popularity
+			if Session.Downloads.DoesExist("PopularityDownload") AND type(Session.Downloads.PopularityDownload) = "roAssociativeArray" AND Identity = str(Session.Downloads.PopularityDownload.Request.GetIdentity())
+				CompletedArtistPopulartiy(msg)
 			end if
 
 		else

@@ -10,7 +10,7 @@ function ClassServer() as Object
         'this.wwwroot     = "html/"
         this.uptime      = invalid
         ' initializable (copied) members
-        this.port            = 8888
+        this.port            = 9999
         this.max_connections = 3
         this.num_requests    = 0
         this.timeout         = 60
