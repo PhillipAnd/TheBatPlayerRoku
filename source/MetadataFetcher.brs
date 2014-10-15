@@ -73,3 +73,41 @@ Function IsOtherStationsValidDownload(msg as Object) as Boolean
 	return false
 
 End Function
+
+
+Function FetchPopularityForArtistName(artistname as String)
+	Session = GetSession()
+	Request = CreateObject("roUrlTransfer")
+
+	url = "http://api.thebatplayer.fm:4567/artistrank/" + Request.escape(artistname)
+	Request.SetUrl(url)
+	Request.SetPort(GetPort())
+	
+	if Request.AsyncGetToString()
+		RequestObject = CreateObject("roAssociativeArray")
+		RequestObject.artistname = artistname
+		RequestObject.request = Request
+		Session.Downloads.PopularityDownload = RequestObject
+	end if
+
+End Function
+
+Function CompletedArtistPopulartiy(msg as Object)
+		Session = GetSession()
+		NowPlayingScreen = GetNowPlayingScreen()
+		Song = NowPlayingScreen.song
+
+		if Session.Downloads.PopularityDownload.artistname = Song.Artist
+			Session.Downloads.PopularityDownload = invalid
+			data = ParseJson(msg.GetString())
+			if data <> invalid AND data.DoesExist("comparison")
+				popularity = data.comparison
+				Song.popularity = popularity
+				UpdateScreen()
+
+				print popularity
+			end if
+		else
+			print "Wrong artist popularity!"
+		end if
+End Function

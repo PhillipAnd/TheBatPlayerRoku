@@ -77,7 +77,7 @@ Function ToggleBrightnessMode(direction as String)
 		Analytics = GetSession().Analytics
 		Analytics.AddEvent("Attempted to toggle brightness mode without bulbs configured")
 		
-		DisplayPopup("There are no Philips Hue bulbs configured.  Visit: http://" + GetIPAddress() + ":8888 to remedy this.",  &hb20000FF, &hBBBBBB00, 8)
+		DisplayPopup("There are no Philips Hue bulbs configured.  Visit: http://" + GetIPAddress() + ":9999 to remedy this.",  &hb20000FF, &hBBBBBB00, 8)
 		return false
 	end if
 

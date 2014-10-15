@@ -52,7 +52,7 @@ Function ToggleLastFMAccounts()
 	totalUsers = userArray.count()
 
 	if totalUsers = 0
-		DisplayPopup("There are no Last.FM accounts configured.  Visit: http://" + GetIPAddress() + ":8888 to remedy this.",  &hb20000FF, &hBBBBBB00, 8)
+		DisplayPopup("There are no Last.FM accounts configured.  Visit: http://" + GetIPAddress() + ":9999 to remedy this.",  &hb20000FF, &hBBBBBB00, 8)
 		Analytics = GetSession().Analytics
 		Analytics.AddEvent("Attempted to enable scrobbling mode without LastFM configured")
 

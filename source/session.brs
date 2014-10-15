@@ -34,5 +34,8 @@ Function CreateSession() as Object
 	
 	Session.deviceInfo = CreateObject("roDeviceInfo")
 
+	Session.Downloads = CreateObject("roAssociativeArray")
+	Session.Downloads.PopularityDownload = invalid
+	
 	return Session	
 End Function

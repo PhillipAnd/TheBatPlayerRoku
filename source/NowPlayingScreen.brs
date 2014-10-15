@@ -16,6 +16,7 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.StationDetailsLabel = invalid
   NowPlayingScreen.BackgroundImage = invalid
   NowPlayingScreen.PreviousBackgroundImage = invalid
+  NowPlayingScreen.PopularityImage = invalid
 
   NowPlayingScreen.albumImage = invalid
   NowPlayingScreen.previousAlbumImage = invalid
@@ -190,6 +191,11 @@ Function UpdateScreen()
   if NowPlayingScreen.artistImage <> invalid then horizontalOffset = NowPlayingScreen.artistImage.horizontalOffset else horizontalOffset = 0
   NowPlayingScreen.onTourLabel = RlTextArea(onTourText, NowPlayingScreen.smallFont, &hFFFFFF00 + 80, ResolutionX(120 + horizontalOffset + 5), ResolutionY(120 + verticalOffset), 300, 50, 1, 1.0, "left")
 
+  'Popularity
+  if NowPlayingScreen.PopularityImage = invalid AND NowPlayingScreen.Song.popularity <> invalid
+    NowPlayingScreen.PopularityImage = CreateObject("roBitmap", "pkg:/images/popularity-" + NowPlayingScreen.Song.Popularity + ".png")
+  end if
+
   if NowPlayingScreen.loadingScreen <> invalid then
     NowPlayingScreen.loadingScreen.close()
     NowPlayingScreen.loadingScreen = invalid
@@ -276,6 +282,10 @@ Function DrawScreen()
 		  NowPlayingScreen.screen.DrawObject(NowPlayingScreen.screen.GetWidth() - 70 ,NowPlayingScreen.screen.GetHeight() - 50, NowPlayingScreen.lastfmlogo, &hFFFFFFFF)
     end if
 
+    'Popularity image
+    if NowPlayingScreen.PopularityImage <> invalid AND NowPlayingScreen.artistimage <> invalid
+      NowPlayingScreen.screen.DrawObject(ResolutionX(NowPlayingScreen.artistimage.horizontalOffset + 120), ResolutionY(NowPlayingScreen.artistimage.verticalOffset + NowPlayingScreen.artistimage.height + 80), NowPlayingScreen.PopularityImage, &hFFFFFF77)
+    end if
 
     'Possible UI Elements
     if NowPlayingScreen.popup <> invalid then
@@ -299,6 +309,7 @@ Function RefreshNowPlayingScreen()
   song = NowPlayingScreen.song
   
   GetGlobalAA().lastSongTitle = invalid
+  NowPlayingScreen.PopularityImage = invalid
 
   if NowPlayingScreen.artistImage <> invalid
     if SupportsAdvancedFeatures()
@@ -328,7 +339,6 @@ Function RefreshNowPlayingScreen()
   NowPlayingScreen.UpdateAlbumImage = "true"
 
   NowPlayingScreen.ArtistPlaceholder = ArtistImage("tmp:/" + makemdfive(song.StationImage))
-
 
   NowPlayingScreen.stationTitle = song.stationName
   

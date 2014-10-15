@@ -37,7 +37,7 @@ Function ListStations()
 
     encoder = CreateObject("roUrlTransfer")
     ipAddress = GetIPAddress()
-    bannerText = encoder.escape("Configure The Bat Player at http://" + ipAddress + ":8888")
+    bannerText = encoder.escape("Configure The Bat Player at http://" + ipAddress + ":9999")
     bannerUrl = "http://cdn.thebatplayer.fm/mp3info/textDraw.php?text=" + bannerText
     
     posterPort = GetPort()
@@ -73,7 +73,7 @@ Function ShowConfigurationMessage(stationSelectionScreen as object)
 
     ipAddress = GetIPAddress()
 
-    message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":8888 to customize your Bat Player experience."
+    message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":9999 to customize your Bat Player experience."
 
     dialog = CreateObject("roMessageDialog")
     dialog.SetMessagePort(GetPort()) 
