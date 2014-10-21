@@ -1,3 +1,147 @@
+Function GetJSONAtUrl(url as String)
+  NowPlayingScreen = GetNowPlayingScreen()
+
+  'If we have an expiration time then respect that
+  if NowPlayingscreen.song <> invalid
+    nowDateTime = CreateObject("roDateTime").asSeconds()
+    expiresDateTime = ToStr(NowPlayingScreen.song.dataExpires).toInt() 'Because JSON parsing reads it as a double
+    if (nowDateTime < expiresDateTime) THEN return false
+  end if
+
+  if NOT GetGlobalAA().DoesExist("jsontransfer") then
+    Request = CreateObject("roUrlTransfer")
+    Request.SetMinimumTransferRate(1, 20)
+
+    'Sanitize the stream url to get the correct metadata
+    if right(url,1) = "/" then
+      url = left(url, len(url)-1)
+    else if right(url,2) = "/;" then
+      url = left(url, len(url)-2)
+    end if
+
+    metadataUrl = "http://cdn.thebatplayer.fm/mp3info/mp3info.hh?stream=" + url
+    ' print "Checking for JSON at " metadataUrl
+    Request.SetUrl(metadataUrl)
+    Request.SetPort(GetPort())
+
+    GetGlobalAA().AddReplace("jsontransfer", Request)
+
+    Request.AsyncGetToString()
+  end if
+End Function
+
+
+Function HandleJSON(jsonString as String)
+
+  jsonObject = ParseJSON(jsonString)
+  song = GetGlobalAA().Lookup("SongObject")
+  NowPlayingScreen = GetNowPlayingScreen()
+
+  shouldRefresh = false
+
+  if jsonObject <> invalid AND jsonObject.song <> invalid
+
+    song.JSONDownloadDelay = 0
+
+    'Station details if available
+    if jsonObject.station <> invalid
+      if NOT song.DoesExist("StationDetails") OR song.StationDetails.listeners <> jsonObject.station.listeners
+        song.StationDetails = jsonObject.station
+        song.StationDetails.updated = true
+      end if
+    end if
+
+    song.Title = jsonObject.song
+    song.Artist = jsonObject.artist
+    song.Description = jsonObject.bio
+    song.bio = jsonObject.bio
+    song.Genres = jsonObject.tags
+    song.isOnTour = jsonObject.isOnTour
+    song.album = jsonObject.album
+    song.dataExpires = jsonObject.expires
+    song.metadataFault = false 
+    song.brightness = 0
+    song.metadataFetched = jsonObject.metaDataFetched
+    song.PopularityFetchCounter = 0
+
+    if jsonObject.DoesExist("image") AND type(jsonObject.image) = "roAssociativeArray" AND jsonObject.image.DoesExist("url") AND isnonemptystr(jsonObject.image.url)
+      song.HDPosterUrl = jsonObject.image.url
+      song.SDPosterUrl = jsonObject.image.url
+      song.image = jsonObject.image
+    else
+      song.HDPosterUrl = song.StationImage
+      song.SDPosterUrl = song.StationImage
+      song.image =  CreateObject("roAssociativeArray")
+      song.image.url = song.StationImage
+      song.album = invalid
+    end if
+
+  else
+    BatLog("There was an error processing or downloading metadata", "error")
+    song.JSONDownloadDelay = song.JSONDownloadDelay + 1
+    song.image = CreateObject("roAssociativeArray")
+    song.image.url = song.StationImage
+    song.Artist = song.stationName
+    song.Title = song.feedurl
+    song.bio = CreateObject("roAssociativeArray")
+    song.bio.text = "The Bat Player displays additional information about the station and its songs when available.  " + song.stationName + " does not seem to have any data for The Bat to show you either due the Station not providing it or our servers are experiencing difficulties."
+    song.HDPosterUrl = song.StationImage
+    song.SDPosterUrl = song.StationImage 
+    song.metadataFault = true
+    song.metadataFetched = false
+    song.album = invalid   
+    song.brightness = 0
+  end if
+
+  NowPlayingScreen.song = song
+
+  if song.artist = invalid then song.artist = song.stationName
+  if song.Title = invalid then song.Title = jsonObject.track
+
+  if GetGlobalAA().lastSongTitle <> song.Title
+    shouldRefresh = true
+  endif
+
+ if shouldRefresh = true then
+     song.popularity = invalid
+
+      RefreshNowPlayingScreen()
+      GetGlobalAA().lastSongTitle = song.Title
+
+      'Download artist image if needed
+      if NOT FileExists(makemdfive(song.Artist)) AND song.DoesExist("image") AND song.image.DoesExist("url") AND isnonemptystr(song.image.url) then
+      
+        if song.metadataFault = false AND song.metadataFetched = true
+        DownloadArtistImageForSong(song)
+        else
+          AsyncGetFile(song.image.url, "tmp:/artist-" + makemdfive(song.Artist))
+        end if
+
+        if NOT FileExists("colored-" + makemdfive(song.Artist)) then
+          DownloadBackgroundImageForSong(song)
+        endif
+
+      end if
+
+      if type(song.album) = "roAssociativeArray" AND NOT FileExists(makemdfive(song.album.name)) then
+        ' Print "Downloading Album art"
+        AsyncGetFile(song.album.image, "tmp:/album-" + makemdfive(song.album.name + song.artist))
+      endif
+
+      if NowPlayingScreen.scrobbleTimer = invalid then
+        NowPlayingScreen.scrobbleTimer = CreateObject("roTimespan")
+      end if
+      NowPlayingScreen.scrobbleTimer.mark()
+
+      if NowPlayingScreen.PopularityTimer = invalid
+      	NowPlayingScreen.PopularityTimer = CreateObject("roTimespan")
+      end if
+      NowPlayingScreen.PopularityTimer.mark()
+
+  end if
+
+End Function
+
 Function FetchMetadataForStreamUrlAndName(url as string, name as string)
 	Session = GetSession()
 
@@ -76,7 +220,12 @@ End Function
 
 
 Function FetchPopularityForArtistName(artistname as String)
+	print "Fetching popularity...."
+	NowPlayingScreen = GetNowPlayingScreen()
 	Session = GetSession()
+  NowPlayingScreen.Song.PopularityFetchCounter = NowPlayingScreen.Song.PopularityFetchCounter + 1
+	NowPlayingScreen.PopularityTimer = invalid
+  
 	Request = CreateObject("roUrlTransfer")
 
 	url = "http://api.thebatplayer.fm:4567/artistrank/" + Request.escape(artistname)
@@ -98,7 +247,6 @@ Function CompletedArtistPopulartiy(msg as Object)
 		Song = NowPlayingScreen.song
 
 		if Session.Downloads.PopularityDownload.artistname = Song.Artist
-			Session.Downloads.PopularityDownload = invalid
 			data = ParseJson(msg.GetString())
 			if data <> invalid AND data.DoesExist("comparison")
 				popularity = data.comparison
@@ -106,8 +254,20 @@ Function CompletedArtistPopulartiy(msg as Object)
 				UpdateScreen()
 
 				print popularity
+			else
+				RestartFetchPopularityTimer()
 			end if
 		else
 			print "Wrong artist popularity!"
+			RestartFetchPopularityTimer()
 		end if
+		Session.Downloads.PopularityDownload = invalid
+End Function
+
+Function RestartFetchPopularityTimer()
+	NowPlayingScreen = GetNowPlayingScreen()
+	NowPlayingScreen.PopularityTimer = CreateObject("roTimespan")
+
+	print "Restarting fetching of artist popularity."
+	NowPlayingScreen.PopularityTimer.mark() 'Reset the timer and try again
 End Function
