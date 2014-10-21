@@ -100,10 +100,17 @@ Sub HandleTimers()
       			end if
       		end if
       	end if
+
+      	'Popularity Ranking
+      	if NowPlayingScreen.PopularityTimer <> invalid
+      		if NowPlayingScreen.PopularityTimer.totalSeconds() >= 5 AND Song.PopularityFetchCounter < 10
+      			FetchPopularityForArtistName(song.Artist)
+      		end if
+      	end if
       	
 
       	'Now Playing on other stations
-      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 520
+      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 600
   		    NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
       		CreateOtherStationsNowPlaying()
       	end if
