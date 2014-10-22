@@ -1,4 +1,71 @@
 Function ListStations()
+    GetGlobalAA().IsStationSelectorDisplayed = true
+    GetGlobalAA().delete("screen")
+    GetGlobalAA().delete("song")
+    GetGlobalAA().lastSongTitle = invalid
+
+    StationList = CreateObject("roGridScreen")
+    port = GetPort()
+    StationList.SetMessagePort(port)
+
+    stationsArray = GetStations()
+    
+    StationList.SetupLists(1)
+    StationList.SetListName(0, "Stations")
+
+
+    stations = CreateObject("roArray", stationsArray.Count(), true)
+    for i = 0 to stationsArray.Count()-1
+        station = stationsArray[i]
+
+        stationObject = CreateObject("roAssociativeArray")
+        stationObject.ContentType = "episode"
+        stationObject.Title = "Test"
+        stationObject.ShortDescriptionLine1 = "[ShortDescriptionLine1]"
+        stationObject.ShortDescriptionLine2 = "[ShortDescriptionLine2]"
+        stations.Push(stationObject)
+    end for
+    StationList.SetContentList(0, Stations)
+
+    ' rowTitles = CreateObject("roArray", stationsArray.Count(), true)
+    ' stations = CreateObject("roArray", stationsArray.Count(), true)
+
+    StationList.Show()
+    GetGlobalAA().AddReplace("stationlist", StationList)
+    GetGlobalAA().AddReplace("stationscreen", posterScreen)
+
+    ' while true
+    '      msg = wait(0, port)
+    '      if type(msg) = "roGridScreenEvent" then
+    '          if msg.isScreenClosed() then
+    '              return -1
+    '          elseif msg.isListItemFocused()
+    '              print "Focused msg: ";msg.GetMessage();"row: ";msg.GetIndex();
+    '              print " col: ";msg.GetData()
+    '          elseif msg.isListItemSelected()
+    '              print "Selected msg: ";msg.GetMessage();"row: ";msg.GetIndex();
+    '              print " col: ";msg.GetData()
+    '          endif
+    '      endif
+    '  end while    
+
+End Function
+
+' Function CreateGridObject(station as object)
+'     gridItem = CreateObject("roAssociativeArray")
+'     gridItem.Title = station.name
+' End Function
+
+Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Object
+    item = CreateObject("roAssociativeArray")
+    item.ShortDescriptionLine1 = desc1
+    item.ShortDescriptionLine2 = desc2
+    item.HDPosterUrl = "pkg:/images/" + id + "/Poster_Logo_HD.png"
+    item.SDPosterUrl = item.HDPosterUrl
+    return item
+end Function
+
+Function ListStationsOld()
     RunGarbageCollector()
     GetGlobalAA().IsStationSelectorDisplayed = true
 
@@ -99,12 +166,3 @@ Function ShowConfigurationMessage(stationSelectionScreen as object)
         HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
     end while 
 End Function
-
-Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Object
-    item = CreateObject("roAssociativeArray")
-    item.ShortDescriptionLine1 = desc1
-    item.ShortDescriptionLine2 = desc2
-    item.HDPosterUrl = "pkg:/images/" + id + "/Poster_Logo_HD.png"
-    item.SDPosterUrl = item.HDPosterUrl
-    return item
-end Function
