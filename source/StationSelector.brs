@@ -5,6 +5,7 @@ Function ListStations()
     GetGlobalAA().lastSongTitle = invalid
 
     StationList = CreateObject("roGridScreen")
+    StationList.SetGridStyle("two-row-flat-landscape-custom")
     port = GetPort()
     StationList.SetMessagePort(port)
 
@@ -18,43 +19,16 @@ Function ListStations()
     for i = 0 to stationsArray.Count()-1
         station = stationsArray[i]
 
-        stationObject = CreateObject("roAssociativeArray")
-        stationObject.ContentType = "episode"
-        stationObject.Title = "Test"
-        stationObject.ShortDescriptionLine1 = "[ShortDescriptionLine1]"
-        stationObject.ShortDescriptionLine2 = "[ShortDescriptionLine2]"
+        stationObject = CreateSong(station.name,station.provider,"", "mp3", station.stream, station.image)
         stations.Push(stationObject)
     end for
     StationList.SetContentList(0, Stations)
 
-    ' rowTitles = CreateObject("roArray", stationsArray.Count(), true)
-    ' stations = CreateObject("roArray", stationsArray.Count(), true)
-
     StationList.Show()
-    GetGlobalAA().AddReplace("stationlist", StationList)
-    GetGlobalAA().AddReplace("stationscreen", posterScreen)
-
-    ' while true
-    '      msg = wait(0, port)
-    '      if type(msg) = "roGridScreenEvent" then
-    '          if msg.isScreenClosed() then
-    '              return -1
-    '          elseif msg.isListItemFocused()
-    '              print "Focused msg: ";msg.GetMessage();"row: ";msg.GetIndex();
-    '              print " col: ";msg.GetData()
-    '          elseif msg.isListItemSelected()
-    '              print "Selected msg: ";msg.GetMessage();"row: ";msg.GetIndex();
-    '              print " col: ";msg.GetData()
-    '          endif
-    '      endif
-    '  end while    
+    GetGlobalAA().AddReplace("stationlist", Stations)
+    GetGlobalAA().AddReplace("stationscreen", StationList) 
 
 End Function
-
-' Function CreateGridObject(station as object)
-'     gridItem = CreateObject("roAssociativeArray")
-'     gridItem.Title = station.name
-' End Function
 
 Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Object
     item = CreateObject("roAssociativeArray")
@@ -64,6 +38,28 @@ Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Obj
     item.SDPosterUrl = item.HDPosterUrl
     return item
 end Function
+
+Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
+
+    item = CreatePosterItem("", title, description)
+    item.HDPosterUrl = "http://cdn.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
+    item.SDPosterUrl = "http://cdn.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
+    item.Artist = artist
+    item.Title = title    ' Song name
+    item.feedurl = feedurl
+    item.streamformat = streamformat
+    item.picture = item.HDPosterUrl      ' default audioscreen picture to PosterScreen Image
+    item.stationProvider = description
+    item.stationName = title
+    item.StationImage = imagelocation
+    item.ShortDescriptionLine1 = "Short description 1"
+    item.ShortDescriptionLine2 = "Short description 2"
+    item.Description = "Description goes here"
+    item.JSONDownloadDelay = 0
+    item.dataExpires = 0
+    return item
+End Function
+
 
 Function ListStationsOld()
     RunGarbageCollector()

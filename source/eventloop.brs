@@ -16,8 +16,10 @@ Sub HandleStationSelector (msg as Object)
 			StationList = GetGlobalAA().StationList
 
 	        selectionIndex = msg.GetData()
-		    stationsArray = GetStations()
-		    Station = stationsArray[selectionIndex]
+	        Stations = GetGlobalAA().StationList
+	        Station = Stations[selectionIndex]
+		    ' stationsArray = GetStations()
+		    ' Station = stationsArray[selectionIndex]
 	        ' Station = StationList.posteritems[selectionIndex]
 			' Analytics_StationSelected(Station.stationName, Station.feedurl)
 
