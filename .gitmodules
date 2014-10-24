@@ -1,0 +1,3 @@
+[submodule "source/SegmentIO-Brightscript"]
+	path = source/SegmentIO-Brightscript
+	url = https://github.com/gabek/SegmentIO-Brightscript
