@@ -102,7 +102,7 @@ Sub HandleTimers()
       	end if
 
       	'Popularity Ranking
-      	if NowPlayingScreen.PopularityTimer <> invalid
+      	if NowPlayingScreen.PopularityTimer <> invalid AND Song.PopularityFetchCounter <> invalid
       		if NowPlayingScreen.PopularityTimer.totalSeconds() >= 5 AND Song.PopularityFetchCounter < 10
       			FetchPopularityForArtistName(song.Artist)
       		end if

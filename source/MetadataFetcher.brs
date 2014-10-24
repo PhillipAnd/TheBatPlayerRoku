@@ -110,12 +110,14 @@ Function HandleJSON(jsonString as String)
 
       'Download artist image if needed
       if NOT FileExists(makemdfive(song.Artist)) AND song.DoesExist("image") AND song.image.DoesExist("url") AND isnonemptystr(song.image.url) then
+
+          DownloadArtistImageForSong(song)
       
-        if song.metadataFault = false AND song.metadataFetched = true
-        DownloadArtistImageForSong(song)
-        else
-          AsyncGetFile(song.image.url, "tmp:/artist-" + makemdfive(song.Artist))
-        end if
+        ' if song.metadataFault = false AND song.metadataFetched = true
+        '   DownloadArtistImageForSong(song)
+        ' else
+        '   AsyncGetFile(song.image.url, "tmp:/artist-" + makemdfive(song.Artist))
+        ' end if
 
         if NOT FileExists("colored-" + makemdfive(song.Artist)) then
           DownloadBackgroundImageForSong(song)
