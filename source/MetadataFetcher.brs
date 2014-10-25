@@ -147,7 +147,6 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string)
 
 	if url <> invalid
 		url = url + "7.html"
-		'print "Attempting download of: " + url
 
 		Request = CreateObject("roUrlTransfer")
 		

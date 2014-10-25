@@ -4,8 +4,18 @@ Function ListStations()
     GetGlobalAA().delete("song")
     GetGlobalAA().lastSongTitle = invalid
 
+    SetTheme()
+
     StationList = CreateObject("roGridScreen")
-    StationList.SetGridStyle("two-row-flat-landscape-custom")
+    StationList.SetGridStyle("flat-movie")
+    StationList.SetDescriptionVisible(true)
+    StationList.SetUpBehaviorAtTopRow("stop")
+    ' StationList.SetDisplayMode("zoom-to-fill")
+    ' StationList.SetLoadingPoster("pkg:/images/icon-hd.png")
+    StationList.SetBreadcrumbEnabled(true)
+    ' StationList.SetBreadcrumbText("Test 1", "Test 2")
+
+
     port = GetPort()
     StationList.SetMessagePort(port)
 
@@ -21,12 +31,17 @@ Function ListStations()
 
         stationObject = CreateSong(station.name,station.provider,"", "mp3", station.stream, station.image)
         stations.Push(stationObject)
+
     end for
     StationList.SetContentList(0, Stations)
 
     StationList.Show()
     GetGlobalAA().AddReplace("stationlist", Stations)
     GetGlobalAA().AddReplace("stationscreen", StationList) 
+
+    test = stations[0]
+    test.Description = "Futurepop description test"
+    StationList.SetContentListSubset(0, stations, 0, 1)
 
 End Function
 
@@ -42,8 +57,8 @@ end Function
 Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
 
     item = CreatePosterItem("", title, description)
-    item.HDPosterUrl = "http://cdn.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
-    item.SDPosterUrl = "http://cdn.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
+    item.HDPosterUrl = "http://api.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=210&height=270"
+    item.SDPosterUrl = "http://api.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=210&height=270"
     item.Artist = artist
     item.Title = title    ' Song name
     item.feedurl = feedurl
@@ -52,8 +67,6 @@ Function CreateSong(title as string, description as string, artist as string, st
     item.stationProvider = description
     item.stationName = title
     item.StationImage = imagelocation
-    item.ShortDescriptionLine1 = "Short description 1"
-    item.ShortDescriptionLine2 = "Short description 2"
     item.Description = "Description goes here"
     item.JSONDownloadDelay = 0
     item.dataExpires = 0
