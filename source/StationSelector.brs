@@ -24,10 +24,12 @@ Function ListStations()
     StationList.SetupLists(1)
     StationList.SetListName(0, "Stations")
 
-
     stations = CreateObject("roArray", stationsArray.Count(), true)
     for i = 0 to stationsArray.Count()-1
+
         station = stationsArray[i]
+
+        FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
 
         stationObject = CreateSong(station.name,station.provider,"", "mp3", station.stream, station.image)
         stations.Push(stationObject)
@@ -73,6 +75,9 @@ Function CreateSong(title as string, description as string, artist as string, st
     return item
 End Function
 
+Function StationSelectorNowPlayingTrackReceived(track as string index as dynamic)
+    print "Station selector track downloaded: " + track
+End Function
 
 Function ListStationsOld()
     RunGarbageCollector()
