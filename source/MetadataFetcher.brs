@@ -142,7 +142,7 @@ Function HandleJSON(jsonString as String)
 
 End Function
 
-Function FetchMetadataForStreamUrlAndName(url as string, name as string)
+Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedForStationSelector = false as Boolean, stationSelectorIndex = invalid as dynamic)
 	Session = GetSession()
 
 	if url <> invalid
@@ -159,6 +159,8 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string)
 			stationRequestObject = CreateObject("roAssociativeArray")
 			stationRequestObject.name = name
 			stationRequestObject.request = Request
+      stationRequestObject.usedForStationSelector
+      stationRequestObject.stationSelectorIndex
 
 			key = "OtherStationsRequest-" + ToStr(Request.GetIdentity())
 			Session.StationDownloads.Downloads.AddReplace(key, stationRequestObject)
@@ -181,6 +183,11 @@ Function CompletedOtherStationsMetadata(msg as Object)
 	data = StringRemoveHTMLTags(msg.GetString())
 	track = data.Tokenize(",")
 	track = track[6]
+
+  if stationRequestObject.usedForStationSelector = true
+    StationSelectorNowPlayingTrackReceived(track, stationRequestObject.stationSelectorIndex)
+    return
+  end if
 
 	CompletedObject = CreateObject("roAssociativeArray")
 	CompletedObject.name = stationRequestObject.name
