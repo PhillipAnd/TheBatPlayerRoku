@@ -42,13 +42,11 @@ Function InitFonts()
 	DirectoryListing.ResetIndex()
 	i = DirectoryListing.GetIndex()
 	while i <> invalid
-		' print "Registering " + i
 		reg.Register("pkg:/fonts/" + FontNameDir + "/" + i)
 		i = DirectoryListing.GetIndex()
 	end while
 
     GetGlobalAA().AddReplace("FontRegistry", reg)
-    ' print reg.GetFamilies()
 End Function
 
 Function GetMediumFont() as Object
@@ -92,11 +90,6 @@ Function GetHeaderColor() as Integer
 End Function
 
 Function GetBoldColorForSong(song as Object) as Integer
-	' if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR NOT song.image.color.DoesExist("rgb") OR song.image.color.rgb.red = invalid OR song.image.color.rgb.green = invalid OR song.image.color.rgb.blue = invalid then
-	' 	return MakeARGB(255,255,255,255)
-	' else
-	' 	return AlterSaturationForRGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, 255, 2.2)	
-	' end if
 	return GetRegularColorForSong(song)
 End Function
 
@@ -205,16 +198,11 @@ End Function
 Function ResolutionX(x as Integer) as Integer
 	deviceSize = GetSession().deviceInfo.GetDisplaySize()
 	ratio = deviceSize.W / 1280
-	' print "Display width: " + str(deviceSize.W)
-	' print "X ratio: " + str(ratio)
-
 	return x * ratio
 End Function
 
 Function ResolutionY(y as Integer) as Integer
 	deviceSize = GetSession().deviceInfo.GetDisplaySize()
 	ratio = deviceSize.H / 720
-	' print "Y ratio: " + str(ratio)
-
 	return y * ratio
 End Function
