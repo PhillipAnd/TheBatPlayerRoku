@@ -83,6 +83,7 @@ End Sub
 Sub HandleTimers()
 	song = GetGlobalAA().SongObject
 	NowPlayingScreen = GetNowPlayingScreen()
+	Session = GetSession()
 
 	if GetGlobalAA().IsStationSelectorDisplayed <> true then
 		timer = GetNowPlayingTimer()
@@ -114,7 +115,11 @@ Sub HandleTimers()
       	
 
       	'Now Playing on other stations
-      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 600
+      	if (Session.StationDownloads <> invalid AND Session.StationDownloads.Timer <> invalid AND Session.StationDownloads.Timer.totalSeconds() > 5)
+      		CancelOtherStationsNowPlayingRequests()
+      	end if
+
+      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 800
   		    NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
       		CreateOtherStationsNowPlaying()
       	end if

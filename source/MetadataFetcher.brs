@@ -110,15 +110,7 @@ Function HandleJSON(jsonString as String)
 
       'Download artist image if needed
       if NOT FileExists(makemdfive(song.Artist)) AND song.DoesExist("image") AND song.image.DoesExist("url") AND isnonemptystr(song.image.url) then
-
           DownloadArtistImageForSong(song)
-      
-        ' if song.metadataFault = false AND song.metadataFetched = true
-        '   DownloadArtistImageForSong(song)
-        ' else
-        '   AsyncGetFile(song.image.url, "tmp:/artist-" + makemdfive(song.Artist))
-        ' end if
-
         if NOT FileExists("colored-" + makemdfive(song.Artist)) then
           DownloadBackgroundImageForSong(song)
         endif
@@ -154,10 +146,12 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 		
 		useragent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13"
 		Request.AddHeader("user-agent", useragent)
-
+    Request.RetainBodyOnError(true)
 		Request.SetUrl(url)
+
 		Request.SetPort(GetPort())
 		if Request.AsyncGetToString() then
+      
 			stationRequestObject = CreateObject("roAssociativeArray")
 			stationRequestObject.name = name
 			stationRequestObject.request = Request
@@ -166,6 +160,7 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 
 			key = "OtherStationsRequest-" + ToStr(Request.GetIdentity())
 			Session.StationDownloads.Downloads.AddReplace(key, stationRequestObject)
+      
       if usedForStationSelector = false
         Session.StationDownloads.Count = Session.StationDownloads.Count + 1
       end if
@@ -177,35 +172,45 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 End Function
 
 Function CompletedOtherStationsMetadata(msg as Object)
-	Identity = ToStr(msg.GetSourceIdentity())
-	key = "OtherStationsRequest-" + Identity
-	Session = GetSession()
+  Session = GetSession()
+  Completed = Session.StationDownloads.Completed
 
-	stationRequestObject = Session.StationDownloads.Downloads.Lookup(key)
-	Session.StationDownloads.Downloads.Delete(key)
+  if msg <> invalid
+  	Identity = ToStr(msg.GetSourceIdentity())
+  	key = "OtherStationsRequest-" + Identity
 
-	data = StringRemoveHTMLTags(msg.GetString())
-	track = data.Tokenize(",")
-	track = track[6]
+  	stationRequestObject = Session.StationDownloads.Downloads.Lookup(key)
+  	Session.StationDownloads.Downloads.Delete(key)
 
-  if stationRequestObject.usedForStationSelector = true
-    StationSelectorNowPlayingTrackReceived(track, stationRequestObject.stationSelectorIndex)
-    return false
+  	data = StringRemoveHTMLTags(msg.GetString())
+  	track = data.Tokenize(",")
+  	track = track[6]
+
+    'If there's no data then don't deal with it
+    if track = invalid
+      return false
+    end if
+
+    if stationRequestObject.usedForStationSelector = true
+      StationSelectorNowPlayingTrackReceived(track, stationRequestObject.stationSelectorIndex)
+      return false
+    end if
+
+  	CompletedObject = CreateObject("roAssociativeArray")
+  	CompletedObject.name = stationRequestObject.name
+  	CompletedObject.playing = track
+
+  	Completed.push(CompletedObject)
   end if
-
-	CompletedObject = CreateObject("roAssociativeArray")
-	CompletedObject.name = stationRequestObject.name
-	CompletedObject.playing = track
-
-	Completed = Session.StationDownloads.Completed
-	Completed.push(CompletedObject)
 
 	if Completed.Count() = Session.StationDownloads.Count
 		
 		'Cleanup
 		' Session.StationDownloads.Delete("Downloads")
 		Session.StationDownloads.Delete("Completed")
-		
+		Session.StationDownloads.Count = 0
+    Session.StationDownloads.Timer = invalid
+
 		'All the downloads are complete let's display them
 		DisplayOtherStationsNowPlaying(Completed)
 	end if

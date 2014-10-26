@@ -39,6 +39,8 @@ Function CreateOtherStationsNowPlaying()
 	Session.StationDownloads.Downloads = CreateObject("roAssociativeArray")
 	Session.StationDownloads.Completed = CreateObject("roArray", 0, true) 
 	Session.StationDownloads.Count = 0
+	Session.StationDownloads.Timer = CreateObject("roTimespan")
+	Session.StationDownloads.Timer.mark()
 
 	NowPlayingScreen = GetNowPlayingScreen()
 
@@ -51,6 +53,26 @@ Function CreateOtherStationsNowPlaying()
         end if
 
     end for
+
+End Function
+
+'If the timer expires and there are still requests lingering then we should cancel them
+'In order for the Now Playing to finalize and display.
+Function CancelOtherStationsNowPlayingRequests()	
+	Session = GetSession()
+	NowPlayingScreen = GetNowPlayingScreen()
+
+	Session.StationDownloads.Delete("Timer")
+
+	for each key in Session.StationDownloads.Downloads
+		request = Session.StationDownloads.Downloads.Lookup(key)
+		request.Request.AsyncCancel()
+		Session.StationDownloads.Downloads.Delete(key)
+		Session.StationDownloads.Count = Session.StationDownloads.Count - 1
+	end for
+
+	CompletedOtherStationsMetadata(invalid)
+	NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
 
 End Function
 
@@ -106,6 +128,5 @@ Function otherStationsNowPlaying_destroy()
 	NowPlayingScreen = GetNowPlayingScreen()
 
 	NowPlayingScreen.OtherStationsNowPlaying = invalid
-	Session.Delete("StationDownloads")
 	m = invalid
 End Function
