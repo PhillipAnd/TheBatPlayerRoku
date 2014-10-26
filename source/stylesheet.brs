@@ -10,6 +10,9 @@ Sub SetTheme()
     theme.GridScreenOverhangHeightHD = "150"
     theme.GridScreenOverhangHeightSD = "150"
 
+    theme.GridScreenDescriptionOffsetHD = "(-20,203)"
+	theme.GridScreenDescriptionTitleColor = "#FFFFFF"
+	theme.GridScreenDescriptionSynopsisColor = "#000000"
 
     theme.GridScreenLogoHD = "pkg:/images/selection_bat_logo-HD.png"
     theme.GridScreenLogoSD = "pkg:/images/selection_bat_logo-SD.png"
@@ -18,10 +21,13 @@ Sub SetTheme()
     theme.GridScreenLogoOffsetHD_Y = "0"
 
     theme.GridScreenBackgroundColor = "#000000" 
-    
+    theme.GridScreenDescriptionImageHD = "pkg:/images/speechbubble-hd.png"
 
     theme.PosterScreenLine1Text = "#CC0000"
     theme.PosterScreenLine2Text = "#cA6c6c"
+    theme.CounterTextRight = "#000000"
+    theme.CounterTextLeft = "#000000"
+    theme.CounterSeparator = "#000000"
 
     theme.ListItemHighlightText = "#CC0000"
     theme.listItemText = "#CC0000"

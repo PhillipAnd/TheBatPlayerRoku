@@ -36,6 +36,9 @@ Function CreateSession() as Object
 
 	Session.Downloads = CreateObject("roAssociativeArray")
 	Session.Downloads.PopularityDownload = invalid
-	
+
+    Session.StationDownloads = CreateObject("roAssociativeArray")
+    Session.StationDownloads.Downloads = CreateObject("roAssociativeArray")
+
 	return Session	
 End Function

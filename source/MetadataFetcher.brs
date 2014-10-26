@@ -159,12 +159,14 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 			stationRequestObject = CreateObject("roAssociativeArray")
 			stationRequestObject.name = name
 			stationRequestObject.request = Request
-      stationRequestObject.usedForStationSelector
-      stationRequestObject.stationSelectorIndex
+      stationRequestObject.usedForStationSelector = usedForStationSelector
+      stationRequestObject.stationSelectorIndex = stationSelectorIndex
 
 			key = "OtherStationsRequest-" + ToStr(Request.GetIdentity())
 			Session.StationDownloads.Downloads.AddReplace(key, stationRequestObject)
-			Session.StationDownloads.Count = Session.StationDownloads.Count + 1
+      if usedForStationSelector = false
+        Session.StationDownloads.Count = Session.StationDownloads.Count + 1
+      end if
 		else
 			BatLog("Failed downloading accessing " + url)
 		end if
@@ -186,7 +188,7 @@ Function CompletedOtherStationsMetadata(msg as Object)
 
   if stationRequestObject.usedForStationSelector = true
     StationSelectorNowPlayingTrackReceived(track, stationRequestObject.stationSelectorIndex)
-    return
+    return false
   end if
 
 	CompletedObject = CreateObject("roAssociativeArray")

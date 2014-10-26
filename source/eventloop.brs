@@ -16,12 +16,10 @@ Sub HandleStationSelector (msg as Object)
 			StationList = GetGlobalAA().StationList
 
 	        selectionIndex = msg.GetData()
-	        Stations = GetGlobalAA().StationList
+	       
+	        Stations = GetGlobalAA().SelectableStations
 	        Station = Stations[selectionIndex]
-		    ' stationsArray = GetStations()
-		    ' Station = stationsArray[selectionIndex]
-	        ' Station = StationList.posteritems[selectionIndex]
-			' Analytics_StationSelected(Station.stationName, Station.feedurl)
+			Analytics_StationSelected(Station.stationName, Station.feedurl)
 
 	        GetGlobalAA().AddReplace("SongObject", Station)
 	        Show_Audio_Screen(Station)
