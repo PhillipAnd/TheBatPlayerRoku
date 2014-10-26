@@ -1,79 +1,117 @@
 Function ListStations()
-    RunGarbageCollector()
     GetGlobalAA().IsStationSelectorDisplayed = true
-
-    SetTheme()
-    GetGlobalAA().lastSongTitle = invalid
-    
-    Analytics = GetSession().Analytics
-    Analytics.ViewScreen("Station Selector")
-
     GetGlobalAA().delete("screen")
     GetGlobalAA().delete("song")
-    GetGlobalAA().AddReplace("IsStationSelectorDisplayed", true)
+    GetGlobalAA().lastSongTitle = invalid
+
+    SetTheme()
+
+    StationSelectionScreen = CreateObject("roGridScreen")
+    StationSelectionScreen.SetGridStyle("two-row-flat-landscape-custom")
+    StationSelectionScreen.SetDescriptionVisible(true)
+    StationSelectionScreen.SetUpBehaviorAtTopRow("stop")
+    StationSelectionScreen.SetBreadcrumbEnabled(false)
+    StationSelectionScreen.SetLoadingPoster("pkg:/images/icon-hd.png", "pkg:/images/icon-sd.png")
+    port = GetPort()
+    StationSelectionScreen.SetMessagePort(port)
 
     stationsArray = GetStations()
+    
+    StationSelectionScreen.SetupLists(1)
+    StationSelectionScreen.SetListName(0, "Stations")
 
-    StationList = CreateObject("roAssociativeArray")
-    StationList.posteritems = CreateObject("roArray", stationsArray.Count(), true)
+    Session = GetSession()
 
-    genreStations = CreateObject("roAssociativeArray")
-    genres = CreateObject("roArray", 10, true)
+    SelectableStations = CreateObject("roArray", stationsArray.Count(), true)
+    for i = 0 to stationsArray.Count()-1
 
-    for i=0 to stationsArray.Count() - 1
-        singleStation = stationsArray[i]
-        stationObject = CreateSong(singleStation.name,singleStation.provider,"", singleStation.format, singleStation.stream, singleStation.image)
-        StationList.posteritems.push(stationObject)
-        AsyncGetFile(singleStation.image, "tmp:/" + makemdfive(singleStation.image))
+        station = stationsArray[i]
 
-        ' for g=0 to singleStation.genres.Count()-1
-        '     singleGenre = singleStation.genres[i]
-        '     if genres[singleGenre] = invalid then
-        '         genres.push(singleGenre)
-        '     end if
-        '     genreStations[singleGenre].push(singleStation)
-        ' end for
+        FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
+
+        stationObject = CreateSong(station.name,station.provider,"", "mp3", station.stream, station.image)
+        SelectableStations.Push(stationObject)
+        AsyncGetFile(station.image, "tmp:/" + makemdfive(station.image))
     end for
 
-    encoder = CreateObject("roUrlTransfer")
-    ipAddress = GetIPAddress()
-    bannerText = encoder.escape("Configure The Bat Player at http://" + ipAddress + ":9999")
-    bannerUrl = "http://cdn.thebatplayer.fm/mp3info/textDraw.php?text=" + bannerText
-    
-    posterPort = GetPort()
-    posterScreen = CreateObject("roPosterScreen")
-    posterScreen.SetMessagePort(posterPort)
-    posterScreen.SetListStyle("arced-landscape")
-    posterScreen.SetListDisplayMode("scale-to-fill")
-    posterScreen.SetListNames(genres)
-    posterScreen.SetContentList(StationList.posteritems)
-    posterScreen.SetBreadcrumbEnabled(false)
-    posterScreen.SetTitle("Stations")
-    posterScreen.SetLoadingPoster("pkg:/images/icon-hd.png", "pkg:/images/icon-hd.png")
-    posterScreen.SetAdURL(bannerUrl,bannerUrl)
-    posterScreen.SetAdDisplayMode("scale-to-fit")
-    posterScreen.SetAdSelectable(true)
-    posterScreen.Show()
-    
-    GetGlobalAA().AddReplace("stationlist", StationList)
-    GetGlobalAA().AddReplace("stationscreen", posterScreen)
+    GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
+    GetGlobalAA().AddReplace("StationSelectionScreen", StationSelectionScreen) 
 
+    StationSelectionScreen.SetContentList(0, SelectableStations)
+    StationSelectionScreen.Show()
+
+    'First launch popup
     if RegRead("initialpopupdisplayed", "batplayer") = invalid
         Analytics = GetSession().Analytics
         Analytics.AddEvent("First Session began")
-        ShowConfigurationMessage(posterScreen)
+        ShowConfigurationMessage(StationSelectionScreen)
     end if
 
 End Function
 
-Function ShowConfigurationMessage(stationSelectionScreen as object)
+Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Object
+    item = CreateObject("roAssociativeArray")
+    item.ShortDescriptionLine1 = desc1
+    item.ShortDescriptionLine2 = desc2
+    item.HDPosterUrl = "pkg:/images/" + id + "/Poster_Logo_HD.png"
+    item.SDPosterUrl = item.HDPosterUrl
+    return item
+end Function
+
+Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
+
+    item = CreatePosterItem("", title, description)
+    item.HDPosterUrl = "http://cdn.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
+    item.SDPosterUrl = "http://cdn.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
+    item.Artist = artist
+    item.Title = title    ' Song name
+    item.feedurl = feedurl
+    item.streamformat = streamformat
+    item.picture = item.HDPosterUrl      ' default audioscreen picture to PosterScreen Image
+    item.stationProvider = description
+    item.stationName = title
+    item.StationImage = imagelocation
+    item.Description = ""
+    item.JSONDownloadDelay = 0
+    item.dataExpires = 0
+    return item
+End Function
+
+Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynamic)
+    
+    if track <> invalid AND index <> invalid
+        nowPlayingString = track
+
+        StationList = GetGlobalAA().StationSelectionScreen
+        SelectableStations = GetGlobalAA().SelectableStations
+        station = SelectableStations[index]
+
+        station.Description = nowPlayingString
+        StationList.SetContentListSubset(0, SelectableStations, index, 1)
+    end if
+
+End Function
+
+Function GetStationSelectionHeader()
+    Request = CreateObject("roUrlTransfer")
+
+    ipAddress = GetIPAddress()
+    text = Request.escape("Configure your Bat Player at http://" + ipAddress + ":9999")
+    url = "http://cdn.thebatplayer.fm/mp3info/stationSelectionHeader.php?text=" + text
+
+    Request.SetUrl(url)
+    Request.GetToFile("tmp:/headerImage.png")
+End Function
+
+
+Function ShowConfigurationMessage(StationSelectionScreen as object)
     Analytics = GetSession().Analytics
     Analytics.AddEvent("Configuration Popup Displayed")
     RegWrite("initialpopupdisplayed", "true", "batplayer")
 
     ipAddress = GetIPAddress()
 
-    message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":9999 to customize your Bat Player experience."
+    message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":9999 to customize your Bat Player experience by adding stations, enabling lighting, Last.FM and more."
 
     dialog = CreateObject("roMessageDialog")
     dialog.SetMessagePort(GetPort()) 
@@ -99,12 +137,3 @@ Function ShowConfigurationMessage(stationSelectionScreen as object)
         HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
     end while 
 End Function
-
-Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Object
-    item = CreateObject("roAssociativeArray")
-    item.ShortDescriptionLine1 = desc1
-    item.ShortDescriptionLine2 = desc2
-    item.HDPosterUrl = "pkg:/images/" + id + "/Poster_Logo_HD.png"
-    item.SDPosterUrl = item.HDPosterUrl
-    return item
-end Function

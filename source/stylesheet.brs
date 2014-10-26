@@ -4,23 +4,31 @@ Sub SetTheme()
 
     theme.OverhangOffsetSD_X = "0"
     theme.OverhangOffsetSD_Y = "0"
-    theme.OverhangSliceSD = "pkg:/images/selection_header_background.png"
-    theme.OverhangLogoSD  = "pkg:/images/selection_bat_logo-SD.png"
 
-    theme.OverhangOffsetHD_X = "60"
-    theme.OverhangOffsetHD_Y = "20"
-    theme.OverhangSliceHD = "pkg:/images/selection_header_background.png"
-    theme.OverhangLogoHD  = "pkg:/images/selection_bat_logo-HD.png"
+    theme.GridScreenOverhangHeightHD = "200"
+    theme.GridScreenOverhangHeightSD = "200"
+
+    theme.GridScreenDescriptionOffsetHD = "(-20,203)"
+	theme.GridScreenDescriptionTitleColor = "#FFFFFF"
+	theme.GridScreenDescriptionSynopsisColor = "#000000"
+
+    theme.GridScreenLogoHD = "tmp:/headerImage.png"
+    theme.GridScreenLogoSD = "tmp:/headerImage.png"
+
+    theme.GridScreenLogoOffsetHD_X = "0"
+    theme.GridScreenLogoOffsetHD_Y = "0"
+
+    theme.GridScreenBackgroundColor = "#000000" 
+    theme.GridScreenDescriptionImageHD = "pkg:/images/speechbubble-hd.png"
 
     theme.PosterScreenLine1Text = "#CC0000"
     theme.PosterScreenLine2Text = "#cA6c6c"
 
-    theme.ListItemHighlightText = "#CC0000"
-    theme.listItemText = "#CC0000"
+	theme.GridScreenFocusBorderHD = "pkg:/images/StationSelectionBorder-HD.png"
+	theme.GridScreenBorderOffsetHD = "(-5,-5)"
+	theme.GridScreenFocusBorderSD = "pkg:/images/StationSelectionBorder-HD.png"
+	theme.GridScreenBorderOffsetSD = "(0,0)"
 
-    theme.BackgroundColor = "#000000" 
-
-    theme.BreadcrumbTextRight = "Stations"
     app.SetTheme(theme)
 
 End Sub
@@ -34,13 +42,11 @@ Function InitFonts()
 	DirectoryListing.ResetIndex()
 	i = DirectoryListing.GetIndex()
 	while i <> invalid
-		' print "Registering " + i
 		reg.Register("pkg:/fonts/" + FontNameDir + "/" + i)
 		i = DirectoryListing.GetIndex()
 	end while
 
     GetGlobalAA().AddReplace("FontRegistry", reg)
-    ' print reg.GetFamilies()
 End Function
 
 Function GetMediumFont() as Object
@@ -84,11 +90,6 @@ Function GetHeaderColor() as Integer
 End Function
 
 Function GetBoldColorForSong(song as Object) as Integer
-	' if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR NOT song.image.color.DoesExist("rgb") OR song.image.color.rgb.red = invalid OR song.image.color.rgb.green = invalid OR song.image.color.rgb.blue = invalid then
-	' 	return MakeARGB(255,255,255,255)
-	' else
-	' 	return AlterSaturationForRGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, 255, 2.2)	
-	' end if
 	return GetRegularColorForSong(song)
 End Function
 
@@ -197,16 +198,11 @@ End Function
 Function ResolutionX(x as Integer) as Integer
 	deviceSize = GetSession().deviceInfo.GetDisplaySize()
 	ratio = deviceSize.W / 1280
-	' print "Display width: " + str(deviceSize.W)
-	' print "X ratio: " + str(ratio)
-
 	return x * ratio
 End Function
 
 Function ResolutionY(y as Integer) as Integer
 	deviceSize = GetSession().deviceInfo.GetDisplaySize()
 	ratio = deviceSize.H / 720
-	' print "Y ratio: " + str(ratio)
-
 	return y * ratio
 End Function

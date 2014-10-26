@@ -144,12 +144,11 @@ Function HandleJSON(jsonString as String)
 
 End Function
 
-Function FetchMetadataForStreamUrlAndName(url as string, name as string)
+Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedForStationSelector = false as Boolean, stationSelectorIndex = invalid as dynamic)
 	Session = GetSession()
 
 	if url <> invalid
 		url = url + "7.html"
-		'print "Attempting download of: " + url
 
 		Request = CreateObject("roUrlTransfer")
 		
@@ -162,10 +161,14 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string)
 			stationRequestObject = CreateObject("roAssociativeArray")
 			stationRequestObject.name = name
 			stationRequestObject.request = Request
+      stationRequestObject.usedForStationSelector = usedForStationSelector
+      stationRequestObject.stationSelectorIndex = stationSelectorIndex
 
 			key = "OtherStationsRequest-" + ToStr(Request.GetIdentity())
 			Session.StationDownloads.Downloads.AddReplace(key, stationRequestObject)
-			Session.StationDownloads.Count = Session.StationDownloads.Count + 1
+      if usedForStationSelector = false
+        Session.StationDownloads.Count = Session.StationDownloads.Count + 1
+      end if
 		else
 			BatLog("Failed downloading accessing " + url)
 		end if
@@ -185,6 +188,11 @@ Function CompletedOtherStationsMetadata(msg as Object)
 	track = data.Tokenize(",")
 	track = track[6]
 
+  if stationRequestObject.usedForStationSelector = true
+    StationSelectorNowPlayingTrackReceived(track, stationRequestObject.stationSelectorIndex)
+    return false
+  end if
+
 	CompletedObject = CreateObject("roAssociativeArray")
 	CompletedObject.name = stationRequestObject.name
 	CompletedObject.playing = track
@@ -195,7 +203,7 @@ Function CompletedOtherStationsMetadata(msg as Object)
 	if Completed.Count() = Session.StationDownloads.Count
 		
 		'Cleanup
-		Session.StationDownloads.Delete("Downloads")
+		' Session.StationDownloads.Delete("Downloads")
 		Session.StationDownloads.Delete("Completed")
 		
 		'All the downloads are complete let's display them
@@ -222,7 +230,6 @@ End Function
 
 
 Function FetchPopularityForArtistName(artistname as String)
-	print "Fetching popularity...."
 	NowPlayingScreen = GetNowPlayingScreen()
 	Session = GetSession()
   NowPlayingScreen.Song.PopularityFetchCounter = NowPlayingScreen.Song.PopularityFetchCounter + 1
@@ -254,8 +261,6 @@ Function CompletedArtistPopulartiy(msg as Object)
 				popularity = data.comparison
 				Song.popularity = popularity
 				UpdateScreen()
-
-				print popularity
 			else
 				RestartFetchPopularityTimer()
 			end if

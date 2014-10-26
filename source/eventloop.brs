@@ -2,19 +2,23 @@ REM Global event loop
 
 
 Sub HandleStationSelector (msg as Object)
-	if type(msg)="roPosterScreenEvent"
-		posterScreen = GetGlobalAA().StationScreen
-    	key = msg.GetIndex()
+	if type(msg) = "roGridScreenEvent"
+		' posterScreen = GetGlobalAA().StationScreen
+    	' key = msg.GetIndex()
 
 		if msg.isAdSelected()
 			'Show message
 			ShowConfigurationMessage(posterScreen)
 		else if msg.isListItemSelected()
+			print "Selected msg: " + msg.GetMessage()
+			' print "row: " + msg.GetIndex()
+
 			StationList = GetGlobalAA().StationList
 
-	        selectionIndex = msg.GetIndex()
-
-	        Station = StationList.posteritems[selectionIndex]
+	        selectionIndex = msg.GetData()
+	       
+	        Stations = GetGlobalAA().SelectableStations
+	        Station = Stations[selectionIndex]
 			Analytics_StationSelected(Station.stationName, Station.feedurl)
 
 	        GetGlobalAA().AddReplace("SongObject", Station)
