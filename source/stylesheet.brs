@@ -4,18 +4,16 @@ Sub SetTheme()
 
     theme.OverhangOffsetSD_X = "0"
     theme.OverhangOffsetSD_Y = "0"
-    theme.OverhangSliceSD = "pkg:/images/selection_header_background.png"
-    theme.OverhangLogoSD  = "pkg:/images/selection_bat_logo-SD.png"
 
-    theme.GridScreenOverhangHeightHD = "150"
-    theme.GridScreenOverhangHeightSD = "150"
+    theme.GridScreenOverhangHeightHD = "200"
+    theme.GridScreenOverhangHeightSD = "200"
 
     theme.GridScreenDescriptionOffsetHD = "(-20,203)"
 	theme.GridScreenDescriptionTitleColor = "#FFFFFF"
 	theme.GridScreenDescriptionSynopsisColor = "#000000"
 
-    theme.GridScreenLogoHD = "pkg:/images/selection_bat_logo-HD.png"
-    theme.GridScreenLogoSD = "pkg:/images/selection_bat_logo-SD.png"
+    theme.GridScreenLogoHD = "tmp:/headerImage.png"
+    theme.GridScreenLogoSD = "tmp:/headerImage.png"
 
     theme.GridScreenLogoOffsetHD_X = "0"
     theme.GridScreenLogoOffsetHD_Y = "0"
@@ -25,15 +23,12 @@ Sub SetTheme()
 
     theme.PosterScreenLine1Text = "#CC0000"
     theme.PosterScreenLine2Text = "#cA6c6c"
-    theme.CounterTextRight = "#000000"
-    theme.CounterTextLeft = "#000000"
-    theme.CounterSeparator = "#000000"
 
-    theme.ListItemHighlightText = "#CC0000"
-    theme.listItemText = "#CC0000"
+	theme.GridScreenFocusBorderHD = "pkg:/images/StationSelectionBorder-HD.png"
+	theme.GridScreenBorderOffsetHD = "(-5,-5)"
+	theme.GridScreenFocusBorderSD = "pkg:/images/StationSelectionBorder-HD.png"
+	theme.GridScreenBorderOffsetSD = "(0,0)"
 
-
-    theme.BreadcrumbTextRight = "Stations"
     app.SetTheme(theme)
 
 End Sub
