@@ -12,6 +12,7 @@ Sub Main()
 
     InitBatPlayer()
     InitFonts()
+    GetStationSelectionHeader()
     StartServerWithPort(GetPort())
     InitLastFM()
     ListStations()
