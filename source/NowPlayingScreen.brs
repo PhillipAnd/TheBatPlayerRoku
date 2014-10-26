@@ -39,6 +39,7 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.loadingScreen = invalid
 
   NowPlayingScreen.screen = invalid
+  NowPlayingScreen.NowPlayingOtherStationsTimer = CreateObject("roTimespan")
 
 	return NowPlayingScreen
 End Function
@@ -47,7 +48,6 @@ Function ResetNowPlayingScreen()
 	GetGlobalAA().Delete("NowPlayingScreen")
 	GetGlobalAA().Delete("Song")
   NowPlayingScreen = GetNowPlayingScreen()
-  NowPlayingScreen.NowPlayingOtherStationsTimer = CreateObject("roTimespan")
   NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
 End Function
 
