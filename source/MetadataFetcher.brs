@@ -201,7 +201,7 @@ Function CompletedOtherStationsMetadata(msg as Object)
 	if Completed.Count() = Session.StationDownloads.Count
 		
 		'Cleanup
-		Session.StationDownloads.Delete("Downloads")
+		' Session.StationDownloads.Delete("Downloads")
 		Session.StationDownloads.Delete("Completed")
 		
 		'All the downloads are complete let's display them
@@ -228,7 +228,6 @@ End Function
 
 
 Function FetchPopularityForArtistName(artistname as String)
-	print "Fetching popularity...."
 	NowPlayingScreen = GetNowPlayingScreen()
 	Session = GetSession()
   NowPlayingScreen.Song.PopularityFetchCounter = NowPlayingScreen.Song.PopularityFetchCounter + 1
@@ -260,8 +259,6 @@ Function CompletedArtistPopulartiy(msg as Object)
 				popularity = data.comparison
 				Song.popularity = popularity
 				UpdateScreen()
-
-				print popularity
 			else
 				RestartFetchPopularityTimer()
 			end if
