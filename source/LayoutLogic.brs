@@ -26,7 +26,7 @@ Function GetTextHeight(text as string, width as integer, font as Object) as inte
 End Function
 
 Function DisplayHelpPopup()
-  DisplayPopup("* to toggle LastFM Scrobbling. UP and DOWN to adjust the lighting brightness.", GetHeaderColor(), &h000000FF, 5)
+  DisplayPopup("* to toggle LastFM Scrobbling. UP and DOWN to adjust the lighting brightness. Left to add to your Rdio Playlist.", GetHeaderColor(), &h000000FF, 5)
 End Function
 
 
