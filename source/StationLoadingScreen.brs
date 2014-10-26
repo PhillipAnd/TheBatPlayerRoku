@@ -34,7 +34,7 @@ Function initStationLoadingScreen()
         },
 		{
 			url: "pkg:/images/selection_bat_logo-HD.png",
-            TargetRect:{x:ResolutionX(60),y:ResolutionY(20),w:ResolutionX(900),h:ResolutionY(100)}
+            TargetRect:{x:ResolutionX(0),y:ResolutionY(0),w:ResolutionX(1900),h:ResolutionY(140)}
 		}
     ]
 

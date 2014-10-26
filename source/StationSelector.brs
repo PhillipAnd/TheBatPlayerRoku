@@ -6,25 +6,23 @@ Function ListStations()
 
     SetTheme()
 
-    StationList = CreateObject("roGridScreen")
-    StationList.SetGridStyle("flat-movie")
-    StationList.SetDescriptionVisible(true)
-    StationList.SetUpBehaviorAtTopRow("stop")
-    ' StationList.SetDisplayMode("zoom-to-fill")
-    ' StationList.SetLoadingPoster("pkg:/images/icon-hd.png")
-    StationList.SetBreadcrumbEnabled(true)
-    ' StationList.SetBreadcrumbText("Test 1", "Test 2")
-
+    StationSelectionScreen = CreateObject("roGridScreen")
+    StationSelectionScreen.SetGridStyle("two-row-flat-landscape-custom")
+    StationSelectionScreen.SetDescriptionVisible(true)
+    StationSelectionScreen.SetUpBehaviorAtTopRow("stop")
+    StationSelectionScreen.SetBreadcrumbEnabled(false)
 
     port = GetPort()
-    StationList.SetMessagePort(port)
+    StationSelectionScreen.SetMessagePort(port)
 
     stationsArray = GetStations()
     
-    StationList.SetupLists(1)
-    StationList.SetListName(0, "Stations")
+    StationSelectionScreen.SetupLists(1)
+    StationSelectionScreen.SetListName(0, "Stations")
 
-    stations = CreateObject("roArray", stationsArray.Count(), true)
+    Session = GetSession()
+
+    SelectableStations = CreateObject("roArray", stationsArray.Count(), true)
     for i = 0 to stationsArray.Count()-1
 
         station = stationsArray[i]
@@ -32,18 +30,15 @@ Function ListStations()
         FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
 
         stationObject = CreateSong(station.name,station.provider,"", "mp3", station.stream, station.image)
-        stations.Push(stationObject)
-
+        SelectableStations.Push(stationObject)
+        AsyncGetFile(station.image, "tmp:/" + makemdfive(station.image))
     end for
-    StationList.SetContentList(0, Stations)
 
-    StationList.Show()
-    GetGlobalAA().AddReplace("stationlist", Stations)
-    GetGlobalAA().AddReplace("stationscreen", StationList) 
+    GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
+    GetGlobalAA().AddReplace("StationSelectionScreen", StationSelectionScreen) 
 
-    test = stations[0]
-    test.Description = "Futurepop description test"
-    StationList.SetContentListSubset(0, stations, 0, 1)
+    StationSelectionScreen.SetContentList(0, SelectableStations)
+    StationSelectionScreen.Show()
 
 End Function
 
@@ -59,8 +54,8 @@ end Function
 Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
 
     item = CreatePosterItem("", title, description)
-    item.HDPosterUrl = "http://api.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=210&height=270"
-    item.SDPosterUrl = "http://api.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=210&height=270"
+    item.HDPosterUrl = "http://api.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
+    item.SDPosterUrl = "http://api.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
     item.Artist = artist
     item.Title = title    ' Song name
     item.feedurl = feedurl
@@ -69,14 +64,25 @@ Function CreateSong(title as string, description as string, artist as string, st
     item.stationProvider = description
     item.stationName = title
     item.StationImage = imagelocation
-    item.Description = "Description goes here"
+    item.Description = ""
     item.JSONDownloadDelay = 0
     item.dataExpires = 0
     return item
 End Function
 
-Function StationSelectorNowPlayingTrackReceived(track as string index as dynamic)
-    print "Station selector track downloaded: " + track
+Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynamic)
+    
+    if track <> invalid AND index <> invalid
+        nowPlayingString = track
+
+        StationList = GetGlobalAA().StationSelectionScreen
+        SelectableStations = GetGlobalAA().SelectableStations
+        station = SelectableStations[index]
+
+        station.Description = nowPlayingString
+        StationList.SetContentListSubset(0, SelectableStations, index, 1)
+    end if
+
 End Function
 
 Function ListStationsOld()
