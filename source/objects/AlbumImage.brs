@@ -9,8 +9,8 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 		x: ResolutionX(x)
 		y: ResolutionY(y)
 
-		width: ResolutionX(180)
-		height: ResolutionX(180)
+		width: ResolutionY(180)
+		height: ResolutionY(180)
 
 		EnableFade: enableFade
 		FadeIn: albumImage_FadeIn

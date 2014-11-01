@@ -284,7 +284,7 @@ Function DrawScreen()
 
     'Popularity image
     if NowPlayingScreen.PopularityImage <> invalid AND NowPlayingScreen.artistimage <> invalid
-      NowPlayingScreen.screen.DrawObject(ResolutionX(NowPlayingScreen.artistimage.horizontalOffset + 130), ResolutionY(NowPlayingScreen.artistimage.verticalOffset + NowPlayingScreen.artistimage.height + 87), NowPlayingScreen.PopularityImage, &hFFDDDD55)
+      NowPlayingScreen.screen.DrawObject(ResolutionX(NowPlayingScreen.artistimage.horizontalOffset + 130), ResolutionY(NowPlayingScreen.artistimage.verticalOffset + 83) + NowPlayingScreen.artistimage.height , NowPlayingScreen.PopularityImage, &hFFDDDD55)
     end if
 
     'Possible UI Elements

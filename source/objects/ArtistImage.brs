@@ -35,7 +35,7 @@ Function ArtistImage(filePath as string) as Object
 
 		this.resizeRatio = GetResizeRatioForArtistImage(this.bitmap)
 	  	this.width = ResolutionX(this.width * this.resizeRatio)
-	  	this.height = ResolutionY(this.height * this.resizeRatio)
+	  	this.height = ResolutionX(this.height * this.resizeRatio)
 
 	  	this.horizontalOffset = ResolutionX(RLMax(0,Int(500.0 - this.width)))
 	  	this.verticalOffset = ResolutionY(RLMax(0,Int(330 - this.height)))
