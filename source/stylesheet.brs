@@ -6,9 +6,11 @@ Sub SetTheme()
     theme.OverhangOffsetSD_Y = "0"
 
     theme.GridScreenOverhangHeightHD = "200"
-    theme.GridScreenOverhangHeightSD = "200"
+    theme.GridScreenOverhangHeightSD = "140"
 
     theme.GridScreenDescriptionOffsetHD = "(-20,203)"
+    theme.GridScreenDescriptionOffsetSD = "(-25,120)"
+
 	theme.GridScreenDescriptionTitleColor = "#FFFFFF"
 	theme.GridScreenDescriptionSynopsisColor = "#000000"
 
@@ -20,14 +22,16 @@ Sub SetTheme()
 
     theme.GridScreenBackgroundColor = "#000000" 
     theme.GridScreenDescriptionImageHD = "pkg:/images/speechbubble-hd.png"
+    theme.GridScreenDescriptionImageSD = "pkg:/images/speechbubble-sd.png"
 
     theme.PosterScreenLine1Text = "#CC0000"
     theme.PosterScreenLine2Text = "#cA6c6c"
 
 	theme.GridScreenFocusBorderHD = "pkg:/images/StationSelectionBorder-HD.png"
 	theme.GridScreenBorderOffsetHD = "(-5,-5)"
-	theme.GridScreenFocusBorderSD = "pkg:/images/StationSelectionBorder-HD.png"
-	theme.GridScreenBorderOffsetSD = "(0,0)"
+
+	theme.GridScreenFocusBorderSD = "pkg:/images/StationSelectionBorder-SD.png"
+	theme.GridScreenBorderOffsetSD = "(-5,-5)"
 
     app.SetTheme(theme)
 

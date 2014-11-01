@@ -16,10 +16,13 @@ End Function
 
 Function initStationLoadingScreen()
 
+    device = GetSession().deviceInfo
+    width = device.GetDisplaySize().w
+
 	canvasItems = [
         { 
             url:m.stationImage
-            TargetRect:{x:ResolutionX(390),y:ResolutionY(150),w:ResolutionX(450),h:ResolutionY(400)}
+            TargetRect:{x:ResolutionX(390),y:ResolutionY(160),w:ResolutionX(450),h:ResolutionY(400)}
         },
         {
         	url:"pkg:/images/batoverlay.png"
@@ -34,7 +37,7 @@ Function initStationLoadingScreen()
         },
 		{
 			url: "tmp:/headerImage.png",
-            TargetRect:{x:ResolutionX(0),y:ResolutionY(0),w:ResolutionX(1920),h:ResolutionY(200)}
+            TargetRect:{x:ResolutionX(0),y:ResolutionY(0),w:width,h:ResolutionY(200)}
 		}
     ]
 
