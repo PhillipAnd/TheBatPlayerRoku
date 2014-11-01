@@ -93,14 +93,19 @@ Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynam
 End Function
 
 Function GetStationSelectionHeader()
-    Request = CreateObject("roUrlTransfer")
+    if NOT FileExists("headerImage.png")
+        Request = CreateObject("roUrlTransfer")
 
-    ipAddress = GetIPAddress()
-    text = Request.escape("Configure your Bat Player at http://" + ipAddress + ":9999")
-    url = "http://cdn.thebatplayer.fm/mp3info/stationSelectionHeader.php?text=" + text
+        ipAddress = GetIPAddress()
+        text = Request.escape("Configure your Bat Player at http://" + ipAddress + ":9999")
+        device = GetSession().deviceInfo
+        width = ToStr(device.GetDisplaySize().w)
+        url = GetConfig().Hostname + "/mp3info/stationSelectionHeader.php?text=" + text + "&width=" + width
+        print url
 
-    Request.SetUrl(url)
-    Request.GetToFile("tmp:/headerImage.png")
+        Request.SetUrl(url)
+        Request.GetToFile("tmp:/headerImage.png")
+    end if
 End Function
 
 
