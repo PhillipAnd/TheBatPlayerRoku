@@ -101,7 +101,6 @@ Function GetStationSelectionHeader()
         device = GetSession().deviceInfo
         width = ToStr(device.GetDisplaySize().w)
         url = GetConfig().Hostname + "/mp3info/stationSelectionHeader.php?text=" + text + "&width=" + width
-        print url
 
         Request.SetUrl(url)
         Request.GetToFile("tmp:/headerImage.png")
