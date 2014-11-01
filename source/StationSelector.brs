@@ -61,8 +61,10 @@ end Function
 Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
 
     item = CreatePosterItem("", title, description)
-    item.HDPosterUrl = "http://cdn.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
-    item.SDPosterUrl = "http://cdn.thebatplayer.fm/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
+    url = GetConfig().Hostname + "/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
+
+    item.HDPosterUrl = url
+    item.SDPosterUrl = url
     item.Artist = artist
     item.Title = title    ' Song name
     item.feedurl = feedurl
