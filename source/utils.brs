@@ -140,3 +140,12 @@ Function StringRemoveHTMLTags(baseStr as String) as String
     r = CreateObject("roRegex", "<[^<]+?>", "i")
     return r.replaceAll(baseStr, "")
 end function
+
+Function AssocArrayCount(aa as object) as Integer                                                                 
+    'Returns the number of entries in an roAssociativeArray                                                       
+    i = 0                                                                                                         
+    for each k in aa                                                                                              
+        i = i + 1                                                                                                 
+    end for                                                                                                       
+    return i                                                                                                      
+End Function 
