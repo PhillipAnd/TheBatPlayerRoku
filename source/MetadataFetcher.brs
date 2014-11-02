@@ -203,10 +203,10 @@ Function CompletedOtherStationsMetadata(msg as Object)
   	Completed.push(CompletedObject)
   end if
 
-	if Completed.Count() = Session.StationDownloads.Count
+	if AssocArrayCount(Session.StationDownloads.Downloads) = 0
 		
 		'Cleanup
-		' Session.StationDownloads.Delete("Downloads")
+		Session.StationDownloads.Downloads.Clear()
 		Session.StationDownloads.Delete("Completed")
 		Session.StationDownloads.Count = 0
     Session.StationDownloads.Timer = invalid
