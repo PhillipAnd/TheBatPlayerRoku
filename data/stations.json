@@ -1,11 +1,4 @@
 [{
-    "name": "Future Synthpop",
-    "provider": "Digitally Imported",
-    "format": "mp3",
-    "stream": "http://pub7.di.fm/di_futuresynthpop",
-    "image": "http://api.audioaddict.com/v1/assets/image/f4b0f3c30b34cf76de0955652ae5664a.jpg?size=185x185&quality=90",
-    "genres": ["industrial", "futurepop"]
-}, {
     "name": "Groove Salad",
     "provider": "soma fm",
     "format": "mp3",
@@ -19,18 +12,25 @@
     "stream": "http://205.164.36.135:80/",
     "image": "http://dainem-radio.de/img/logo.png?nocache=123",
     "genres": ["Top 40", "Hits"]
-}, {
+},{
+    "name": "Future Synthpop",
+    "provider": "Digitally Imported",
+    "format": "mp3",
+    "stream": "http://pub7.di.fm/di_futuresynthpop",
+    "image": "http://api.audioaddict.com/v1/assets/image/f4b0f3c30b34cf76de0955652ae5664a.jpg?size=185x185&quality=90",
+    "genres": ["industrial", "futurepop"]
+},{
     "name": "90s Mix",
     "provider": "BatesFM",
     "format": "mp3",
     "stream": "http://107.155.126.58:8590/",
     "image": "http://www.batesfm.com/images/logo.png"
 }, {
-    "name": "Sanctuary Radio",
-    "provider": "Sanctuary Radio",
+    "name": "Dark Asylum Radio",
+    "provider": "Dark Asylum Radio",
     "format": "mp3",
-    "stream": "http://205.164.41.34:6699/",
-    "image": "http://www.sanctuaryradio.com/images/na.jpg",
+    "stream": "http://23.81.90.249:8010/",
+    "image": "http://cdn.thebatplayer.fm/client/images/darkasylumradiologo.jpg",
     "genres": ["industrial", "goth"]
 }, {
     "name": "Tupac Radio",
