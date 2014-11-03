@@ -134,6 +134,7 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
             if msg.isButtonPressed()
                 if msg.GetIndex() = 1
                     Analytics.AddEvent("Configuration Popup Dismissed")
+                    ListStations()
                     exit while
                 end if
             else if msg.isScreenClosed()
