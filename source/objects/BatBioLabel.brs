@@ -17,7 +17,7 @@ Function BatBioLabel(text as string, song as object) as Object
 
 	dropShadowColor = GetDropShadowColorForSong(song)
 	if dropShadowColor <> 0 
-		this.dropShadowObject = RlTextArea(this.text, GetMediumFont(), dropShadowColor, this.x + 1.0, this.y + 1.0, this.width, this.height, 6, 1.2)
+		this.dropShadowObject = RlTextArea(this.text, GetMediumFont(), dropShadowColor, this.x + 2.0, this.y + 2.0, this.width, this.height, 6, 1.2)
 	end if
 
 	return this
