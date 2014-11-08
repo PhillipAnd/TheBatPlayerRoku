@@ -3,6 +3,7 @@ Function BackgroundImage(filePath as String) as Object
 	this = {
 		bitmap: invalid
 		image: invalid
+		gradient: invalid
 
 		size: invalid
 		alpha: &hFFFFFF00
@@ -23,6 +24,8 @@ Function BackgroundImage(filePath as String) as Object
 	this.bitmap = CreateObject("roBitmap", filePath)
 	this.image = RlGetScaledImage(this.bitmap, this.size.w, this.size.h, 1)
 
+	this.gradient = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay.png")
+	
 	this.bitmap = invalid
 
 	'Disable fading for old devices
@@ -64,6 +67,8 @@ Function backgroundImage_draw(screen as Object)
 			end if
 		end if
 		screen.DrawObject(0, 0, m.image, m.alpha)
-		screen.DrawRect(0, 0, m.size.w, m.size.h, &h00000000 + 230)
+		screen.DrawRect(0, 0, m.size.w, m.size.h, &h00000000 + 210)
+		screen.DrawObject(0, m.size.h - 365, m.gradient, &hFFFFFF + 230)
+
 	end if
 End Function
