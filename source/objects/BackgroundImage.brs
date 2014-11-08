@@ -68,7 +68,7 @@ Function backgroundImage_draw(screen as Object)
 		end if
 		screen.DrawObject(0, 0, m.image, m.alpha)
 		screen.DrawRect(0, 0, m.size.w, m.size.h, &h00000000 + 210)
-		screen.DrawObject(0, m.size.h - 365, m.gradient, &hFFFFFF + 230)
+		screen.DrawObject(0, m.size.h - 365, m.gradient, &hFFFFFF + 220)
 
 	end if
 End Function
