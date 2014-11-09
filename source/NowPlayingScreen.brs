@@ -17,6 +17,7 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.BackgroundImage = invalid
   NowPlayingScreen.PreviousBackgroundImage = invalid
   NowPlayingScreen.PopularityImage = invalid
+  NowPlayingScreen.Gradient = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay.png")
 
   NowPlayingScreen.albumImage = invalid
   NowPlayingScreen.previousAlbumImage = invalid
@@ -41,6 +42,9 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.screen = invalid
   NowPlayingScreen.NowPlayingOtherStationsTimer = CreateObject("roTimespan")
 
+  NowPlayingScreen.Width = GetSession().deviceInfo.GetDisplaySize().w
+  NowPlayingScreen.Height = GetSession().deviceInfo.GetDisplaySize().h
+
 	return NowPlayingScreen
 End Function
 
@@ -56,7 +60,7 @@ Function UpdateScreen()
 	NowPlayingScreen = GetNowPlayingScreen()
 
   if NowPlayingScreen.screen = invalid
-    screen = CreateObject("roScreen", true, GetSession().deviceInfo.GetDisplaySize().w, GetSession().deviceInfo.GetDisplaySize().h)
+    screen = CreateObject("roScreen", true, NowPlayingScreen.Width, NowPlayingScreen.Height)
     NowPlayingScreen.screen = screen
 
     screen.setalphaenable(true)
@@ -232,6 +236,8 @@ Function DrawScreen()
     if NowPlayingScreen.PreviousBackgroundImage <> invalid
       NowPlayingScreen.PreviousBackgroundImage.Draw(NowPlayingScreen.screen)
     end if
+    NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.gradient, &hFFFFFF + 240)
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 205)
 
 		'Header
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(80), GetHeaderColor())
