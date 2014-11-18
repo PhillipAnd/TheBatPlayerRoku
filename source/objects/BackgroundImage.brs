@@ -64,6 +64,5 @@ Function backgroundImage_draw(screen as Object)
 			end if
 		end if
 		screen.DrawObject(0, 0, m.image, m.alpha)
-		' screen.DrawRect(0, 0, m.size.w, m.size.h, &h00000000 + 210)
 	end if
 End Function
