@@ -119,7 +119,7 @@ Sub HandleTimers()
       		CancelOtherStationsNowPlayingRequests()
       	end if
 
-      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 800
+      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 1000
   		    NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
       		CreateOtherStationsNowPlaying()
       	end if

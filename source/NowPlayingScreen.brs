@@ -26,12 +26,11 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.previousArtistImage = invalid
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
-  NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 100)
+  NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 130)
 
   NowPlayingScreen.UpdateBackgroundImage = "true"
   NowPlayingScreen.UpdateArtistImage = "true"
   NowPlayingScreen.UpdateAlbumImage = "true"
-
 
   NowPlayingScreen.ScrobbleTimer = invalid
   NowPlayingScreen.NowPlayingOtherStationsTimer = invalid
@@ -236,8 +235,8 @@ Function DrawScreen()
     if NowPlayingScreen.PreviousBackgroundImage <> invalid
       NowPlayingScreen.PreviousBackgroundImage.Draw(NowPlayingScreen.screen)
     end if
-    NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.gradient, &hFFFFFF + 240)
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 220) 'Black overlay
+    NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.gradient, &hFFFFFF + 245)
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 215) 'Black overlay
 
 		'Header
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(80), GetHeaderColor())
@@ -308,7 +307,6 @@ Function DrawScreen()
 End Function
 
 Function RefreshNowPlayingScreen()
-  ' print "**** Running Refresh Screen"
 
   NowPlayingScreen = GetNowPlayingScreen()
 
