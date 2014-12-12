@@ -26,7 +26,7 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.previousArtistImage = invalid
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
-  NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 130)
+  NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 200)
 
   NowPlayingScreen.UpdateBackgroundImage = "true"
   NowPlayingScreen.UpdateArtistImage = "true"
