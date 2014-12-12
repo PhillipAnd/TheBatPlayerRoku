@@ -1,165 +1,193 @@
-	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
-	<script src="http://api.thebatplayer.fm/client/js/analytics.js"></script>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+<script src="http://api.thebatplayer.fm/client/js/analytics.js"></script>
 
 <style>
-  span.ui-helper-hidden-accessible { display: none; }
+  span.ui-helper-hidden-accessible {
+    display: none;
+  }
 </style>
 
 <body>
 
-<nav class="navbar navbar-inverse" role="navigation">
+  <nav class="navbar navbar-inverse" role="navigation">
 
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-		  		<span class="sr-only">Toggle navigation</span>
-		  		<i class="icon-cog"></i>
-			</button>
-			<a class="navbar-brand" href="/">The Bat Player</a>
-		</div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <i class="icon-cog"></i>
+        </button>
+        <a class="navbar-brand" href="/">The Bat Player</a>
+      </div>
 
-	</div> <!-- /.container -->
-</nav>
-    
+    </div>
+    <!-- /.container -->
+  </nav>
 
 
 
-    
-<div class="subnavbar">
 
-	<div class="subnavbar-inner">
-	
-		<div class="container">
 
-			<div class="subnav">
-				<ul class="mainnav">
-				
-					<li class="">
-						<a href="./index.html">
-							<i class="fa fa-home"></i>
-							<span>Home</span>
-						</a>	    				
-					</li>
+  <div class="subnavbar">
 
-					<li class="active">
-						<a href="./services.html">
-							<i class="fa fa-music"></i>
-							<span>Stations</span>
-						</a>	    				
-					</li>
+    <div class="subnavbar-inner">
 
-					<li>
-						<a href="./services.html">
-							<i class="fa fa-cloud"></i>
-							<span>Services</span>
-						</a>	    				
-					</li>
+      <div class="container">
 
-					<li>
-						<a href="./lighting.html">
-							<i class="fa fa-lightbulb-o"></i>
-							<span>Lighting</span>
-						</a>	    				
-					</li>
+        <div class="subnav">
+          <ul class="mainnav">
 
-					<li class="" id="hue-button">
-						<a href="http://thebatplayer.fm/help.php">
-							<i class="fa fa-question-circle"></i>
-							<span>Help</span>
-						</a>	    				
-					</li>						
+            <li class="">
+              <a href="./index.html">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+              </a>
+            </li>
 
-	<!-- 				<li>
+            <li class="active">
+              <a href="./services.html">
+                <i class="fa fa-music"></i>
+                <span>Stations</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="./services.html">
+                <i class="fa fa-cloud"></i>
+                <span>Services</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="./lighting.html">
+                <i class="fa fa-lightbulb-o"></i>
+                <span>Lighting</span>
+              </a>
+            </li>
+
+            <li class="" id="hue-button">
+              <a href="http://thebatplayer.fm/help.php" target="_blank">
+                <i class="fa fa-question-circle"></i>
+                <span>Help</span>
+              </a>
+            </li>
+
+            <!-- 				<li>
 						<a href="./advanced.html">
 							<i class="fa fa-cogs"></i>
 							<span>Advanced</span>
-						</a>	    				
+						</a>
 					</li> -->
-				
-				</ul>
-			</div> <!-- /.subnav-collapse -->
 
-		</div> <!-- /container -->
-	
-	</div> <!-- /subnavbar-inner -->
+          </ul>
+        </div>
+        <!-- /.subnav-collapse -->
 
-</div> <!-- /subnavbar -->
+      </div>
+      <!-- /container -->
 
-<div class="main">
-	<div class="container">
-		<div class="widget stacked">
+    </div>
+    <!-- /subnavbar-inner -->
 
-			<div class="widget-header">
-				<i class="icon-file"></i>
-				Stations Configuration
-			</div> <!-- /widget-header -->
+  </div>
+  <!-- /subnavbar -->
 
-			<div class="widget-content">
+  <div class="main">
+    <div class="container">
+      <div class="widget stacked">
 
- 				  <p>Add your stations here.  By hovering over the stream URL of most stations you've added you can preview and make sure it's playing as you'd expect.  Need to find more stations
-				  to listen to?  Search the directory over at <a href="http://www.shoutcast.com/">SHOUTcast</a> to find more!</p>
+        <div class="widget-header">
+          <i class="icon-file"></i> Stations Configuration
+        </div>
+        <!-- /widget-header -->
 
-					<div class="ui-widget">
-			  			<!--   <label for="tags">Tags: </label>-->
-			  			<p>Search: <input id="shoutcast-search"></p>
-					</div>
+        <div class="widget-content">
 
-				<form id="stations-form">
-					<table class="table" id="stations-table">
-						<thead>
-							<tr>
-								<th></th>
-								<th>Name</th>
-								<th>Provider</th>
-								<th>Stream Url</th>
-								<th>Image Url</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody id="stations-listing"></tbody>
-						<tr>
-							<td></td>
-							<td><button class="btn btn-primary add-station-button">Add Station <i class="fa fa-plus-square-o"></i></button></td>
-							<td><button class="btn btn-success save-button">Save Stations <i class="fa fa-check-circle"></i></button></td>
-						</tr>
-					</table>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+          <p>Add your stations here. By hovering over the stream URL of most stations you've added you can preview and make sure it's playing as you'd expect. Need to find more stations to listen to? Search the directory over at <a href="http://www.shoutcast.com/">SHOUTcast</a>            to find more!</p>
+
+          <div class="ui-widget">
+            <!--   <label for="tags">Tags: </label>-->
+            <p>Search:
+              <input id="shoutcast-search">
+            </p>
+          </div>
+
+          <form id="stations-form">
+            <table class="table" id="stations-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Provider</th>
+                  <th>Stream Url</th>
+                  <th>Image Url</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="stations-listing"></tbody>
+              <tr>
+                <td></td>
+                <td>
+                  <button class="btn btn-primary add-station-button">Add Station <i class="fa fa-plus-square-o"></i>
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-success save-button">Save Stations <i class="fa fa-check-circle"></i>
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-<script id="station-template" type="text/x-handlebars-template">
-	{{#each stations}}
-		<tr class="single-station">
-			<td><center><i class="fa fa-trash-o fa-2x delete"></i></center></td>
-			<td><input name="name-{{@index}}" placeholder="Station Name" value="{{ name }}" class="station-name form-control" required></td>
-			<td><input name="provider-{{@index}}" placeholder="Station Provider" value="{{ provider }}" class="station-provider form-control" required></td>
-			<td><input name="stream-{{@index}}" placeholder="Station Stream URL" value="{{ stream }}" class="station-stream form-control stream-field" required></td>
-			<td><input name="image-{{@index}}" placeholder="Station Image URL" value="{{ image }}" class="station-image form-control image-field" required></td>
-			<td><i class="fa fa-arrows-v"></i></td>
-		</tr>
-	{{/each}}
-</script>
+  <script id="station-template" type="text/x-handlebars-template">
+    {{#each stations}}
+    <tr class="single-station">
+      <td>
+        <center><i class="fa fa-trash-o fa-2x delete"></i>
+        </center>
+      </td>
+      <td>
+        <input name="name-{{@index}}" placeholder="Station Name" value="{{ name }}" class="station-name form-control" required>
+      </td>
+      <td>
+        <input name="provider-{{@index}}" placeholder="Station Provider" value="{{ provider }}" class="station-provider form-control" required>
+      </td>
+      <td>
+        <input name="stream-{{@index}}" placeholder="Station Stream URL" value="{{ stream }}" class="station-stream form-control stream-field" required>
+      </td>
+      <td>
+        <input name="image-{{@index}}" placeholder="Station Image URL" value="{{ image }}" class="station-image form-control image-field" required>
+      </td>
+      <td><i class="fa fa-arrows-v"></i>
+      </td>
+    </tr>
+    {{/each}}
+  </script>
 
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-<link href="http://thebatplayer.fm/theme/css/base-admin-3.css" rel="stylesheet">
-<link href="http://thebatplayer.fm/theme/js/plugins/msgbox/jquery.msgbox.css" rel="stylesheet">
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<link href="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet">
-<link rel="stylesheet" href="http://thebatplayer.fm/theme/js/plugins/msgGrowl/css/msgGrowl.css" type="text/css" charset="utf-8" />
-<link href="http://thebatplayer.fm/theme/css/custom.css" rel="stylesheet">
-<link href="http://thebatplayer.fm/theme/css/client.css" rel="stylesheet">
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://thebatplayer.fm/theme/css/base-admin-3.css" rel="stylesheet">
+  <link href="http://thebatplayer.fm/theme/js/plugins/msgbox/jquery.msgbox.css" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="http://thebatplayer.fm/theme/js/plugins/msgGrowl/css/msgGrowl.css" type="text/css" charset="utf-8" />
+  <link href="http://thebatplayer.fm/theme/css/custom.css" rel="stylesheet">
+  <link href="http://thebatplayer.fm/theme/css/client.css" rel="stylesheet">
 
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-<script src="http://thebatplayer.fm/theme/js/plugins/validate/jquery.validate.js"></script>
-<script src="http://thebatplayer.fm/theme/js/plugins/msgGrowl/js/msgGrowl.min.js"></script>
-<script src="http://thebatplayer.fm/theme/js/plugins/msgbox/jquery.msgbox.js"></script>
-<script src="js/stations.js"></script>
-<script src="http://thebatplayer.fm/js/admin.js"></script>
-<script>addAction("Web configuration stations page loaded.");</script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+  <script src="http://thebatplayer.fm/theme/js/plugins/validate/jquery.validate.js"></script>
+  <script src="http://thebatplayer.fm/theme/js/plugins/msgGrowl/js/msgGrowl.min.js"></script>
+  <script src="http://thebatplayer.fm/theme/js/plugins/msgbox/jquery.msgbox.js"></script>
+  <script src="js/stations.js"></script>
+  <script src="http://thebatplayer.fm/js/admin.js"></script>
+  <script>
+    addAction("Web configuration stations page loaded.");
+  </script>
