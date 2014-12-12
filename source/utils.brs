@@ -124,8 +124,9 @@ Function DeleteRegistry()
 End Function
 
 Function SupportsAdvancedFeatures() as Boolean
-  model = GetSession().deviceInfo.GetModel()
-  return NOT model = "2710X" AND NOT model = "2720X" AND NOT model = "3100X" AND NOT model = "3050X" AND NOT model = "3000X"
+  return true
+  'model = GetSession().deviceInfo.GetModel()
+  'return NOT model = "2710X" AND NOT model = "2720X" AND NOT model = "3100X" AND NOT model = "3050X" AND NOT model = "3000X"
 end Function
 
 Function DeParenString(stringToUpdate as string) as string
