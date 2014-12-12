@@ -153,15 +153,17 @@ End Function
 
 Function GetDropShadowColorForSong(song as Object) as integer
 
-	brightness = GetBrightnessForSong(song)
-	
-	if brightness < 40 AND brightness <> 0 AND brightness > 25
-		dropShadowColor = &h88888820
-	else 
-		dropShadowColor = &h000000FF
-	end if
+	return &h000000FF
 
-	return dropShadowColor
+	' brightness = GetBrightnessForSong(song)
+	
+	' if brightness < 40 AND brightness <> 0 AND brightness > 25
+	' 	dropShadowColor = &h44444410
+	' else 
+	' 	dropShadowColor = &h000000FF
+	' end if
+
+	' return dropShadowColor
 End Function
 
 Sub CreateOverlayColor(song) as integer
