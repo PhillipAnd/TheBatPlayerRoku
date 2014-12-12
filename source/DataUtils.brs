@@ -5,6 +5,11 @@ Sub HandleSaveRequestForStations(request as Object)
 
 	print "Saving Data: " + data
 	RegWrite("stations", data, "batplayer")
+
+	if GetGlobalAA().IsStationSelectorDisplayed = true
+		ListStations()
+	end if
+
 End Sub
 
 Sub HandleSaveRequestForLights(request as Object)
@@ -17,7 +22,7 @@ End Sub
 Sub HandleSaveRequestForLightIp(request as Object)
 	data = GetDataFromRequest(request)
 	RegWrite("lightip", data, "batplayer")
-	print "Saved data: " + data
+	'print "Saved data: " + data
 
 	lightData = ParseJSON(data)
 	if lightData <> invalid AND lightData.DoesExist("brightness")
@@ -80,7 +85,7 @@ End Sub
 
 Sub GetLastFMData(returnAsJson as Boolean) as Object
 	lastfmData = RegRead("lastfmData", "batplayer")
-	
+
 	if lastfmData = invalid then
 		lastfmData = "[]"
 	end if
@@ -93,7 +98,7 @@ Sub GetLastFMData(returnAsJson as Boolean) as Object
 		lastfmData = ParseJSON(lastfmData)
 		return lastfmData
 	end if
-	
+
 End Sub
 
 Sub GetStations() as Object
@@ -114,7 +119,7 @@ End Sub
 
 Sub GetLights(returnAsJson as Boolean) as Object
 	lightsJson = RegRead("lights", "batplayer")
-	
+
 	if lightsJson = invalid
 		lightsJson = FormatJson(CreateObject("roAssociativeArray"))
 	end if
@@ -122,7 +127,7 @@ Sub GetLights(returnAsJson as Boolean) as Object
 	if NOT returnAsJson then
 		return ParseJSON(lightsJson)
 	end if
-	
+
 	return lightsJson
 
 End Sub
@@ -154,7 +159,7 @@ Sub GetStationsJson() as string
 	'RegDelete("stations", "batplayer")
 
 	json = RegRead("stations", "batplayer")
-	
+
 	if json = invalid then
 		print "Invalid stations json"
 		json = ReadAsciiFile("pkg:/data/stations.json")
