@@ -30,6 +30,11 @@ Function FileExists(Filename as String) as Boolean
     return FileSystem.Exists("tmp:/" + Filename)
 End Function
 
+Function DeleteTmpFile(Filename as String)
+    FileSystem = CreateObject("roFileSystem")
+    FileSystem.Delete(Filename)
+End Function
+
 Sub makemdfive(stringData as string) as string
 	ba1 = CreateObject("roByteArray")
 	ba2 = CreateObject("roByteArray")

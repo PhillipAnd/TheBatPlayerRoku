@@ -150,6 +150,13 @@ Function UpdateScreen()
  	if song.Artist <> invalid AND FileExists("colored-" + makemdfive(song.Artist)) AND NowPlayingScreen.UpdateBackgroundImage <> "false" then
     NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/colored-" + makemdfive(song.Artist))
 
+    ' Test if this file is invalid.  If so delete it and redownload it.
+    if NowPlayingScreen.BackgroundImage.image = invalid
+      NowPlayingScreen.BackgroundImage = invalid
+      DeleteTmpFile("colored-" + makemdfive(song.Artist))
+      DownloadBackgroundImageForSong(song)
+    end if
+
     if NowPlayingScreen.BackgroundImage <> invalid
       NowPlayingScreen.BackgroundImage.FadeIn()
       NowPlayingScreen.PreviousBackgroundImage = invalid
