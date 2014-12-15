@@ -26,9 +26,9 @@ Sub SetLightsToColor(hsv as Object)
 
 	    requestBody = CreateObject("roAssociativeArray")
 	    requestBody.on = true
-	    requestBody.sat = RlMax(RlMin(hsv.sat + 20, 255), 150)
+	    requestBody.sat = RlMax(RlMin(hsv.sat, 255), 150)
 	    requestBody.bri = RlMin(RlMax(GetSession().Lighting.Brightness.Minimum, hsv.val), GetSession().Lighting.Brightness.Minimum)
-	    requestBody.hue = RlMin(hsv.hue * 255 + 7000, 65535)
+	    requestBody.hue = RlMin(hsv.hue * 255 + 1000, 65535)
 	    requestBody.transitiontime = 40
 	    GetSession().Lighting.Brightness.Current = RlMin(RlMax(GetSession().Lighting.Brightness.Minimum, hsv.val), GetSession().Lighting.Brightness.Minimum)
 	    json = FormatJson(requestBody)
