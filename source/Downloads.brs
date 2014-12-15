@@ -7,7 +7,7 @@ Function DownloadBackgroundImageForSong(song as object)
         ColorFilter = "255,255,255"
       end if
 
-      FilteredImageUrl = "http://cdn.thebatplayer.fm/mp3info/imageFilter.hh?url=" + song.image.url + "&filter=grayscale&colorize=" + ColorFilter
+      FilteredImageUrl = "http://cdn.thebatplayer.fm/mp3info/imageFilter.hh?url=" + UrlEncode(song.image.url) + "&filter=grayscale&colorize=" + ColorFilter
       AsyncGetFile(FilteredImageUrl,"tmp:/colored-" + makemdfive(song.Artist))
     end if
 End Function
