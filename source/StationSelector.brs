@@ -102,8 +102,7 @@ Function GetStationSelectionHeader()
         text = Request.escape("Configure your Bat Player at http://" + ipAddress + ":9999")
         device = GetSession().deviceInfo
         width = ToStr(device.GetDisplaySize().w)
-        url = GetConfig().Hostname + "/mp3info/stationSelectionHeader.php?text=" + text + "&width=" + width
-
+        url = GetConfig().Hostname + "/mp3info/stationSelectionHeader.php?text=" + text + "&width=" + width        
         Request.SetUrl(url)
         Request.GetToFile("tmp:/headerImage.png")
     end if
