@@ -3,30 +3,27 @@ REM Global event loop
 
 Sub HandleStationSelector (msg as Object)
 	if type(msg) = "roGridScreenEvent"
-		' posterScreen = GetGlobalAA().StationScreen
-    	' key = msg.GetIndex()
 
 		if msg.isAdSelected()
 			'Show message
 			ShowConfigurationMessage(posterScreen)
 		else if msg.isListItemSelected()
-			print "Selected msg: " + msg.GetMessage()
-			' print "row: " + msg.GetIndex()
-
-			StationList = GetGlobalAA().StationList
+					print "Selected msg: " + msg.GetMessage()
+					StationList = GetGlobalAA().StationList
 
 	        selectionIndex = msg.GetData()
-	       
+
 	        Stations = GetGlobalAA().SelectableStations
 	        Station = Stations[selectionIndex]
-			Analytics_StationSelected(Station.stationName, Station.feedurl)
+					Analytics_StationSelected(Station.stationName, Station.feedurl)
 
 	        GetGlobalAA().AddReplace("SongObject", Station)
 	        Show_Audio_Screen(Station)
 	        DisplayStationLoading(Station)
 		else if msg.isScreenClosed()
 		  	GetGlobalAA().AddReplace("IsStationSelectorDisplayed", false)
-			return
+				print "***** TEST.  GRID SCREEN CLOSED."
+				return
 	    end if
 
     endif
@@ -112,7 +109,7 @@ Sub HandleTimers()
       			FetchPopularityForArtistName(song.Artist)
       		end if
       	end if
-      	
+
 
       	'Now Playing on other stations
       	if (Session.StationDownloads <> invalid AND Session.StationDownloads.Timer <> invalid AND Session.StationDownloads.Timer.totalSeconds() > 5)
@@ -130,7 +127,7 @@ End Sub
 
 Sub HandleAudioPlayerEvent(msg as Object)
 	if type(msg) = "roAudioPlayerEvent"  then	' event from audio player
-		
+
 		song = GetGlobalAA().SongObject
 
 	    if msg.isStatusMessage() then
@@ -166,7 +163,7 @@ Sub HandleDownloadEvents(msg)
 		Session = GetSession()
 
 		'print msg.GetString() 'Uncomment for troubleshooting
-		
+
 		if msg.GetFailureReason() <> invalid then
 			IsDownloadingFile = IsDownloading(Identity)
 			if IsDownloadingFile = true then
@@ -254,7 +251,7 @@ function StartEventLoop()
 		song = GetGlobalAA().SongObject
 		if GetGlobalAA().IsStationSelectorDisplayed <> true
 			NowPlayingScreen = GetNowPlayingScreen()
-		
+
 			if NowPlayingScreen <> invalid AND NowPlayingScreen.screen <> invalid AND NowPlayingScreen.DoesExist("song")
 				DrawScreen()
 			end if
@@ -272,7 +269,7 @@ end function
 
 Sub GetPort() as Object
 	port = GetGlobalAA().lookup("port")
-	
+
 	if port = invalid then
 		port = CreateObject("roMessagePort")
 		GetGlobalAA().AddReplace("port", port)
