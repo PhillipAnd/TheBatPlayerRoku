@@ -94,7 +94,7 @@ Function UpdateScreen()
     song.image = CreateObject("roAssociativeArray")
   end if
 
-  if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR song.image.color.hex = invalid then
+  if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR song.image.color = invalid OR song.image.color.hex = invalid then
     song.image.color = CreateObject("roAssociativeArray")
     song.image.color.hex = "#ffffffff"
   end if
