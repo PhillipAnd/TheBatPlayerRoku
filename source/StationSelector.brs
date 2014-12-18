@@ -16,7 +16,7 @@ Function ListStations()
     StationSelectionScreen.SetMessagePort(port)
 
     stationsArray = GetStations()
-    
+
     StationSelectionScreen.SetupLists(1)
     StationSelectionScreen.SetListName(0, "Stations")
 
@@ -35,7 +35,7 @@ Function ListStations()
     end for
 
     GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
-    GetGlobalAA().AddReplace("StationSelectionScreen", StationSelectionScreen) 
+    GetGlobalAA().AddReplace("StationSelectionScreen", StationSelectionScreen)
 
     StationSelectionScreen.SetContentList(0, SelectableStations)
     StationSelectionScreen.Show()
@@ -46,6 +46,8 @@ Function ListStations()
         Analytics.AddEvent("First Session began")
         ShowConfigurationMessage(StationSelectionScreen)
     end if
+
+    Return -1
 
 End Function
 
@@ -80,7 +82,7 @@ Function CreateSong(title as string, description as string, artist as string, st
 End Function
 
 Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynamic)
-    
+
     if track <> invalid AND index <> invalid
         nowPlayingString = track
 
@@ -102,7 +104,7 @@ Function GetStationSelectionHeader()
         text = Request.escape("Configure your Bat Player at http://" + ipAddress + ":9999")
         device = GetSession().deviceInfo
         width = ToStr(device.GetDisplaySize().w)
-        url = GetConfig().Hostname + "/mp3info/stationSelectionHeader.php?text=" + text + "&width=" + width        
+        url = GetConfig().Hostname + "/mp3info/stationSelectionHeader.php?text=" + text + "&width=" + width
         Request.SetUrl(url)
         Request.GetToFile("tmp:/headerImage.png")
     end if
@@ -119,10 +121,10 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
     message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":9999 to customize your Bat Player experience by adding stations, enabling lighting, Last.FM and more."
 
     dialog = CreateObject("roMessageDialog")
-    dialog.SetMessagePort(GetPort()) 
+    dialog.SetMessagePort(GetPort())
     dialog.SetTitle("Configure Your Bat Player")
     dialog.SetText(message)
- 
+
     dialog.AddButton(1, "OK")
     dialog.EnableBackButton(true)
     dialog.Show()
@@ -141,5 +143,5 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
             end if
         end if
         HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
-    end while 
+    end while
 End Function
