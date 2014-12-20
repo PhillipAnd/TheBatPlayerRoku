@@ -20,9 +20,10 @@ Sub HandleStationSelector (msg as Object)
 	        GetGlobalAA().AddReplace("SongObject", Station)
 	        Show_Audio_Screen(Station)
 	        DisplayStationLoading(Station)
+					SelectionScreen = GetGlobalAA().StationSelectionScreen
+					SelectionScreen.close()
 		else if msg.isScreenClosed()
 		  	GetGlobalAA().AddReplace("IsStationSelectorDisplayed", false)
-				print "***** TEST.  GRID SCREEN CLOSED."
 				return
 	    end if
 
