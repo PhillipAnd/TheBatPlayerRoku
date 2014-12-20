@@ -19,6 +19,7 @@ Function GetJSONAtUrl(url as String)
       url = left(url, len(url)-2)
     end if
 
+    url = UrlEncode(url)
     metadataUrl = GetConfig().ApiHost + "?stream=" + url
     'print "Checking for JSON at " metadataUrl
     Request.SetUrl(metadataUrl)
@@ -59,7 +60,7 @@ Function HandleJSON(jsonString as String)
     song.isOnTour = jsonObject.isOnTour
     song.album = jsonObject.album
     song.dataExpires = jsonObject.expires
-    song.metadataFault = false 
+    song.metadataFault = false
     song.brightness = 0
     song.metadataFetched = jsonObject.metaDataFetched
     song.PopularityFetchCounter = 0
@@ -86,10 +87,10 @@ Function HandleJSON(jsonString as String)
     song.bio = CreateObject("roAssociativeArray")
     song.bio.text = "The Bat Player displays additional information about the station and its songs when available.  " + song.stationName + " does not seem to have any data for The Bat to show you either due the Station not providing it or our servers are experiencing difficulties."
     song.HDPosterUrl = song.StationImage
-    song.SDPosterUrl = song.StationImage 
+    song.SDPosterUrl = song.StationImage
     song.metadataFault = true
     song.metadataFetched = false
-    song.album = invalid   
+    song.album = invalid
     song.brightness = 0
   end if
 
@@ -143,7 +144,7 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 		url = url + "7.html"
 
 		Request = CreateObject("roUrlTransfer")
-		
+
 		useragent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13"
 		Request.AddHeader("user-agent", useragent)
     Request.RetainBodyOnError(true)
@@ -151,7 +152,7 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 
 		Request.SetPort(GetPort())
 		if Request.AsyncGetToString() then
-      
+
 			stationRequestObject = CreateObject("roAssociativeArray")
 			stationRequestObject.name = name
 			stationRequestObject.request = Request
@@ -160,7 +161,7 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 
 			key = "OtherStationsRequest-" + ToStr(Request.GetIdentity())
 			Session.StationDownloads.Downloads.AddReplace(key, stationRequestObject)
-      
+
       if usedForStationSelector = false
         Session.StationDownloads.Count = Session.StationDownloads.Count + 1
       end if
@@ -204,7 +205,7 @@ Function CompletedOtherStationsMetadata(msg as Object)
   end if
 
 	if AssocArrayCount(Session.StationDownloads.Downloads) = 0
-		
+
 		'Cleanup
 		Session.StationDownloads.Downloads.Clear()
 		Session.StationDownloads.Delete("Completed")
@@ -220,7 +221,7 @@ End Function
 Function IsOtherStationsValidDownload(msg as Object) as Boolean
 	Session = GetSession()
 
-	if type(msg) = "roUrlEvent" AND Session.DoesExist("StationDownloads") AND Session.StationDownloads.DoesExist("Downloads") 
+	if type(msg) = "roUrlEvent" AND Session.DoesExist("StationDownloads") AND Session.StationDownloads.DoesExist("Downloads")
 		Identity = ToStr(msg.GetSourceIdentity())
 		key = "OtherStationsRequest-" + Identity
 
@@ -239,13 +240,13 @@ Function FetchPopularityForArtistName(artistname as String)
 	Session = GetSession()
   NowPlayingScreen.Song.PopularityFetchCounter = NowPlayingScreen.Song.PopularityFetchCounter + 1
 	NowPlayingScreen.PopularityTimer = invalid
-  
+
 	Request = CreateObject("roUrlTransfer")
 
 	url = "http://api.thebatplayer.fm:4567/artistrank/" + Request.escape(artistname)
 	Request.SetUrl(url)
 	Request.SetPort(GetPort())
-	
+
 	if Request.AsyncGetToString()
 		RequestObject = CreateObject("roAssociativeArray")
 		RequestObject.artistname = artistname
