@@ -31,7 +31,12 @@ Function ListStations()
 
         stationObject = CreateSong(station.name,station.provider,"", "mp3", station.stream, station.image)
         SelectableStations.Push(stationObject)
-        AsyncGetFile(station.image, "tmp:/" + makemdfive(station.image))
+
+        'Download custom poster images
+        if NOT FileExists(makemdfive(station.image))
+          AsyncGetFile(station.image, "tmp:/" + makemdfive(station.image))
+        end if
+
     end for
 
     GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
@@ -75,7 +80,7 @@ Function CreateSong(title as string, description as string, artist as string, st
     item.stationProvider = description
     item.stationName = title
     item.StationImage = imagelocation
-    item.Description = ""
+    item.Description = "Select Station to find what is currently playing."
     item.JSONDownloadDelay = 0
     item.dataExpires = 0
     return item
