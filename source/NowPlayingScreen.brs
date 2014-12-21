@@ -291,7 +291,7 @@ Function DrawScreen()
 
 		'LastFM Logo
     if GetGlobalAA().ActiveLastFM <> 0 THEN
-		  NowPlayingScreen.screen.DrawObject(NowPlayingScreen.screen.GetWidth() - 70 ,NowPlayingScreen.screen.GetHeight() - 50, NowPlayingScreen.lastfmlogo, &hFFFFFFFF)
+		  NowPlayingScreen.screen.DrawObject(NowPlayingScreen.screen.GetWidth() - 80 ,NowPlayingScreen.screen.GetHeight() - 60, NowPlayingScreen.lastfmlogo, &hFFFFFFFF)
     end if
 
     'Popularity image
