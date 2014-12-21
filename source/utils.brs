@@ -5,7 +5,7 @@ Function AsyncGetFile(url as string, filepath as string)
     if FileSystem.Exists(filepath) = true then
       'We already have this file
       ' print "*** It seems we already have file: " +url
-    else 
+    else
       Request = CreateObject("roUrlTransfer")
       Request.SetUrl(url)
       Request.SetPort(GetPort())
@@ -53,11 +53,11 @@ function HexToInteger3(hex_in)
 	end if
 
     bArr = createobject("roByteArray")
-    if len(hex_in) mod 2 > 0 
+    if len(hex_in) mod 2 > 0
         'fix for fromHexString() malicious silent failure on odd length
         hex_in = "0" + hex_in
     end if
-    bArr.fromHexString(hex_in)    
+    bArr.fromHexString(hex_in)
     out = 0
     for i = 0 to bArr.count()-1
         out = 256 * out + bArr[i]
@@ -88,7 +88,7 @@ Sub AppTheme() as Object
   if theme = invalid then
     theme = CreateObject("roAssociativeArray")
   end if
-  
+
   return theme
 End Sub
 
@@ -143,15 +143,15 @@ Function DeParenString(stringToUpdate as string) as string
 End Function
 
 Function StringRemoveHTMLTags(baseStr as String) as String
-    r = CreateObject("roRegex", "<[^<]+?>", "i")
-    return r.replaceAll(baseStr, "")
+  r = CreateObject("roRegEx", "<.*?>", "")
+  return r.replaceAll(baseStr, "")
 end function
 
-Function AssocArrayCount(aa as object) as Integer                                                                 
-    'Returns the number of entries in an roAssociativeArray                                                       
-    i = 0                                                                                                         
-    for each k in aa                                                                                              
-        i = i + 1                                                                                                 
-    end for                                                                                                       
-    return i                                                                                                      
-End Function 
+Function AssocArrayCount(aa as object) as Integer
+    'Returns the number of entries in an roAssociativeArray
+    i = 0
+    for each k in aa
+        i = i + 1
+    end for
+    return i
+End Function
