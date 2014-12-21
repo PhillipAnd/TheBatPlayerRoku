@@ -68,13 +68,13 @@ Function UpdateScreen()
 
     GetGlobalAA().IsStationSelectorDisplayed = false
 
-  end if   
+  end if
 
 	song = NowPlayingScreen.song
 
   if song = invalid
     return false
-  end if 
+  end if
 
   'Lighting
   if GetGlobalAA().lookup("song") <> song.Title AND song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color <> invalid AND song.image.color.DoesExist("hsv") then
@@ -88,7 +88,7 @@ Function UpdateScreen()
   songTitle = ""
 	albumTitle = ""
 	genreText = ""
-  
+
   'No image?
   if NOT song.DoesExist("image") then
     song.image = CreateObject("roAssociativeArray")
@@ -98,7 +98,7 @@ Function UpdateScreen()
     song.image.color = CreateObject("roAssociativeArray")
     song.image.color.hex = "#ffffffff"
   end if
-  
+
     'Artist Image
     if song.Artist <> invalid AND FileExists("artist-" + makemdfive(song.Artist)) then
       artistImageFilePath = "tmp:/artist-" + makemdfive(song.Artist)
@@ -230,7 +230,7 @@ Function DrawScreen()
   if NowPlayingScreen.screen = invalid
     return false
   end if
-  
+
 	if NowPlayingScreen.screen <> invalid then
 		NowPlayingScreen.screen.Clear(&h000000FF)
 		NowPlayingScreen.screen.setalphaenable(true)
@@ -238,7 +238,7 @@ Function DrawScreen()
 		'Background Image
     if NowPlayingScreen.BackgroundImage <> invalid then
       NowPlayingScreen.BackgroundImage.Draw(NowPlayingScreen.screen)
-    end if    
+    end if
     if NowPlayingScreen.PreviousBackgroundImage <> invalid
       NowPlayingScreen.PreviousBackgroundImage.Draw(NowPlayingScreen.screen)
     end if
@@ -246,10 +246,10 @@ Function DrawScreen()
     NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 215) 'Black overlay
 
 		'Header
-		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(80), GetHeaderColor())
-		NowPlayingScreen.screen.DrawObject(ResolutionX(20),ResolutionY(3),NowPlayingScreen.HeaderLogo)
-		NowPlayingScreen.screen.DrawText(NowPlayingScreen.stationTitle,180,18,&hFFFFFFFF,NowPlayingScreen.headerFont)
-    
+		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
+		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
+		NowPlayingScreen.screen.DrawText(NowPlayingScreen.stationTitle,180,25,&hFFFFFFFF,NowPlayingScreen.headerFont)
+
     DrawStationDetailsLabel(NowPlayingScreen)
     DrawHelpLabel(NowPlayingScreen)
 
@@ -318,7 +318,7 @@ Function RefreshNowPlayingScreen()
   NowPlayingScreen = GetNowPlayingScreen()
 
   song = NowPlayingScreen.song
-  
+
   GetGlobalAA().lastSongTitle = invalid
   NowPlayingScreen.PopularityImage = invalid
 
@@ -344,7 +344,7 @@ Function RefreshNowPlayingScreen()
       NowPlayingScreen.PreviousBackgroundImage.FadeOut()
     end if
   end if
-  
+
   NowPlayingScreen.UpdateBackgroundImage = "true"
   NowPlayingScreen.UpdateArtistImage = "true"
   NowPlayingScreen.UpdateAlbumImage = "true"
@@ -352,7 +352,7 @@ Function RefreshNowPlayingScreen()
   NowPlayingScreen.ArtistPlaceholder = ArtistImage("tmp:/" + makemdfive(song.StationImage))
 
   NowPlayingScreen.stationTitle = song.stationName
-  
+
   RunGarbageCollector()
   UpdateScreen()
 
@@ -389,7 +389,7 @@ End Function
 Function DrawHelpLabel(NowPlayingScreen as Object)
 
       if NowPlayingScreen.HelpLabel = invalid
-        NowPlayingScreen.HelpLabel = RlText("Press OK for help", GetExtraSmallFont(), &hFFFFFF77, ResolutionX(1150), ResolutionY(60))
+        NowPlayingScreen.HelpLabel = RlText("Press OK for help", GetExtraSmallFont(), &hFFFFFF77, ResolutionX(1135), ResolutionY(70))
       end if
 
       NowPlayingScreen.HelpLabel.draw(NowPlayingScreen.screen)

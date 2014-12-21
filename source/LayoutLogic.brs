@@ -1,6 +1,6 @@
 Function GetBioTextForSong(song as Object) as string
 	bioText = ""
-	
+
     if (song.DoesExist("bio") and song.bio <> invalid and song.bio.DoesExist("published"))
       dt = CreateObject("roDateTime")
       dt.FromISO8601String(song.bio.published)
@@ -39,6 +39,6 @@ Sub StationDetailsLabel(listeners as String, bitrate as String) as Object
       text = "This server: " + listeners + " listeners " + bitrate + "kbps"
     end if
 
-    label = RlTextArea(text, font, &hFFFFFFFF, 182, ResolutionY(57), 300, 50, 1, 1, "left")
+    label = RlTextArea(text, font, &hFFFFFFFF, 182, ResolutionY(65), 300, 50, 1, 1, "left")
     return label
 End Sub
