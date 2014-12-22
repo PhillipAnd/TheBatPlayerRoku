@@ -20,7 +20,7 @@ Sub SetTheme()
     theme.GridScreenLogoOffsetHD_X = "0"
     theme.GridScreenLogoOffsetHD_Y = "0"
 
-    theme.GridScreenBackgroundColor = "#000000" 
+    theme.GridScreenBackgroundColor = "#000000"
     theme.GridScreenDescriptionImageHD = "pkg:/images/speechbubble-hd.png"
     theme.GridScreenDescriptionImageSD = "pkg:/images/speechbubble-sd.png"
 
@@ -99,37 +99,27 @@ End Function
 
 Function GetRegularColorForSong(song as Object) as Integer
 	if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR NOT song.image.color.DoesExist("rgb") OR song.image.color.rgb.red = invalid OR song.image.color.rgb.green = invalid OR song.image.color.rgb.blue = invalid then
-		return MakeARGB(255,255,255,255)
+		return MakeARGB(250,250,250,250)
 	else
-	  	targetBrightness = 200
-	  	targetContrast = 160
+	  	targetBrightness = 70
+
 	  	red = song.image.color.rgb.red
 	  	green = song.image.color.rgb.green
 	  	blue = song.image.color.rgb.blue
 	  	alpha = 255
 
 	  	brightness = GetBrightnessForSong(song)
-	  	if brightness > 150
-	  		alpha = 220
-	  	end if
 
-	  	if brightness < 25
-		  	brightnessOffset = (targetBrightness / brightness)
-		  	updatedColors = AlterBrightnesForRGB(red, green, blue, brightnessOffset/3)
+	  	if brightness < 25 OR brightness > 100
+		  	brightnessOffset = targetBrightness - brightness
+		  	updatedColors = AlterBrightnessForRGB(red, green, blue, brightnessOffset/3)
 		  	red = updatedColors[0]
 		  	green = updatedColors[1]
 		  	blue = updatedColors[2]
-		  	return AlterSaturationForRGB(red, green, blue, alpha, 1.0)
 		 end if
 
-		Contrast = SQR(red * red * 0.241 + green * green * 0.691 + blue * blue * 0.068)
-		contrastOffset = (targetContrast / Contrast)
+    return AlterSaturationForRGB(red, green, blue, alpha, 1.2)
 
-		 if Contrast < targetContrast
-			return AlterSaturationForRGB(red, green, blue, alpha, 1.9)	
-		else 
-			return AlterSaturationForRGB(red, green, blue, alpha, 1.2)	
-		end if
 	end if
 End Function
 
@@ -143,7 +133,12 @@ Function GetBrightnessForSong(song as Object) as Integer
 	  	green = song.image.color.rgb.green
 	  	blue = song.image.color.rgb.blue
 
-		brightness = (0.2126 *red + 0.7152 *green + 0.0722*blue)
+		'1) brightness = (0.2126 *red + 0.7152 *green + 0.0722*blue)
+    '2) 		brightness = (0.299 *red + 0.587 *green + 0.114*blue)
+
+    brightness = Sqr(0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue))
+    print "Text Brightness: " + Str(brightness)
+
 		song.brightness = brightness
 		return brightness
 	else
@@ -156,10 +151,10 @@ Function GetDropShadowColorForSong(song as Object) as integer
 	return &h000000FF
 
 	' brightness = GetBrightnessForSong(song)
-	
+
 	' if brightness < 40 AND brightness <> 0 AND brightness > 25
 	' 	dropShadowColor = &h44444410
-	' else 
+	' else
 	' 	dropShadowColor = &h000000FF
 	' end if
 
@@ -169,7 +164,7 @@ End Function
 Sub CreateOverlayColor(song) as integer
 	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb")
 		color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, 0)
-	else 
+	else
 		color = 0
 	end if
   return color
@@ -185,10 +180,10 @@ Function AlterSaturationForRGB(red as Integer, green as Integer, blue as Integer
 	return MakeARGB(R,G,B,alpha)
 end Function
 
-Function AlterBrightnesForRGB(red as Integer, green as Integer, blue as Integer, amount as Double) as Object
-	red = red * amount'(amount / 0.299)
-	green = green * amount'(amount / 0.587)
-	blue = blue * amount'(amount / 0.114)
+Function AlterBrightnessForRGB(red as Integer, green as Integer, blue as Integer, amount as Double) as Object
+	red = red + amount
+	green = green + amount
+	blue = blue + amount
 
 	updatedColors = CreateObject("roArray", 3, false)
 	updatedColors[0] = RlMax(0, RlMin(red, 255))
