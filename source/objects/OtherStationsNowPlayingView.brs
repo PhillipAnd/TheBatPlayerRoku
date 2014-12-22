@@ -8,13 +8,13 @@ this = {
 		labelX: 0
 		labelY: 0
 
-		BackgroundViewY: -80
+		BackgroundViewY: -70
 
-		TextY: -50
+		TextY: -30
 		TextX: 0
 
 		width: 1080
-		height: 90
+		height: 100
 
 		textLength: 0
 
