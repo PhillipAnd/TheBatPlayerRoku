@@ -1,4 +1,4 @@
-Function BatPopup(text as String, textColor = &h000000FF as Integer, backgroundColor = &hBBBBBB00 as Integer, displayTime = 3 as Integer) as Object
+Function BatPopup(text as String, textColor = &hFFFFFFFF as Integer, backgroundColor =  &h00000000 as Integer, displayTime = 3 as Integer) as Object
 	this = {
 		type: "BatPopup"
 		text: text
@@ -72,6 +72,6 @@ Function HandlePopupEvent(msg as Object)
 End Function
 
 Function DisplayPopup(text as string, textColor = &h000000FF as Integer, backgroundColor = &hBBBBBB00 as Integer, duration = 3 as integer)
-	popup = BatPopup(text, textColor, backgroundColor, duration)
+	popup = BatPopup(text)
 	GetNowPlayingScreen().popup = popup
 End Function
