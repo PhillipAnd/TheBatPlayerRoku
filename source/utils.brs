@@ -155,3 +155,18 @@ Function AssocArrayCount(aa as object) as Integer
     end for
     return i
 End Function
+
+Function SizeOfImageAtPath(path as String) as Object
+  metadata = CreateObject("roImageMetadata")
+  metadata.SetUrl(path)
+
+  if metadata <> invalid
+    size = CreateObject("roAssociativeArray")
+    size.width = metadata.GetMetadata().width
+    size.height = metadata.GetMetadata().height
+
+    return size
+  else
+    return invalid
+  end if
+End Function

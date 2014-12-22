@@ -9,10 +9,10 @@ Sub SetTheme()
     theme.GridScreenOverhangHeightSD = "140"
 
     theme.GridScreenDescriptionOffsetHD = "(-20,203)"
-    theme.GridScreenDescriptionOffsetSD = "(-25,120)"
+    theme.GridScreenDescriptionOffsetSD = "(20,120)"
 
-	theme.GridScreenDescriptionTitleColor = "#FFFFFF"
-	theme.GridScreenDescriptionSynopsisColor = "#000000"
+  	theme.GridScreenDescriptionTitleColor = "#FFFFFF"
+  	theme.GridScreenDescriptionSynopsisColor = "#000000"
 
     theme.GridScreenLogoHD = "tmp:/headerImage.png"
     theme.GridScreenLogoSD = "tmp:/headerImage.png"
@@ -27,11 +27,11 @@ Sub SetTheme()
     theme.PosterScreenLine1Text = "#CC0000"
     theme.PosterScreenLine2Text = "#cA6c6c"
 
-	theme.GridScreenFocusBorderHD = "pkg:/images/StationSelectionBorder-HD.png"
-	theme.GridScreenBorderOffsetHD = "(-5,-5)"
+  	theme.GridScreenFocusBorderHD = "pkg:/images/StationSelectionBorder-HD.png"
+  	theme.GridScreenBorderOffsetHD = "(-5,-5)"
 
-	theme.GridScreenFocusBorderSD = "pkg:/images/StationSelectionBorder-SD.png"
-	theme.GridScreenBorderOffsetSD = "(-5,-5)"
+  	theme.GridScreenFocusBorderSD = "pkg:/images/StationSelectionBorder-SD.png"
+  	theme.GridScreenBorderOffsetSD = "(-8,-5)"
 
     app.SetTheme(theme)
 
@@ -137,7 +137,7 @@ Function GetBrightnessForSong(song as Object) as Integer
     '2) 		brightness = (0.299 *red + 0.587 *green + 0.114*blue)
 
     brightness = Sqr(0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue))
-    print "Text Brightness: " + Str(brightness)
+    'print "Text Brightness: " + Str(brightness)
 
 		song.brightness = brightness
 		return brightness
@@ -204,6 +204,6 @@ End Function
 
 Function ResolutionY(y as Integer) as Integer
 	deviceSize = GetSession().deviceInfo.GetDisplaySize()
-	ratio = deviceSize.H / 720
+	ratio = deviceSize.H / 710
 	return y * ratio
 End Function
