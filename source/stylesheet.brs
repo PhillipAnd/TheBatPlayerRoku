@@ -129,12 +129,10 @@ Function GetBrightnessForSong(song as Object) as Integer
 	end if
 
 	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb")
-	  	red = song.image.color.rgb.red
-	  	green = song.image.color.rgb.green
-	  	blue = song.image.color.rgb.blue
+    red = song.image.color.rgb.red
+    green = song.image.color.rgb.green
+    blue = song.image.color.rgb.blue
 
-		'1) brightness = (0.2126 *red + 0.7152 *green + 0.0722*blue)
-    '2) 		brightness = (0.299 *red + 0.587 *green + 0.114*blue)
 
     brightness = Sqr(0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue))
     'print "Text Brightness: " + Str(brightness)
