@@ -14,7 +14,7 @@ Function BackgroundImage(filePath as String) as Object
 
 		isFadingIn: true
 		isFadingOut: false
-		fadeAmount: 3
+		fadeAmount: 1
 
 		draw: backgroundImage_draw
 	}
@@ -22,7 +22,7 @@ Function BackgroundImage(filePath as String) as Object
 	this.size = GetSession().deviceInfo.GetDisplaySize()
 	this.bitmap = CreateObject("roBitmap", filePath)
 	this.image = RlGetScaledImage(this.bitmap, this.size.w, this.size.h, 1)
-	
+
 	this.bitmap = invalid
 
 	'Disable fading for old devices
@@ -45,7 +45,7 @@ Function backgroundImage_FadeOut()
 		m.isFadingOut = true
 		m.isFadingIn = false
 	else
-		m.bitmap = invalid		
+		m.bitmap = invalid
 	end if
 End Function
 

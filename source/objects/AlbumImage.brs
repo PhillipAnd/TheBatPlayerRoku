@@ -20,7 +20,7 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 
 		isFadingIn: true
 		isFadingOut: false
-		fadeAmount: 5
+		fadeAmount: 2
 		overlayColor: overlayColor
 
 		draw: albumImage_draw
@@ -35,7 +35,7 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 		this.alpha = this.alpha + this.MaxFade
 		this.enableFade = false
 	end if
-	
+
 
 	return this
 End Function
