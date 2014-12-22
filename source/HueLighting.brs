@@ -54,7 +54,7 @@ Function CreateHueFromValue(value)
 	end if
 
 	hue = hue + offset
-	print "Hue: " + Str(hue)
+	'print "Hue: " + Str(hue)
 
 	return hue
 End Function

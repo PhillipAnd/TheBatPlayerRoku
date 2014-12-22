@@ -389,7 +389,7 @@ End Function
 Function DrawHelpLabel(NowPlayingScreen as Object)
 
       if NowPlayingScreen.HelpLabel = invalid
-        NowPlayingScreen.HelpLabel = RlText("Press OK for help", GetExtraSmallFont(), &hFFFFFF77, ResolutionX(1135), ResolutionY(70))
+        NowPlayingScreen.HelpLabel = RlText("Press OK for help", GetExtraSmallFont(), &hFFFFFF77,  NowPlayingScreen.Width - 130, ResolutionY(70))
       end if
 
       NowPlayingScreen.HelpLabel.draw(NowPlayingScreen.screen)
