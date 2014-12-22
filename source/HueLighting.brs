@@ -1,7 +1,7 @@
 Sub SetLightsToColor(hsv as Object)
 	lightsArray = GetLights(false)
 	ip = lightsArray.ip
-	
+
 	if ip = invalid OR lightsArray.lights.count() = 0
 		return
 	end if
@@ -24,20 +24,40 @@ Sub SetLightsToColor(hsv as Object)
 	    port = GetPort()
 	    request.SetMessagePort(port)
 
+			hue = CreateHueFromValue(hsv.hue)
 	    requestBody = CreateObject("roAssociativeArray")
 	    requestBody.on = true
-	    requestBody.sat = RlMax(RlMin(hsv.sat, 255), 0)
+	    requestBody.sat = RlMax(RlMin(hsv.sat + 50, 255), 0)
 	    requestBody.bri = RlMin(RlMax(GetSession().Lighting.Brightness.Minimum, hsv.val), GetSession().Lighting.Brightness.Minimum)
-	    requestBody.hue = RlMin((hsv.hue * 255) + 900, 65535)
-	    requestBody.transitiontime = 40
+	    requestBody.hue = hue
+	    requestBody.transitiontime = 30
+
 	    GetSession().Lighting.Brightness.Current = RlMin(RlMax(GetSession().Lighting.Brightness.Minimum, hsv.val), GetSession().Lighting.Brightness.Minimum)
 	    json = FormatJson(requestBody)
 		lightRequests.push(request)
 
 		request.AsyncPostFromString(json)
-		
+
 	end for
 End Sub
+
+Function CreateHueFromValue(value)
+	hue = RlMin((value * 255), 65535)
+
+
+	if value > 200
+		offset = 2000
+	else if value < 200
+		offset = 700
+	else if value < 100
+		offset = 300
+	end if
+
+	hue = hue + offset
+	print "Hue: " + Str(hue)
+
+	return hue
+End Function
 
 Function ChangeBrightnessTo(brightness as Integer)
 	GetSession().Lighting.Brightness.Current = brightness
@@ -46,7 +66,7 @@ Function ChangeBrightnessTo(brightness as Integer)
 
 	if ip = invalid
 		return false
-	end if	
+	end if
 
 	for each light in lightsArray.lights
 
@@ -76,7 +96,7 @@ Function ToggleBrightnessMode(direction as String)
 	if NOT lights.DoesExist("brightness")
 		Analytics = GetSession().Analytics
 		Analytics.AddEvent("Attempted to toggle brightness mode without bulbs configured")
-		
+
 		DisplayPopup("There are no Philips Hue bulbs configured.  Visit: http://" + GetIPAddress() + ":9999 to remedy this.",  &hb20000FF, &hBBBBBB00, 8)
 		return false
 	end if
@@ -93,7 +113,7 @@ Function ToggleBrightnessMode(direction as String)
 
 	if GetSession().Lighting.Brightness.Mode = 2 then
 		GetSession().Lighting.Brightness.Minimum = GetSession().Lighting.Brightness.DefaultMinimum
-		GetSession().Lighting.Brightness.Maximum = GetSession().Lighting.Brightness.DefaultMaximum 
+		GetSession().Lighting.Brightness.Maximum = GetSession().Lighting.Brightness.DefaultMaximum
 		brightness = 150
 		modeString = "default"
 	else if GetSession().Lighting.Brightness.Mode = 1 then
