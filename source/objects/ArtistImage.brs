@@ -23,7 +23,7 @@ Function ArtistImage(filePath as string) as Object
 
 		isFadingIn: true
 		isFadingOut: false
-		fadeAmount: 5
+		fadeAmount: 2
 
 		draw: artistImage_draw
 	}
@@ -75,7 +75,7 @@ Function FadeOut()
 		m.isFadingIn = false
 	else
 		m.alpha = &hFFFFFF00
-		m.bitmap = invalid		
+		m.bitmap = invalid
 	end if
 End Function
 
