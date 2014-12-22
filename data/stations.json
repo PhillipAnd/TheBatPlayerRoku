@@ -10,13 +10,13 @@
   "provider": "Global Radio Network",
   "format": "mp3",
   "stream": "http://helsinki.radiostreamlive.com/radiosantaclaus_mp3-high",
-  "image": "http://d1i6vahw24eb07.cloudfront.net/s131270q.png",
+  "image": "http://d1i6vahw24eb07.cloudfront.net/s131270q.png"
 }, {
   "name": "ABSOLUTE TOP 40 RADIO",
   "provider": "1.FM",
   "format": "mp3",
   "stream": "http://205.164.62.22:8075/",
-  "image": "http://dainem-radio.de/img/logo.png?nocache=123",
+  "image": "http://www.1.fm/content/images/chlogo.png",
   "genres": ["Top 40", "Hits"]
 }, {
   "name": "90s Mix",
