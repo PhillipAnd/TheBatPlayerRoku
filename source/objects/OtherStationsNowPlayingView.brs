@@ -9,22 +9,22 @@ this = {
 		labelY: 0
 
 		BackgroundViewY: -80
-		
-		TextY: -60
+
+		TextY: -50
 		TextX: 0
 
 		width: 1080
-		height: 80
+		height: 90
 
 		textLength: 0
 
 		backgroundColor: &h000000DD
-		
+
 		draw: otherStationsNowPlaying_draw
 		destroy: otherStationsNowPlaying_destroy
 	}
 
-	
+
 	this.width = GetNowPlayingScreen().screen.GetWidth()
 	this.TextX = this.width - 20
 	this.textLength = this.font.GetOneLineWidth(text, 9999999)
@@ -37,7 +37,7 @@ Function CreateOtherStationsNowPlaying()
 	Session = GetSession()
 	Session.StationDownloads = CreateObject("roAssociativeArray")
 	Session.StationDownloads.Downloads = CreateObject("roAssociativeArray")
-	Session.StationDownloads.Completed = CreateObject("roArray", 0, true) 
+	Session.StationDownloads.Completed = CreateObject("roArray", 0, true)
 	Session.StationDownloads.Count = 0
 	Session.StationDownloads.Timer = CreateObject("roTimespan")
 	Session.StationDownloads.Timer.mark()
@@ -58,7 +58,7 @@ End Function
 
 'If the timer expires and there are still requests lingering then we should cancel them
 'In order for the Now Playing to finalize and display.
-Function CancelOtherStationsNowPlayingRequests()	
+Function CancelOtherStationsNowPlayingRequests()
 	Session = GetSession()
 	NowPlayingScreen = GetNowPlayingScreen()
 
@@ -89,7 +89,7 @@ Function DisplayOtherStationsNowPlaying(nowPlayingArray as Object)
     for each nowPlaying in nowPlayingArray
 		station = nowPlaying.name
 		playing = nowPlaying.playing
-    	
+
     	if nowPlaying <> invalid AND station <> invalid AND playing <> invalid
     		playing = DeParenString(playing)
 			text = text + station + ": " + playing + ".   "
@@ -104,7 +104,7 @@ Function otherStationsNowPlaying_draw(screen as Object)
 	screen.DrawText(m.text,m.TextX,m.TextY,&hFFFFFFBB,m.font)
 
 	m.TextX = m.TextX - 4
-	
+
 	'We're done
 	if m.BackgroundViewY <= -180 AND m.ReadyToDestroy = true
 		m.Destroy()
