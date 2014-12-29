@@ -20,7 +20,8 @@ Function GetJSONAtUrl(url as String)
     end if
 
     url = UrlEncode(url)
-    metadataUrl = GetConfig().ApiHost + "?stream=" + url
+    'metadataUrl = GetConfig().ApiHost + "?stream=" + url
+    metadataUrl = "http://api.thebatplayer.fm:3000/metadata/" + url
     'print "Checking for JSON at " metadataUrl
     Request.SetUrl(metadataUrl)
     Request.SetPort(GetPort())
