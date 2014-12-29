@@ -29,7 +29,7 @@ Function ListStations()
 
         FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
 
-        stationObject = CreateSong(station.name,station.provider,"", "mp3", station.stream, station.image)
+        stationObject = CreateSong(station.name,station.provider,"", station.format, station.stream, station.image)
         SelectableStations.Push(stationObject)
 
         'Download custom poster images

@@ -44,6 +44,7 @@ End Sub
 Function CreateHueFromValue(value)
 	hue = RlMin((value * 255), 65535)
 
+	offset = 0
 
 	if value > 200
 		offset = 2000
