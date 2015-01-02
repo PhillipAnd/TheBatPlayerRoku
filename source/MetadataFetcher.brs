@@ -22,7 +22,7 @@ Function GetJSONAtUrl(url as String)
     url = UrlEncode(url)
     'metadataUrl = GetConfig().ApiHost + "?stream=" + url
     metadataUrl = "http://api.thebatplayer.fm:3000/metadata/" + url
-    'print "Checking for JSON at " metadataUrl
+    print "Checking for JSON at " metadataUrl
     Request.SetUrl(metadataUrl)
     Request.SetPort(GetPort())
 
@@ -41,6 +41,7 @@ Function HandleJSON(jsonString as String)
 
   shouldRefresh = false
 
+  print jsonObject;
   if jsonObject <> invalid AND jsonObject.song <> invalid
 
     song.JSONDownloadDelay = 0
