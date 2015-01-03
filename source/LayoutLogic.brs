@@ -2,15 +2,13 @@ Function GetBioTextForSong(song as Object) as string
 	bioText = ""
 
     if (song.DoesExist("bio") and song.bio <> invalid and song.bio.DoesExist("published"))
-      dt = CreateObject("roDateTime")
-      dt.FromISO8601String(song.bio.published)
-      publishedYear = str(dt.GetYear())
-      bioText = song.bio.text + " (" + publishedYear.right(4) + ")"
+      publishedYear = ToStr(song.bio.published)
+      bioText = song.bio.text + " (" + publishedYear + ")"
     else if song.DoesExist("bio") and song.bio <> invalid
       bioText = song.bio.text
     endif
 
-    return bioText
+    return UrlUnescape(bioText)
 End Function
 
 Function GetTextHeight(text as string, width as integer, font as Object) as integer

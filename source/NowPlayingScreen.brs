@@ -127,11 +127,8 @@ Function UpdateScreen()
 
     if type(song.album) = "roAssociativeArray"
       'Album Name
-      if (song.album.DoesExist("releaseDate")) then
-        dt = CreateObject("roDateTime")
-        dt.FromISO8601String(song.album.releaseDate)
-        albumDate = str(dt.GetYear())
-        albumTitle = song.album.name + " (" + albumDate.right(4) + ")"
+      if (song.album.DoesExist("released")) then
+        albumTitle = song.album.name + " (" + ToStr(song.album.released) + ")"
       else
         albumTitle = song.album.name
       endif
