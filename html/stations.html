@@ -78,13 +78,6 @@
               </a>
             </li>
 
-            <!-- 				<li>
-						<a href="./advanced.html">
-							<i class="fa fa-cogs"></i>
-							<span>Advanced</span>
-						</a>
-					</li> -->
-
           </ul>
         </div>
         <!-- /.subnav-collapse -->
@@ -109,18 +102,17 @@
 
         <div class="widget-content">
 
-          <p>Add your stations here. By hovering over the stream URL of most stations you've added you can preview and make sure it's playing as you'd expect. Need to find more stations to listen to? Search the directory over at <a href="http://www.shoutcast.com/">SHOUTcast</a>            to find more!</p>
-
-          <div class="ui-widget">
-            <!--   <label for="tags">Tags: </label>-->
-            <p>Search:
-              <input id="shoutcast-search">
-            </p>
-          </div>
-
           <form id="stations-form">
             <table class="table" id="stations-table">
               <thead>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <button class="btn btn-primary add-station-button">Add New Station <i class="fa fa-plus-square-o"></i>
+                  </td>
+                </tr>
                 <tr>
                   <th></th>
                   <th>Name</th>
@@ -169,9 +161,8 @@
       </td>
       <td>
         <select name="station-format-{{@index}}" id="station-format" class="station-format form-control">
-          <option class="station-format form-control" value="{{ format }}">{{ format }}</option>
-          <option class="station-format form-control" value="mp3">mp3</option>
-          <option class="station-format form-control" value="es.aac-adts">aac</option>
+          <option class="station-format form-control" value="mp3" {{isSelected "mp3" format}}>{{formatDisplay format }}</option>
+          <option class="station-format form-control" value="es.aac-adts" {{isSelected "es.aac-adts" format}}>{{formatDisplay format }}</option>
         </select>
       </td>
       <td>
@@ -192,6 +183,7 @@
   <link rel="stylesheet" href="http://thebatplayer.fm/theme/js/plugins/msgGrowl/css/msgGrowl.css" type="text/css" charset="utf-8" />
   <link href="http://thebatplayer.fm/theme/css/custom.css" rel="stylesheet">
   <link href="http://thebatplayer.fm/theme/css/client.css" rel="stylesheet">
+  <link href="http://thebatplayer.fm/js/smartwizard/smart_wizard.css" rel="stylesheet">
 
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
@@ -199,8 +191,108 @@
   <script src="http://thebatplayer.fm/theme/js/plugins/validate/jquery.validate.js"></script>
   <script src="http://thebatplayer.fm/theme/js/plugins/msgGrowl/js/msgGrowl.min.js"></script>
   <script src="http://thebatplayer.fm/theme/js/plugins/msgbox/jquery.msgbox.js"></script>
+  <script src="http://thebatplayer.fm/js/smartwizard/jquery.smartWizard.js"></script>
+
   <script src="http://thebatplayer.fm/js/stations-new.js"></script>
   <script src="http://thebatplayer.fm/js/admin.js"></script>
+  <script src="http://thebatplayer.fm/js/addstation.js"></script>
+
   <script>
     addAction("Web configuration stations page loaded.");
   </script>
+
+  <!-- New Station Wizard -->
+  <div id="wizard" class="swMain" style="display: none">
+
+    <div>
+      <h2 class="StepTitle">Search</h2>
+
+      <p>
+        You have the option of adding stations manually by finding stations you enjoy online, or searching for new ones.
+      </p>
+
+      <p>
+        <div class="ui-widget">
+          <p>
+            <h3>Search:  <input id="wizard-shoutcast-search"></h3>
+          </p>
+        </div>
+      </p>
+
+      <p>
+        If you'd prefer to manually add a station because you have it's audio stream URL just hit <strong>Next</strong>.
+      </p>
+
+    </div>
+    <div>
+      <h2 class="StepTitle">Edit</h2>
+
+      <p><strong>Hints:</strong>
+        <ul>
+          <li>Edit the following details to your liking, as it's how it'll be displayed on The Bat Player.</li>
+
+          <li>Shorten the station name if it looks a bit long.</li>
+          <li>The <strong>provider</strong> is the name of the group who creates the Station. It's optional.</li>
+          <li>If you don't know the <strong>format</strong> of the station, it's probably MP3. But some stations give the option to stream using the AAC format.</li>
+          <li>We try to find a suitable image for the station, but you should customize it. Find a nice image to represent the station. It can be anything you like.</li>
+          <li>You can come back to the <strong>Stations</strong> page at any time to update these values.</li>
+        </ul>
+      </p>
+
+      <form id="stations-form">
+        <table class="table" id="stations-table">
+
+          <tr>
+            <td>
+              <h5>Station Name</h5>
+              <input id="station-wizard-name" name="name-{{@index}}" placeholder="Station Name" value="" class="station-name form-control" required>
+            </td>
+            <td>
+              <h5>Station Provider</h5>
+              <input id="station-wizard-provider" name="provider-{{@index}}" placeholder="Station Provider" value="" class="station-provider form-control" required>
+            </td>
+            <td>
+              <h5>Format</h5>
+              <select id="station-wizard-format" name="format-{{@index}}" class="form-control" style="width:100%">
+                <option value="mp3">MP3</option>
+                <option value="es.aac-adts">AAC</option>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <h5>Stream URL</h5>
+              <input id="station-wizard-stream" name="stream-{{@index}}" placeholder="Station Stream URL" value="" class="station-stream form-control stream-field" required>
+            </td>
+
+            <td>
+              <h5>Logo URL</h5>
+              <input id="station-wizard-image" name="image-{{@index}}" placeholder="Station Image URL" value="" class="form-control image-field" required>
+            </td>
+            </td>
+          </tr>
+
+        </table>
+      </form>
+      <center>
+        <img id="station-logo-display" src="" height="130px">
+      </center>
+    </div>
+    <div>
+      <h2 class="StepTitle">Preview</h2>
+      <center>
+        <h1 id="wizard-preview-title">Title Goes Here</h1>
+        <h4 id="wizard-preview-format">Format Goes Here</h4>
+
+        <img id="wizard-preview-image" src="" width="200px">
+        <br>
+        <audio controls style="width:200px" id="wizard-preview-audio">
+        </audio>
+      </center>
+      <h3>
+        The above is a preview of the station you're about to add.  Verify the name, image, and audio is what you expect.  When you're ready hit "Add Station ".
+      </3>
+
+    </div>
+
+  </div>
