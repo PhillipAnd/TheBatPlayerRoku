@@ -1,14 +1,14 @@
 Function GetBioTextForSong(song as Object) as string
 	bioText = ""
 
-    if (song.DoesExist("bio") and song.bio <> invalid and song.bio.DoesExist("published"))
+    if (song.DoesExist("bio") and song.bio <> invalid and song.bio.DoesExist("published")) AND song.bio.published <> invalid
       publishedYear = ToStr(song.bio.published)
       bioText = song.bio.text + " (" + publishedYear + ")"
     else if song.DoesExist("bio") and song.bio <> invalid
       bioText = song.bio.text
     endif
 
-    return UrlUnescape(bioText)
+    return HtmlEntityDecode(bioText)
 End Function
 
 Function GetTextHeight(text as string, width as integer, font as Object) as integer

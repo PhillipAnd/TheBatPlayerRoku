@@ -113,7 +113,7 @@ Sub HandleTimers()
 
 
       	'Now Playing on other stations
-      	if (Session.StationDownloads <> invalid AND Session.StationDownloads.Timer <> invalid AND Session.StationDownloads.Timer.totalSeconds() > 5)
+      	if (Session.StationDownloads <> invalid AND Session.StationDownloads.Timer <> invalid AND Session.StationDownloads.Timer.totalSeconds() > GetConfig().MetadataFetchTimer)
       		CancelOtherStationsNowPlayingRequests()
       	end if
 
