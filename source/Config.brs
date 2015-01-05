@@ -9,6 +9,8 @@ Function GetConfig() as Object
 
 		Hostname: "http://api.thebatplayer.fm"
 		ApiHost: "http://api.thebatplayer.fm/mp3info/mp3info.hh"
+
+		MetadataFetchTimer: 8
 	}
 
 	return this

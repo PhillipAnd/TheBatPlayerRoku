@@ -127,7 +127,7 @@ Function UpdateScreen()
 
     if type(song.album) = "roAssociativeArray"
       'Album Name
-      if (song.album.DoesExist("released")) then
+      if (song.album.DoesExist("released") AND song.album.released <> invalid) then
         albumTitle = song.album.name + " (" + ToStr(song.album.released) + ")"
       else
         albumTitle = song.album.name
