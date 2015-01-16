@@ -175,17 +175,20 @@ End Function
 function HtmlEntityDecode(inStr)
   result = inStr
 
-  rx = CreateObject("roRegEx", "&#39;", "")
-  result = rx.ReplaceAll(result, "'")
+  if result <> invalid
 
-  rx = CreateObject("roRegEx", "&amp;", "")
-  result = rx.ReplaceAll(result, "&")
+    rx = CreateObject("roRegEx", "&#39;", "")
+    result = rx.ReplaceAll(result, "'")
 
-  rx = CreateObject("roRegEx", "&(quot|rsquo|lsquo);", "")
-  result = rx.ReplaceAll(result, Chr(34))
+    rx = CreateObject("roRegEx", "&amp;", "")
+    result = rx.ReplaceAll(result, "&")
 
-  rx = CreateObject("roRegEx", "&\w+;", "")
-  result = rx.ReplaceAll(result, Chr(34))
+    rx = CreateObject("roRegEx", "&(quot|rsquo|lsquo);", "")
+    result = rx.ReplaceAll(result, Chr(34))
+
+    rx = CreateObject("roRegEx", "&\w+;", "")
+    result = rx.ReplaceAll(result, Chr(34))
+  end if
 
   return result
 end function
