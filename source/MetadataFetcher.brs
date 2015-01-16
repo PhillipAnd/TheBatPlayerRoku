@@ -40,6 +40,7 @@ Function HandleJSON(jsonString as String)
 
   if song.MetadataFetchFailure = invalid
     song.MetadataFetchFailure = 0
+    song.metadataFault = true
   end if
 
   shouldRefresh = false
@@ -67,6 +68,7 @@ Function HandleJSON(jsonString as String)
     song.brightness = 0
     song.metadataFetched = jsonObject.metaDataFetched
     song.PopularityFetchCounter = 0
+    song.MetadataFetchFailure = 0
 
     if jsonObject.DoesExist("image") AND type(jsonObject.image) = "roAssociativeArray" AND jsonObject.image.DoesExist("url") AND isnonemptystr(jsonObject.image.url)
       song.HDPosterUrl = jsonObject.image.url
@@ -105,12 +107,12 @@ Function HandleJSON(jsonString as String)
   if song.Title = invalid then song.Title = jsonObject.track
 
   ' Refresh because of a successful update
-  if GetGlobalAA().lastSongTitle <> song.Title
+  if GetGlobalAA().lastSongTitle <> song.Title AND song.metadataFault = false
     shouldRefresh = true
   endif
 
   ' Refresh because we've failed a number of times
-  if song.metadataFault = true AND song.metadataFault = 2
+  if song.metadataFault = true AND song.MetadataFetchFailure = 2
     shouldRefresh = true
   endif
 
@@ -119,7 +121,6 @@ Function HandleJSON(jsonString as String)
   print "Refreshing Screen!"
 
      song.popularity = invalid
-     song.MetadataFetchFailure = 0
 
       RefreshNowPlayingScreen()
       GetGlobalAA().lastSongTitle = song.Title
