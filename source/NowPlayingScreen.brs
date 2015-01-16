@@ -118,7 +118,7 @@ Function UpdateScreen()
     end if
 
     'Album Image
-    if type(song.album) = "roAssociativeArray" AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = "true" then
+    if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = "true" then
       albumImageFilePath = "tmp:/album-" + makemdfive(song.album.name + song.artist)
       NowPlayingScreen.albumImageOverlayColor = CreateOverlayColor(NowPlayingScreen.song)
       NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 240, NowPlayingScreen.albumImageOverlayColor)
