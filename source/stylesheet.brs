@@ -101,7 +101,7 @@ Function GetRegularColorForSong(song as Object) as Integer
 	if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR NOT song.image.color.DoesExist("rgb") OR song.image.color.rgb.red = invalid OR song.image.color.rgb.green = invalid OR song.image.color.rgb.blue = invalid then
 		return MakeARGB(250,250,250,250)
 	else
-	  	targetBrightness = 70
+	  	targetBrightness = 80
 
 	  	red = song.image.color.rgb.red
 	  	green = song.image.color.rgb.green
@@ -110,7 +110,7 @@ Function GetRegularColorForSong(song as Object) as Integer
 
 	  	brightness = GetBrightnessForSong(song)
 
-	  	if brightness < 35 OR brightness > 100
+	  	if brightness < 55
 		  	brightnessOffset = targetBrightness - brightness
 		  	updatedColors = AlterBrightnessForRGB(red, green, blue, brightnessOffset/3)
 		  	red = updatedColors[0]
@@ -118,7 +118,12 @@ Function GetRegularColorForSong(song as Object) as Integer
 		  	blue = updatedColors[2]
 		 end if
 
-    return AlterSaturationForRGB(red, green, blue, alpha, 1.2)
+    if brightness > targetBrightness
+      alphaOffset = (brightness - targetBrightness) / 7
+      alpha = alpha - alphaOffset
+    end if
+
+    return AlterSaturationForRGB(red, green, blue, alpha, 3.0)
 
 	end if
 End Function
@@ -132,7 +137,6 @@ Function GetBrightnessForSong(song as Object) as Integer
     red = song.image.color.rgb.red
     green = song.image.color.rgb.green
     blue = song.image.color.rgb.blue
-
 
     brightness = Sqr(0.299 * (red * red) + 0.587 * (green * green) + 0.114 * (blue * blue))
     'print "Text Brightness: " + Str(brightness)
