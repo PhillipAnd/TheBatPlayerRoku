@@ -7,8 +7,11 @@ Function GetBioTextForSong(song as Object) as string
     else if song.DoesExist("bio") and song.bio <> invalid
       bioText = song.bio.text
     endif
-
+	if bioText <> invalid
     return HtmlEntityDecode(bioText)
+	else
+		return ""
+	end if
 End Function
 
 Function GetTextHeight(text as string, width as integer, font as Object) as integer
