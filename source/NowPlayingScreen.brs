@@ -77,8 +77,8 @@ Function UpdateScreen()
   end if
 
   'Lighting
-  if GetGlobalAA().lookup("song") <> song.Title AND song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color <> invalid AND song.image.color.DoesExist("hsv") then
-    SetLightsToColor(song.image.color.hsv)
+  if GetGlobalAA().lookup("song") <> song.Title AND song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color <> invalid AND song.image.color.DoesExist("xyz") then
+    SetLightsToColor(song.image.color.xyz)
   end if
 
 	GetGlobalAA().AddReplace("song", song.title)
@@ -222,6 +222,10 @@ Function GetNowPlayingScreen() as Object
 End Function
 
 Function DrawScreen()
+
+  if GetGlobalAA().IsStationSelectorDisplayed = true
+    return false
+  end if
 
 	NowPlayingScreen = GetNowPlayingScreen()
   if NowPlayingScreen.screen = invalid
@@ -374,12 +378,14 @@ Function DrawStationDetailsLabel(NowPlayingScreen as object)
       stationListeners = NowPlayingScreen.song.stationDetails.Listeners
       stationBitrate = NowPlayingScreen.song.stationDetails.bitrate
 
-      if NowPlayingScreen.song.StationDetails.updated
+      if NowPlayingScreen.song.StationDetails.updated AND stationListeners <> invalid AND stationBitrate <> invalid
         NowPlayingScreen.stationDetailsLabel = StationDetailsLabel(stationListeners, stationBitrate)
         NowPlayingScreen.song.StationDetails.updated = false
       end if
 
-      NowPlayingScreen.stationDetailsLabel.draw(NowPlayingScreen.screen)
+      if NowPlayingScreen.stationDetailsLabel <> invalid
+        NowPlayingScreen.stationDetailsLabel.draw(NowPlayingScreen.screen)
+      end if
     end if
 End Function
 
