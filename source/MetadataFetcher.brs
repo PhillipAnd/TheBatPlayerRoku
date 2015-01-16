@@ -20,7 +20,6 @@ Function GetJSONAtUrl(url as String)
     end if
 
     url = UrlEncode(url)
-    'metadataUrl = GetConfig().ApiHost + "?stream=" + url
     metadataUrl = GetConfig().Hostname + ":3000/metadata/" + url
     print "Checking for JSON at " metadataUrl
     Request.SetUrl(metadataUrl)
@@ -39,9 +38,11 @@ Function HandleJSON(jsonString as String)
   song = GetGlobalAA().Lookup("SongObject")
   NowPlayingScreen = GetNowPlayingScreen()
 
-  shouldRefresh = false
+  if song.MetadataFetchFailure = invalid
+    song.MetadataFetchFailure = 0
+  end if
 
-  print jsonObject;
+  shouldRefresh = false
   if jsonObject <> invalid AND jsonObject.song <> invalid
 
     song.JSONDownloadDelay = 0
@@ -77,6 +78,7 @@ Function HandleJSON(jsonString as String)
       song.image =  CreateObject("roAssociativeArray")
       song.image.url = song.StationImage
       song.album = invalid
+      song.MetadataFetchFailure = song.MetadataFetchFailure + 1
     end if
 
   else
@@ -87,13 +89,14 @@ Function HandleJSON(jsonString as String)
     song.Artist = song.stationName
     song.Title = song.feedurl
     song.bio = CreateObject("roAssociativeArray")
-    song.bio.text = "The Bat Player displays additional information about the station and its songs when available.  " + song.stationName + " does not seem to have any data for The Bat to show you either due the Station not providing it or our servers are experiencing difficulties."
+    song.bio.text = "The Bat Player displays additional information about the station and its songs when available.  " + song.stationName + " does not seem to have any data for The Bat to show you either due the Station not providing it or our services are experiencing difficulties."
     song.HDPosterUrl = song.StationImage
     song.SDPosterUrl = song.StationImage
     song.metadataFault = true
     song.metadataFetched = false
     song.album = invalid
     song.brightness = 0
+    song.MetadataFetchFailure = song.MetadataFetchFailure + 1
   end if
 
   NowPlayingScreen.song = song
@@ -101,12 +104,22 @@ Function HandleJSON(jsonString as String)
   if song.artist = invalid then song.artist = song.stationName
   if song.Title = invalid then song.Title = jsonObject.track
 
+  ' Refresh because of a successful update
   if GetGlobalAA().lastSongTitle <> song.Title
     shouldRefresh = true
   endif
 
+  ' Refresh because we've failed a number of times
+  if song.metadataFault = true AND song.metadataFault = 2
+    shouldRefresh = true
+  endif
+
+
  if shouldRefresh = true then
+  print "Refreshing Screen!"
+
      song.popularity = invalid
+     song.MetadataFetchFailure = 0
 
       RefreshNowPlayingScreen()
       GetGlobalAA().lastSongTitle = song.Title
