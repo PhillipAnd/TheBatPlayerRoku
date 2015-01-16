@@ -7,13 +7,13 @@ Function DownloadBackgroundImageForSong(song as object)
         ColorFilter = "255,255,255"
       end if
 
-      FilteredImageUrl = "http://cdn.thebatplayer.fm/mp3info/imageFilter.hh?url=" + UrlEncode(song.image.url) + "&filter=grayscale&colorize=" + ColorFilter
+      FilteredImageUrl = GetConfig().ApiHost + "imageFilter.hh?url=" + UrlEncode(song.image.url) + "&filter=grayscale&colorize=" + ColorFilter
       AsyncGetFile(FilteredImageUrl,"tmp:/colored-" + makemdfive(song.Artist))
     end if
 End Function
 
 Function DownloadArtistImageForSong(song as object)
-  url = "http://cdn.thebatplayer.fm/mp3info/artistImage.php?url=" + UrlEncode(song.image.url)
+  url = GetConfig().ApiHost + "artistImage.php?url=" + UrlEncode(song.image.url)
 
 	if song.image.DoesExist("color") AND song.image.color.DoesExist("rgb")
 		ColorFilter = right(ToStr(song.image.color.rgb.red),3) + "," + right(ToStr(song.image.color.rgb.green),3) + "," + right(ToStr(song.image.color.rgb.blue),3)
