@@ -8,10 +8,12 @@ Function GetConfig() as Object
 		LastFMSecret: "6ee44c8b24093c67dbe7f66aa82827e9"
 
 		Hostname: "http://api.thebatplayer.fm"
-		ApiHost: "http://api.thebatplayer.fm/mp3info/mp3info.hh"
+		ApiPath: "/mp3info-dev/"
+		ApiHost: invalid
 
 		MetadataFetchTimer: 8
 	}
 
+	this.ApiHost = this.Hostname + this.ApiPath
 	return this
 End Function
