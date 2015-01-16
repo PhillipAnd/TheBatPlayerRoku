@@ -1,6 +1,6 @@
 Function InitRdio()
 	accessToken = GetRdioAccessToken()
-	
+
 	if accessToken <> invalid
 		GetRdioPlaylistKey()
 	end if
@@ -59,9 +59,9 @@ Function FindRdioSourceIdForSong(artist as string, track as string)
 	    request.SetRequest("POST")
 	    request.SetPort(GetPort())
 	    request.SetUrl(url)
-		
+
 		body = "query=" + UrlEscape(artist) + "+" + UrlEscape(track)
-		body = body + "&types%5B%5D=Track&never_or=true&method=search" 
+		body = body + "&types%5B%5D=Track&never_or=true&method=search"
 		body = body + "&access_token=" + accessToken
 
 		GetGlobalAA().RdioRequest = request
@@ -90,7 +90,7 @@ Function RdioSearchResult(result as string)
 		for each singleResult in results
 			if singleResult.canStream = true
 				trackName = singleResult.artist + " - " + singleResult.name
-				
+
 				'Add to playlist
 				AddSongKeyToRdioPlaylist(singleResult.key)
 				DisplayPopup("Adding " + trackName + " to your Rdio playlist.", &h000000FF, &hBBBBBB00, 5)
@@ -136,16 +136,18 @@ Function RdioPlaylistSearchResult(result as string)
 	playlistName = RdioPlaylistName()
 
 	playlistsObject = ParseJSON(result)
-	myPlaylists = playlistsObject.result.owned
+	if playlistsObject.DoesExist("result") AND playlistsObject.result.DoesExist("owned")
+		myPlaylists = playlistsObject.result.owned
 
-	key = invalid
-	for each singlePlaylist in myPlaylists
-		if singlePlaylist.name = playlistName
-			key = singlePlaylist.key
-		end if
-	end for
+		key = invalid
+		for each singlePlaylist in myPlaylists
+			if singlePlaylist.name = playlistName
+				key = singlePlaylist.key
+			end if
+		end for
 
-	GetGlobalAA().rdioPlaylistKey = key
+		GetGlobalAA().rdioPlaylistKey = key
+	end if
 
 End Function
 
@@ -157,7 +159,7 @@ Function CreateRdioPlaylistWithTrackId(trackId as String)
 
 	if accessToken <> invalid
 		url = "https://www.rdio.com/api/1/createPlaylist"
-		
+
 		description = "Songs discovered by listening to The Bat Player on my Roku."
 
 	    request = CreateObject("roUrlTransfer")
