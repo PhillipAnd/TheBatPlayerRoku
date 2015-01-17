@@ -2,32 +2,44 @@ REM Global event loop
 
 
 Sub HandleStationSelector (msg as Object)
-	if type(msg) = "roGridScreenEvent"
 
-		if msg.isAdSelected()
-			'Show message
-			ShowConfigurationMessage(posterScreen)
-		else if msg.isListItemSelected()
-					print "Selected msg: " + msg.GetMessage()
-					StationList = GetGlobalAA().StationList
 
-	        selectionIndex = msg.GetData()
+	if GetGlobalAA().IsStationSelectorDisplayed <> true
+		return
+	end if
 
-	        Stations = GetGlobalAA().SelectableStations
-	        Station = Stations[selectionIndex]
-					Analytics_StationSelected(Station.stationName, Station.feedurl)
+	if type(msg) = "roUniversalControlEvent" AND msg.GetInt() = 0
+		end
+	endif
 
-	        GetGlobalAA().AddReplace("SongObject", Station)
-	        Show_Audio_Screen(Station)
-	        DisplayStationLoading(Station)
-					SelectionScreen = GetGlobalAA().StationSelectionScreen
-					SelectionScreen.close()
-		else if msg.isScreenClosed()
-		  	GetGlobalAA().AddReplace("IsStationSelectorDisplayed", false)
+	if type(msg) <> "roGridScreenEvent"
+		return
+	end if
+
+	if msg.isScreenClosed()
+		GetGlobalAA().IsStationSelectorDisplayed = false
+		return
+	end if
+
+
+	if msg.isListItemSelected()
+				GetGlobalAA().IsStationSelectorDisplayed = false
+
+				StationList = GetGlobalAA().StationList
+
+        selectionIndex = msg.GetData()
+
+        Stations = GetGlobalAA().SelectableStations
+        Station = Stations[selectionIndex]
+				Analytics_StationSelected(Station.stationName, Station.feedurl)
+
+        GetGlobalAA().AddReplace("SongObject", Station)
+        Show_Audio_Screen(Station)
+        DisplayStationLoading(Station)
+				SelectionScreen = GetGlobalAA().StationSelectionScreen
+				SelectionScreen.close()
 				return
-	    end if
-
-    endif
+	end if
 
 End Sub
 
@@ -239,9 +251,13 @@ function StartEventLoop()
 		HandleWebEvent(msg)
 
 		if msg <> invalid then
+
+			if GetGlobalAA().IsStationSelectorDisplayed = true
+				HandleStationSelector(msg)
+			end if
+
 			HandleDownloadEvents(msg)
 			HandleNowPlayingScreenEvent(msg)
-			HandleStationSelector(msg)
 			HandleAudioPlayerEvent(msg)
 
 			'Analytics

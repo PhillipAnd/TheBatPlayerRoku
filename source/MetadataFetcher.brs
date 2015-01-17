@@ -134,7 +134,7 @@ Function HandleJSON(jsonString as String)
 
       end if
 
-      if type(song.album) = "roAssociativeArray" AND NOT FileExists(makemdfive(song.album.name)) then
+      if type(song.album) = "roAssociativeArray" AND isnonemptystr(song.album.name) AND NOT FileExists(makemdfive(song.album.name)) then
         ' Print "Downloading Album art"
         AsyncGetFile(song.album.image, "tmp:/album-" + makemdfive(song.album.name + song.artist))
       endif
@@ -278,6 +278,11 @@ Function CompletedArtistPopulartiy(msg as Object)
 		Song = NowPlayingScreen.song
 
 		if Session.Downloads.PopularityDownload.artistname = Song.Artist
+
+      if msg.GetString() = invalid
+        return false
+      end if
+
 			data = ParseJson(msg.GetString())
 			if data <> invalid AND data.DoesExist("comparison")
 				popularity = data.comparison
