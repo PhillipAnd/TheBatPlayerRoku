@@ -58,6 +58,11 @@ End Function
 Function UpdateScreen()
 	NowPlayingScreen = GetNowPlayingScreen()
 
+  albumTitle = ""
+  bioText = ""
+  songTitle = ""
+  genreText = ""
+
   if NowPlayingScreen.screen = invalid
     screen = CreateObject("roScreen", true, NowPlayingScreen.Width, NowPlayingScreen.Height)
     NowPlayingScreen.screen = screen
@@ -82,12 +87,6 @@ Function UpdateScreen()
   end if
 
 	GetGlobalAA().AddReplace("song", song.title)
-
-	albumTitle = ""
-  bioText = ""
-  songTitle = ""
-	albumTitle = ""
-	genreText = ""
 
   'No image?
   if NOT song.DoesExist("image") then
@@ -125,7 +124,7 @@ Function UpdateScreen()
       NowPlayingScreen.UpdateAlbumImage = "false"
     endif
 
-    if type(song.album) = "roAssociativeArray"
+    if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name")
       'Album Name
       if (song.album.DoesExist("released") AND song.album.released <> invalid) then
         albumTitle = song.album.name + " (" + ToStr(song.album.released) + ")"
@@ -257,7 +256,9 @@ Function DrawScreen()
     'All the text
 		NowPlayingScreen.artistNameLabel.draw(NowPlayingScreen.screen)
 		NowPlayingScreen.songNameLabel.draw(NowPlayingScreen.screen)
-		NowPlayingScreen.albumNameLabel.draw(NowPlayingScreen.screen)
+    if NowPlayingScreen.albumNameLabel <> invalid
+		  NowPlayingScreen.albumNameLabel.draw(NowPlayingScreen.screen)
+    end if
     NowPlayingScreen.bioLabel.draw(NowPlayingScreen.screen)
     if NowPlayingScreen.genresLabel <> invalid
 		  NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
