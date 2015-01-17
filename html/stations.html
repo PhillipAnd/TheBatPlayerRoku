@@ -161,8 +161,8 @@
       </td>
       <td>
         <select name="station-format-{{@index}}" id="station-format" class="station-format form-control">
-          <option class="station-format form-control" value="mp3" {{isSelected "mp3" format}}>{{formatDisplay format }}</option>
-          <option class="station-format form-control" value="es.aac-adts" {{isSelected "es.aac-adts" format}}>{{formatDisplay format }}</option>
+          <option class="station-format form-control" value="mp3" {{isSelected "mp3" format}}>MP3</option>
+          <option class="station-format form-control" value="es.aac-adts" {{isSelected "es.aac-adts" format}}>AAC</option>
         </select>
       </td>
       <td>
@@ -207,21 +207,26 @@
     <div>
       <h2 class="StepTitle">Search</h2>
 
-      <p>
-        You have the option of adding stations manually by finding stations you enjoy online, or searching for new ones.
-      </p>
+      <h4>
+        You have the option of adding stations manually by finding stations you enjoy online, or searching for new ones.  If you'd prefer to manually add a station because you have it's audio stream URL just hit <strong>Next</strong>.
+      </h4>
+      <br>
 
-      <p>
-        <div class="ui-widget">
-          <p>
-            <h3>Search:  <input id="wizard-shoutcast-search"></h3>
+      <div class="ui-widget">
+        <h4>If you know what type of station you want, or a name of a station, search for it here.</h4>
+        <p>
+          <p>Search:
+            <input placeholder="classic rock or Sanctuary Radio" id="wizard-shoutcast-search" style="width:360px;"><img id="activity-spinner-search" src="http://thebatplayer.fm/images/ajax-loader.gif" style="display:none">
           </p>
-        </div>
-      </p>
+        </p>
 
-      <p>
-        If you'd prefer to manually add a station because you have it's audio stream URL just hit <strong>Next</strong>.
-      </p>
+        <h4>If you know of a specific station and have a link to it's Playlist (<a href="http://en.wikipedia.org/wiki/PLS_%28file_format%29">pls</a>) file, paste it in here.</h4>
+        <p>Link to PLS file:
+          <input placeholder="http://rockradio.biz/station.pls" id="wizard-playlist-link" style="width:300px;"><img id="activity-spinner-playlist" src="http://thebatplayer.fm/images/ajax-loader.gif" style="display:none">
+        </p>
+        <br>
+        <br>
+      </div>
 
     </div>
     <div>
@@ -232,9 +237,9 @@
           <li>Edit the following details to your liking, as it's how it'll be displayed on The Bat Player.</li>
 
           <li>Shorten the station name if it looks a bit long.</li>
-          <li>The <strong>provider</strong> is the name of the group who creates the Station. It's optional.</li>
+          <li>The <strong>provider</strong> is the name of the group who creates the Station.</li>
           <li>If you don't know the <strong>format</strong> of the station, it's probably MP3. But some stations give the option to stream using the AAC format.</li>
-          <li>We try to find a suitable image for the station, but you should customize it. Find a nice image to represent the station. It can be anything you like.</li>
+          <li>Find a suitable image for the station, a nice graphic to represent the station. It can be anything you like that you find on the web.</li>
           <li>You can come back to the <strong>Stations</strong> page at any time to update these values.</li>
         </ul>
       </p>
@@ -267,7 +272,7 @@
 
             <td>
               <h5>Logo URL</h5>
-              <input id="station-wizard-image" name="image-{{@index}}" placeholder="Station Image URL" value="" class="form-control image-field" required>
+              <input id="station-wizard-image" name="image-{{@index}}" placeholder="Station Image URL" value="http://cdn.thebatplayer.fm/assets/icon-hd.png" class="form-control image-field" required>
             </td>
             </td>
           </tr>
