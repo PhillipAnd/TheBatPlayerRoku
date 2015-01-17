@@ -242,13 +242,13 @@ Function DrawScreen()
     if NowPlayingScreen.PreviousBackgroundImage <> invalid
       NowPlayingScreen.PreviousBackgroundImage.Draw(NowPlayingScreen.screen)
     end if
-    NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.gradient, &hFFFFFF + 250)
+    NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.gradient, &hFFFFFF + 255)
     NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 215) 'Black overlay
 
 		'Header
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
 		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
-		NowPlayingScreen.screen.DrawText(NowPlayingScreen.stationTitle,180,25,&hFFFFFFFF,NowPlayingScreen.headerFont)
+		NowPlayingScreen.screen.DrawText(NowPlayingScreen.stationTitle,180,28,&hFFFFFFFF,NowPlayingScreen.headerFont)
 
     DrawStationDetailsLabel(NowPlayingScreen)
     DrawHelpLabel(NowPlayingScreen)
