@@ -8,8 +8,13 @@ Function InitRdio()
 End Function
 
 Function AttemptToAddToRdioPlaylist(artist as string, track as string)
-	DisplayPopup("Attempting to find " + artist + " - " + track + " on Rdio.")
+	accessToken = GetRdioAccessToken()
+	if accessToken = invalid
+		DisplayPopup("Visit the web setup on your computer to enable Rdio.")
+		return false
+	end if
 
+	DisplayPopup("Attempting to find " + artist + " - " + track + " on Rdio.")
 	FindRdioSourceIdForSong(artist, track)
 End Function
 
@@ -76,6 +81,11 @@ Function RdioSearchResult(result as string)
 
 	object = ParseJSON(result)
 
+	if object.DoesExist("error")
+		DisplayPopup("Error accessing your Rdio account. Please reauthorize via the setup page. " + object.error_description)
+		return false
+	end if
+
 	if object.result.DoesExist("results")
 		results = object.result.results
 
@@ -109,7 +119,7 @@ Function FindRdioPlaylist()
 		Analytics = GetSession().Analytics
 		Analytics.AddEvent("Rdio playlist search began")
 
-	    request = CreateObject("roUrlTransfer")
+	  request = CreateObject("roUrlTransfer")
 		url = "https://www.rdio.com/api/1/getPlaylists"
 
 		body = "access_token=" + accessToken
