@@ -1,126 +1,138 @@
 <head>
-	<title>The Bat Player Setup</title>
-	<link rel="shortcut icon" href="http://thebatplayer.fm/favicon.ico" type="image/x-icon" />
+  <title>The Bat Player Setup</title>
+  <link rel="shortcut icon" href="http://thebatplayer.fm/favicon.ico" type="image/x-icon" />
 
-	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
-	<script src="http://api.thebatplayer.fm/client/js/analytics.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+  <script src="http://api.thebatplayer.fm/client/js/analytics.js"></script>
 </head>
+
 <body>
 
-<nav class="navbar navbar-inverse" role="navigation">
+  <nav class="navbar navbar-inverse" role="navigation">
 
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-		  		<span class="sr-only">Toggle navigation</span>
-		  		<i class="icon-cog"></i>
-			</button>
-			<a class="navbar-brand" href="/">The Bat Player</a>
-		</div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <i class="icon-cog"></i>
+        </button>
+        <a class="navbar-brand" href="/">The Bat Player</a>
+      </div>
 
-	</div> <!-- /.container -->
-</nav>
-
-
-
+    </div>
+    <!-- /.container -->
+  </nav>
 
 
-<div class="subnavbar">
 
-	<div class="subnavbar-inner">
 
-		<div class="container">
 
-			<div class="subnav">
-				<ul class="mainnav">
+  <div class="subnavbar">
 
-					<li class="active">
-						<a href="./index.html">
-							<i class="fa fa-home"></i>
-							<span>Home</span>
-						</a>
-					</li>
+    <div class="subnavbar-inner">
 
-					<li>
-						<a href="./stations.html">
-							<i class="fa fa-music"></i>
-							<span>Stations</span>
-						</a>
-					</li>
+      <div class="container">
 
-					<li>
-						<a href="./services.html">
-							<i class="fa fa-cloud"></i>
-							<span>Services</span>
-						</a>
-					</li>
+        <div class="subnav">
+          <ul class="mainnav">
 
-					<li>
-						<a href="./lighting.html">
-							<i class="fa fa-lightbulb-o"></i>
-							<span>Lighting</span>
-						</a>
-					</li>
+            <li class="active">
+              <a href="./index.html">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+              </a>
+            </li>
 
-					<li class="" id="hue-button">
-						<a href="http://thebatplayer.fm/help.php" target="_blank">
-							<i class="fa fa-question-circle"></i>
-							<span>Help</span>
-						</a>
-					</li>
+            <li>
+              <a href="./stations.html">
+                <i class="fa fa-music"></i>
+                <span>Stations</span>
+              </a>
+            </li>
 
-<!-- 					<li>
+            <li>
+              <a href="./services.html">
+                <i class="fa fa-cloud"></i>
+                <span>Services</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="./lighting.html">
+                <i class="fa fa-lightbulb-o"></i>
+                <span>Lighting</span>
+              </a>
+            </li>
+
+            <li class="" id="hue-button">
+              <a href="http://thebatplayer.fm/help.php" target="_blank">
+                <i class="fa fa-question-circle"></i>
+                <span>Help</span>
+              </a>
+            </li>
+
+            <!-- 					<li>
 						<a href="./advanced.html">
 							<i class="fa fa-cogs"></i>
 							<span>Advanced</span>
 						</a>
 					</li> -->
 
-				</ul>
-			</div> <!-- /.subnav-collapse -->
+          </ul>
+        </div>
+        <!-- /.subnav-collapse -->
 
-		</div> <!-- /container -->
+      </div>
+      <!-- /container -->
 
-	</div> <!-- /subnavbar-inner -->
+    </div>
+    <!-- /subnavbar-inner -->
 
-</div> <!-- /subnavbar -->
+  </div>
+  <!-- /subnavbar -->
 
-<div class="main">
-	<div class="container">
+  <div class="main">
+    <div class="container">
 
-		<div class="widget stacked">
+      <div class="widget stacked">
 
-			<div class="widget-header">
-				<i class="icon-file"></i>
-				<h3>Configure The Bat Player</h3>
-			</div> <!-- /widget-header -->
+        <div class="widget-header">
+          <i class="icon-file"></i>
+          <h3>Configure The Bat Player</h3>
+        </div>
+        <!-- /widget-header -->
 
-			<div class="widget-content">
+        <div class="widget-content">
 
-				<p>Using this web site you can customize the settings available on The Bat Player.</p>
+          <p>Using this web site you can customize the settings available on The Bat Player.</p>
 
 
-				<p>The first thing you'll want to do is add the stations you want to listen to.  This is done via the <a href="stations.html">Stations</a> page.  If you don't know where to start you can search and experiment with new ones.</p>
+          <p>The first thing you'll want to do is add the stations you want to listen to. This is done via the <a href="stations.html">Stations</a> page. If you don't know where to start you can search and experiment with new ones.</p>
 
-				<p>If you have a Philips Hue lighting system you can set up your bulbs to match the look and feel of what's on the screen on the <a href="lighting.html">Lighting</a> page.  Pick and choose what bulbs you'd like to use and select what's the minimum and maximum brightness that you prefer.</p>
+          <p>If you have a Philips Hue lighting system you can set up your bulbs to match the look and feel of what's on the screen on the <a href="lighting.html">Lighting</a> page. Pick and choose what bulbs you'd like to use and select what's the minimum
+            and maximum brightness that you prefer.</p>
 
-				<p>Link The Bat Player with your <a href="http://rdio.com">Rdio</a> account and add songs to a special playlist as you hear them.  A great way to have on-demand access to the songs you discovered later.</p>
+          <p>Link The Bat Player with your <a href="http://rdio.com">Rdio</a> account and add songs to a special playlist as you hear them. A great way to have on-demand access to the songs you discovered later.</p>
 
-				<p>And lastly if you're a hardcore <a href="http://last.fm">Last.FM</a> user like I am, you can configure up to two different accounts to scrobble the music you listen to on The Bat Player on the <a href="services.html">Last.FM configuration</a>.  Why two?  You might have two people in the same household who both use Last.FM.  Using your remote you can decide what accounts scrobble when.
+          <p>And lastly if you're a hardcore <a href="http://last.fm">Last.FM</a> user like I am, you can configure up to two different accounts to scrobble the music you listen to on The Bat Player on the <a href="services.html">Last.FM configuration</a>.
+            Why two? You might have two people in the same household who both use Last.FM. Using your remote you can decide what accounts scrobble when.
 
-			</div> <!-- /widget-content -->
+        </div>
+        <!-- /widget-content -->
 
-		</div>
-	</div>
-</div>
+      </div>
+    </div>
+  </div>
 </body>
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 <link href="http://thebatplayer.fm/theme/css/base-admin-3.css" rel="stylesheet">
 <link href="http://thebatplayer.fm/theme/css/custom.css" rel="stylesheet">
-<link href="http://thebatplayer.fm/theme/css/client.css" rel="stylesheet">
+<link href="http://thebatplayer.fm/client/css/client.css" rel="stylesheet">
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="http://thebatplayer.fm/js/admin.js"></script>
-<script>addAction("Web configuration home page loaded.");</script>
+<script src="http://thebatplayer.fm/client/js/admin.js"></script>
+<script>
+  addAction("Web configuration home page loaded.");
+</script>
