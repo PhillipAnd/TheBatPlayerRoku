@@ -127,8 +127,10 @@ Function HandleJSON(jsonString as String)
 
       'Download artist image if needed
       if NOT FileExists(makemdfive(song.Artist)) AND song.DoesExist("image") AND song.image.DoesExist("url") AND isnonemptystr(song.image.url) then
+          song.ArtistImageDownloadTimer = CreateObject("roTimespan")
           DownloadArtistImageForSong(song)
         if NOT FileExists("colored-" + makemdfive(song.Artist)) then
+          song.BackgroundImageDownloadTimer = CreateObject("roTimespan")
           DownloadBackgroundImageForSong(song)
         endif
 

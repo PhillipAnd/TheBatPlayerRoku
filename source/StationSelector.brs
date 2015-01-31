@@ -34,8 +34,8 @@ Function ListStations()
 
         'Download custom poster images
         url = GetConfig().Batserver + "images/resize/" + urlencode(station.image) + "/" + "266/150"
-        if NOT FileExists(makemdfive(url))
-          AsyncGetFile(url, "tmp:/" + makemdfive(url))
+        if NOT FileExists(makemdfive(station.image))
+          AsyncGetFile(url, "tmp:/" + makemdfive(station.image))
         end if
 
     end for
@@ -71,7 +71,6 @@ Function CreateSong(title as string, description as string, artist as string, st
     item = CreatePosterItem("", title, description)
     url = GetConfig().Batserver + "images/resize/" + urlencode(imageLocation) + "/" + "266/150"
     print url
-    'url = GetConfig().Hostname + "/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
 
     item.HDPosterUrl = url
     item.SDPosterUrl = url
