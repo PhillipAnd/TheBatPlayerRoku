@@ -149,6 +149,8 @@ Sub GetNowPlayingJson(returnAsJson as Boolean) as string
 	NowPlayingScreen = GetGlobalAA().Lookup("NowPlayingScreen")
 	if NowPlayingScreen <> invalid then
 		song = NowPlayingScreen.song
+		song.Delete("ArtistImageDownloadTimer")
+		song.Delete("BackgroundImageDownloadTimer")
 		return FormatJson(song)
 	else
 		return FormatJson(CreateObject("roAssociativeArray"))
@@ -156,8 +158,6 @@ Sub GetNowPlayingJson(returnAsJson as Boolean) as string
 End Sub
 
 Sub GetStationsJson() as string
-	'RegDelete("stations", "batplayer")
-
 	json = RegRead("stations", "batplayer")
 
 	if json = invalid then

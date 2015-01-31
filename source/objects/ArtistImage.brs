@@ -18,7 +18,7 @@ Function ArtistImage(filePath as string) as Object
 
 		FadeIn: FadeIn
 		FadeOut: FadeOut
-		MaxFade: 210
+		MaxFade: 200
 		MinFade: 0
 
 		isFadingIn: true
@@ -38,7 +38,7 @@ Function ArtistImage(filePath as string) as Object
 	  	this.height = ResolutionX(this.height * this.resizeRatio)
 
 	  	this.horizontalOffset = ResolutionX(RLMax(0,Int(500.0 - this.width)))
-	  	this.verticalOffset = ResolutionY(RLMax(0,Int(330 - this.height)))
+	  	this.verticalOffset = ResolutionY(RLMax(0,Int(330 - (this.height - 5))))
 
 		if this.verticalOffset > 0 then
 			this.verticalOffset = ResolutionY(this.verticalOffset / 2)

@@ -9,7 +9,7 @@ Function BackgroundImage(filePath as String) as Object
 
 		FadeIn: backgroundImage_FadeIn
 		FadeOut: backgroundImage_FadeOut
-		MaxFade: 160
+		MaxFade: 250
 		MinFade: 0
 
 		isFadingIn: true

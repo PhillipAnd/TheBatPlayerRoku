@@ -240,7 +240,7 @@ Function DrawScreen()
       NowPlayingScreen.PreviousBackgroundImage.Draw(NowPlayingScreen.screen)
     end if
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.gradient, &hFFFFFF + 255)
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 190) 'Black overlay
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 200) 'Black overlay
 
 		'Header
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
@@ -249,18 +249,6 @@ Function DrawScreen()
 
     DrawStationDetailsLabel(NowPlayingScreen)
     DrawHelpLabel(NowPlayingScreen)
-
-    'All the text
-		NowPlayingScreen.artistNameLabel.draw(NowPlayingScreen.screen)
-		NowPlayingScreen.songNameLabel.draw(NowPlayingScreen.screen)
-    if NowPlayingScreen.albumNameLabel <> invalid
-		  NowPlayingScreen.albumNameLabel.draw(NowPlayingScreen.screen)
-    end if
-    NowPlayingScreen.bioLabel.draw(NowPlayingScreen.screen)
-    if NowPlayingScreen.genresLabel <> invalid
-		  NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
-    end if
-		NowPlayingScreen.onTourLabel.draw(NowPlayingScreen.screen)
 
 		'Artist
     NowPlayingScreen.screen.DrawObject(200, 120, NowPlayingScreen.artistPlaceholder, &hFFFFFFFF)
@@ -272,6 +260,18 @@ Function DrawScreen()
     if NowPlayingScreen.previousArtistImage <> invalid
       NowPlayingScreen.previousArtistImage.Draw(NowPlayingScreen.screen)
     end if
+
+    'All the text
+    NowPlayingScreen.artistNameLabel.draw(NowPlayingScreen.screen)
+    NowPlayingScreen.songNameLabel.draw(NowPlayingScreen.screen)
+    if NowPlayingScreen.albumNameLabel <> invalid
+    NowPlayingScreen.albumNameLabel.draw(NowPlayingScreen.screen)
+    end if
+    NowPlayingScreen.bioLabel.draw(NowPlayingScreen.screen)
+    if NowPlayingScreen.genresLabel <> invalid
+    NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
+    end if
+    NowPlayingScreen.onTourLabel.draw(NowPlayingScreen.screen)
 
 
 		'Album
