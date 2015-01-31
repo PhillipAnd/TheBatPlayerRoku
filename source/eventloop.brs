@@ -133,6 +133,24 @@ Sub HandleTimers()
   		    NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
       		CreateOtherStationsNowPlaying()
       	end if
+
+				'Image download timeouts
+				if NowPlayingScreen.artistImage = invalid AND song.ArtistImageDownloadTimer <> invalid AND song.ArtistImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
+					song.UseFallbackArtistImage = true
+					song.ArtistImageDownloadTimer = invalid
+					if GetGlobalAA().IsStationSelectorDisplayed <> true
+						UpdateScreen()
+					end if
+				end if
+
+				if NowPlayingScreen.BackgroundImage = invalid AND song.BackgroundImageDownloadTimer <> invalid AND song.BackgroundImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
+					song.UseFallbackBackgroundImage = true
+					song.BackgroundImageDownloadTimer = invalid
+					if GetGlobalAA().IsStationSelectorDisplayed <> true
+						UpdateScreen()
+					end if
+				end if
+
 	end if
 
 End Sub
@@ -249,7 +267,7 @@ function StartEventLoop()
 
 		'msg = wait(1, port)
 		msg = port.GetMessage() ' get a message, if available
-		
+
 		HandleWebEvent(msg)
 
 		if msg <> invalid then

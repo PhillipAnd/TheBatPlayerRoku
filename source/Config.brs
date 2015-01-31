@@ -12,6 +12,8 @@ Function GetConfig() as Object
 		ApiHost: invalid
 		Batserver: "http://api.thebatplayer.fm:3000/"
 		MetadataFetchTimer: 8
+
+		ImageDownloadTimeout: 10
 	}
 
 	this.ApiHost = this.Hostname + this.ApiPath

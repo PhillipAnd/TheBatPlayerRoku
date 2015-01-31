@@ -106,6 +106,8 @@ Function UpdateScreen()
         NowPlayingScreen.artistImage = ArtistImage(artistImageFilePath)
         NowPlayingScreen.UpdateArtistImage = "false"
       end if
+    else if song.UseFallbackArtistImage = true
+      NowPlayingScreen.artistImage = ArtistImage("tmp:/" + makemdfive(song.StationImage))
     end if
 
     'Artist bio
@@ -152,6 +154,8 @@ Function UpdateScreen()
     end if
 
     NowPlayingScreen.UpdateBackgroundImage = "false"
+  else if song.UseFallbackBackgroundImage = true
+    NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/" + makemdfive(song.StationImage))
   end if
 
 	'Station Name
@@ -236,7 +240,7 @@ Function DrawScreen()
       NowPlayingScreen.PreviousBackgroundImage.Draw(NowPlayingScreen.screen)
     end if
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.gradient, &hFFFFFF + 255)
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 200) 'Black overlay
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 190) 'Black overlay
 
 		'Header
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
