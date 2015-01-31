@@ -182,8 +182,8 @@
   <link href="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet">
   <link rel="stylesheet" href="http://thebatplayer.fm/theme/js/plugins/msgGrowl/css/msgGrowl.css" type="text/css" charset="utf-8" />
   <link href="http://thebatplayer.fm/theme/css/custom.css" rel="stylesheet">
-  <link href="http://thebatplayer.fm/theme/css/client.css" rel="stylesheet">
-  <link href="http://thebatplayer.fm/js/smartwizard/smart_wizard.css" rel="stylesheet">
+  <link href="http://thebatplayer.fm/client/css/client.css" rel="stylesheet">
+  <link href="http://thebatplayer.fm/client/js/smartwizard/smart_wizard.css" rel="stylesheet">
 
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
@@ -191,11 +191,11 @@
   <script src="http://thebatplayer.fm/theme/js/plugins/validate/jquery.validate.js"></script>
   <script src="http://thebatplayer.fm/theme/js/plugins/msgGrowl/js/msgGrowl.min.js"></script>
   <script src="http://thebatplayer.fm/theme/js/plugins/msgbox/jquery.msgbox.js"></script>
-  <script src="http://thebatplayer.fm/js/smartwizard/jquery.smartWizard.js"></script>
+  <script src="http://thebatplayer.fm/client/js/smartwizard/jquery.smartWizard.js"></script>
 
-  <script src="http://thebatplayer.fm/js/stations-new.js"></script>
-  <script src="http://thebatplayer.fm/js/admin.js"></script>
-  <script src="http://thebatplayer.fm/js/addstation.js"></script>
+  <script src="http://thebatplayer.fm/client/js/stations.js"></script>
+  <script src="http://thebatplayer.fm/client/js/admin.js"></script>
+  <script src="http://thebatplayer.fm/client/js/addstation.js"></script>
 
   <script>
     addAction("Web configuration stations page loaded.");
@@ -294,9 +294,11 @@
         <audio controls style="width:200px" id="wizard-preview-audio">
         </audio>
       </center>
-      <h3>
+      <hr>
+      <h4>
         The above is a preview of the station you're about to add.  Verify the name, image, and audio is what you expect.  When you're ready hit "Add Station ".
-      </3>
+        <br><small>Note: Some audio streams may not be supported by your browser.  Just because you can't hit Play above doesn't mean your Roku can't play it.  However, if you find that the station can't play on the roku you might want to visit the web site of the station to verify the stream url.</small>
+      </h4>
 
     </div>
 
