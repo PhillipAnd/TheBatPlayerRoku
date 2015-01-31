@@ -6,12 +6,6 @@
   "image": "http://i.img.co/radio/80/26/2608_290.png",
   "genres": ["chill", "lounge"]
 }, {
-  "name": "Radio Santa Claus",
-  "provider": "Global Radio Network",
-  "format": "mp3",
-  "stream": "http://helsinki.radiostreamlive.com/radiosantaclaus_mp3-high",
-  "image": "http://d1i6vahw24eb07.cloudfront.net/s131270q.png"
-}, {
   "name": "ABSOLUTE TOP 40 RADIO",
   "provider": "1.FM",
   "format": "mp3",
