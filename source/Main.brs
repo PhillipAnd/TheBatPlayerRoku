@@ -8,15 +8,19 @@ Sub Main()
     'DeleteRegistry()
 
     Analytics = GetSession().Analytics
-    Analytics.AddEvent("Application Launched")
-
-    InitBatPlayer()
-    InitFonts()
-    GetStationSelectionHeader()
-    StartServerWithPort(GetPort())
-    InitLastFM()
-    ListStations()
-    StartEventLoop()
+    internetConnection = GetSession().deviceInfo.GetLinkStatus()
+    if internetConnection = true
+      Analytics.AddEvent("Application Launched")
+      InitBatPlayer()
+      InitFonts()
+      GetStationSelectionHeader()
+      StartServerWithPort(GetPort())
+      InitLastFM()
+      ListStations()
+      StartEventLoop()
+    else
+      HandleInternetConnectivity()
+    end if
 End Sub
 
 Function InitBatPlayer()

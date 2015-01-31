@@ -1,4 +1,5 @@
 Function ListStations()
+
     GetGlobalAA().IsStationSelectorDisplayed = true
     GetGlobalAA().delete("screen")
     GetGlobalAA().delete("song")
@@ -46,6 +47,8 @@ Function ListStations()
     StationSelectionScreen.SetContentList(0, SelectableStations)
     StationSelectionScreen.Show()
 
+    HandleInternetConnectivity()
+
     'First launch popup
     if RegRead("initialpopupdisplayed", "batplayer") = invalid
         Analytics = GetSession().Analytics
@@ -54,6 +57,37 @@ Function ListStations()
     end if
 
     Return -1
+
+End Function
+
+Function HandleInternetConnectivity()
+  internetConnection = GetSession().deviceInfo.GetLinkStatus()
+  if internetConnection = false
+    dialog = CreateObject("roMessageDialog")
+    dialog.SetMessagePort(GetPort())
+    dialog.SetTitle("Internet Required")
+    dialog.SetText("The Bat Player requires an active internet connection.  Please bring your Roku online and re-launch The Bat Player.")
+
+    dialog.AddButton(1, "OK")
+    dialog.EnableBackButton(true)
+    dialog.Show()
+
+    While True
+      msg = wait(0, dialog.GetMessagePort())
+      If type(msg) = "roMessageDialogEvent"
+        if msg.isButtonPressed()
+          if msg.GetIndex() = 1
+            end
+            exit while
+          end if
+        else if msg.isScreenClosed()
+          end
+          exit while
+        end if
+      end if
+    end while
+
+  end if
 
 End Function
 
