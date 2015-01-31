@@ -20,7 +20,7 @@ Function GetJSONAtUrl(url as String)
     end if
 
     url = UrlEncode(url)
-    metadataUrl = GetConfig().Hostname + ":3000/metadata/" + url
+    metadataUrl = GetConfig().Batserver + "metadata/" + url
     print "Checking for JSON at " metadataUrl
     Request.SetUrl(metadataUrl)
     Request.SetPort(GetPort())
@@ -263,12 +263,12 @@ Function FetchPopularityForArtistName(artistname as String)
 	Request.SetUrl(url)
 	Request.SetPort(GetPort())
 
-	if Request.AsyncGetToString()
-		RequestObject = CreateObject("roAssociativeArray")
-		RequestObject.artistname = artistname
-		RequestObject.request = Request
-		Session.Downloads.PopularityDownload = RequestObject
-	end if
+	'if Request.AsyncGetToString()
+	'	RequestObject = CreateObject("roAssociativeArray")
+	'	RequestObject.artistname = artistname
+	'	RequestObject.request = Request
+	'	Session.Downloads.PopularityDownload = RequestObject
+	'end if
 
 End Function
 
