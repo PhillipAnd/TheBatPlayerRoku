@@ -1,20 +1,22 @@
-Function AsyncGetFile(url as string, filepath as string)
+Function AsyncGetFile(url as string, filepath as string) as Boolean
   if url <> invalid AND filepath <> invalid AND url <> "" then
     'Do we already have this file?
     FileSystem = CreateObject("roFileSystem")
     if FileSystem.Exists(filepath) = true then
       'We already have this file
-      ' print "*** It seems we already have file: " +url
+      print "*** It seems we already have file: " +url
     else
       Request = CreateObject("roUrlTransfer")
       Request.SetUrl(url)
       Request.SetPort(GetPort())
       if Request.AsyncGetToFile(filepath) then
         Identity = str(Request.GetIdentity())
-        ' print "Started download of: " + url + " to " + filepath ". " + Identity
+        print "Started download of: " + url + " to " + filepath ". " + Identity
         GetGlobalAA().AddReplace(Identity, Request)
+        return true
       else
         BatLog("***** Failure BEGINNING download.", "error")
+        return false
       end if
     end if
   end if

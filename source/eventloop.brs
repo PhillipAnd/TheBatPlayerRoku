@@ -247,7 +247,9 @@ function StartEventLoop()
 	while NOT GetGlobalAA().lookup("endloop")
 		HandleTimers()
 
-		msg = wait(5, port)
+		'msg = wait(1, port)
+		msg = port.GetMessage() ' get a message, if available
+		
 		HandleWebEvent(msg)
 
 		if msg <> invalid then

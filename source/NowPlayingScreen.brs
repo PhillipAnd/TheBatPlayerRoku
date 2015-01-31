@@ -124,7 +124,7 @@ Function UpdateScreen()
       NowPlayingScreen.UpdateAlbumImage = "false"
     endif
 
-    if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name")
+    if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid
       'Album Name
       if (song.album.DoesExist("released") AND song.album.released <> invalid) then
         albumTitle = song.album.name + " (" + ToStr(song.album.released) + ")"
@@ -145,13 +145,6 @@ Function UpdateScreen()
   'Background Image
  	if song.Artist <> invalid AND FileExists("colored-" + makemdfive(song.Artist)) AND NowPlayingScreen.UpdateBackgroundImage <> "false" then
     NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/colored-" + makemdfive(song.Artist))
-
-    ' Test if this file is invalid.  If so delete it and redownload it.
-    if NowPlayingScreen.BackgroundImage.image = invalid
-      NowPlayingScreen.BackgroundImage = invalid
-      DeleteTmpFile("colored-" + makemdfive(song.Artist))
-      DownloadBackgroundImageForSong(song)
-    end if
 
     if NowPlayingScreen.BackgroundImage <> invalid
       NowPlayingScreen.BackgroundImage.FadeIn()
@@ -243,7 +236,7 @@ Function DrawScreen()
       NowPlayingScreen.PreviousBackgroundImage.Draw(NowPlayingScreen.screen)
     end if
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.gradient, &hFFFFFF + 255)
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 215) 'Black overlay
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 200) 'Black overlay
 
 		'Header
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())

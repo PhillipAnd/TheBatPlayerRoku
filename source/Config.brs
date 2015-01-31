@@ -8,9 +8,9 @@ Function GetConfig() as Object
 		LastFMSecret: "6ee44c8b24093c67dbe7f66aa82827e9"
 
 		Hostname: "http://api.thebatplayer.fm"
-		ApiPath: "/mp3info-dev/"
+		ApiPath: "/mp3info/"
 		ApiHost: invalid
-
+		Batserver: "http://api.thebatplayer.fm:3000/"
 		MetadataFetchTimer: 8
 	}
 

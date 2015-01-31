@@ -33,8 +33,9 @@ Function ListStations()
         SelectableStations.Push(stationObject)
 
         'Download custom poster images
-        if NOT FileExists(makemdfive(station.image))
-          AsyncGetFile(station.image, "tmp:/" + makemdfive(station.image))
+        url = GetConfig().Batserver + "images/resize/" + urlencode(station.image) + "/" + "266/150"
+        if NOT FileExists(makemdfive(url))
+          AsyncGetFile(url, "tmp:/" + makemdfive(url))
         end if
 
     end for
@@ -68,7 +69,9 @@ end Function
 Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
 
     item = CreatePosterItem("", title, description)
-    url = GetConfig().Hostname + "/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
+    url = GetConfig().Batserver + "images/resize/" + urlencode(imageLocation) + "/" + "266/150"
+    print url
+    'url = GetConfig().Hostname + "/mp3info/imageResize.hh?url=" + imagelocation + "&width=266&height=150"
 
     item.HDPosterUrl = url
     item.SDPosterUrl = url
@@ -109,7 +112,8 @@ Function GetStationSelectionHeader()
         text = Request.escape("Configure your Bat Player at http://" + ipAddress + ":9999")
         device = GetSession().deviceInfo
         width = ToStr(device.GetDisplaySize().w)
-        url = GetConfig().Hostname + "/mp3info/stationSelectionHeader.php?text=" + text + "&width=" + width
+        url = GetConfig().Batserver + "images/header/?text=" + text + "&width=" + width
+        print url
         Request.SetUrl(url)
         Request.GetToFile("tmp:/headerImage.png")
     end if
@@ -135,6 +139,7 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
     dialog.Show()
     While True
         msg = wait(0, dialog.GetMessagePort())
+        HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
 
         If type(msg) = "roMessageDialogEvent"
             if msg.isButtonPressed()
@@ -147,6 +152,5 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
                 exit while
             end if
         end if
-        HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
     end while
 End Function

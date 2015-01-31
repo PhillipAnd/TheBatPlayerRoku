@@ -1,7 +1,7 @@
 REM ******************************************************
 REM
 REM Main - all Roku scripts startup here.
-REM 
+REM
 REM
 REM ******************************************************
 Sub Main()
@@ -16,7 +16,7 @@ Sub Main()
     StartServerWithPort(GetPort())
     InitLastFM()
     ListStations()
-    StartEventLoop()    
+    StartEventLoop()
 End Sub
 
 Function InitBatPlayer()
