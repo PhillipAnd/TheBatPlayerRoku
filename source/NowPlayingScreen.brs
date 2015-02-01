@@ -240,7 +240,7 @@ Function DrawScreen()
       NowPlayingScreen.PreviousBackgroundImage.Draw(NowPlayingScreen.screen)
     end if
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.gradient, &hFFFFFF + 255)
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 200) 'Black overlay
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 203) 'Black overlay
 
 		'Header
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
