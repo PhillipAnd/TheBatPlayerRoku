@@ -192,7 +192,7 @@ Function UpdateScreen()
   end if
 
   if NowPlayingScreen.artistImage <> invalid then horizontalOffset = NowPlayingScreen.artistImage.horizontalOffset else horizontalOffset = 0
-  NowPlayingScreen.onTourLabel = RlTextArea(onTourText, NowPlayingScreen.smallFont, &hFFFFFF00 + 80, ResolutionX(120 + horizontalOffset + 5), ResolutionY(120 + verticalOffset), 300, 50, 1, 1.0, "left")
+  NowPlayingScreen.onTourLabel = RlTextArea(onTourText, NowPlayingScreen.smallFont, &hFFFFFF00 + 100, ResolutionX(120 + horizontalOffset + 5), ResolutionY(125 + verticalOffset), 300, 50, 1, 1.0, "left")
 
   'Popularity
   if NowPlayingScreen.PopularityImage = invalid AND NowPlayingScreen.Song.popularity <> invalid
