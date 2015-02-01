@@ -10,7 +10,7 @@ Function GetConfig() as Object
 		Hostname: "http://api.thebatplayer.fm"
 		ApiPath: "/mp3info/"
 		ApiHost: invalid
-		Batserver: "http://api.thebatplayer.fm:3000/"
+		Batserver: "http://batserver.thebatplayer.fm/"
 		MetadataFetchTimer: 8
 
 		ImageDownloadTimeout: 10
