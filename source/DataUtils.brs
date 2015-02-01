@@ -147,10 +147,10 @@ End Sub
 
 Sub GetNowPlayingJson(returnAsJson as Boolean) as string
 	NowPlayingScreen = GetGlobalAA().Lookup("NowPlayingScreen")
-	if NowPlayingScreen <> invalid then
+	if NowPlayingScreen <> invalid AND NowPlayingScreen.DoesExist("song") AND NowPlayingScreen.song <> invalid then
 		song = NowPlayingScreen.song
-		song.Delete("ArtistImageDownloadTimer")
-		song.Delete("BackgroundImageDownloadTimer")
+		if song.DoesExist("ArtistImageDownloadTimer") then song.Delete("ArtistImageDownloadTimer")
+		if song.DoesExist("BackgroundImageDownloadTimer") then song.Delete("BackgroundImageDownloadTimer")
 		return FormatJson(song)
 	else
 		return FormatJson(CreateObject("roAssociativeArray"))
