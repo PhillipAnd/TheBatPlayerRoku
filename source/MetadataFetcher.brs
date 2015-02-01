@@ -44,6 +44,9 @@ Function HandleJSON(jsonString as String)
   end if
 
   shouldRefresh = false
+  song.UseFallbackArtistImage = false
+  song.UseFallbackBackgroundImage = false
+
   if jsonObject <> invalid AND jsonObject.song <> invalid
 
     song.JSONDownloadDelay = 0

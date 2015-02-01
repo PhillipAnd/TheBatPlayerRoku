@@ -196,6 +196,7 @@ Sub HandleDownloadEvents(msg)
 		'print msg.GetString() 'Uncomment for troubleshooting
 
 		if msg.GetFailureReason() <> invalid then
+
 			IsDownloadingFile = IsDownloading(Identity)
 			if IsDownloadingFile = true then
 				song = GetGlobalAA().SongObject
