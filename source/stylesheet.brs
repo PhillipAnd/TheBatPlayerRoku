@@ -6,7 +6,7 @@ Sub SetTheme()
     theme.OverhangOffsetSD_Y = "0"
 
     theme.GridScreenOverhangHeightHD = "200"
-    theme.GridScreenOverhangHeightSD = "140"
+    theme.GridScreenOverhangHeightSD = "150"
 
     theme.GridScreenDescriptionOffsetHD = "(-20,203)"
     theme.GridScreenDescriptionOffsetSD = "(20,120)"
