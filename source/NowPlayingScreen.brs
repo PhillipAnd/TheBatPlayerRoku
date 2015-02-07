@@ -243,8 +243,11 @@ Function DrawScreen()
 
 
     'Overlays
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 210) 'Black overlay
-    NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 200) 'Top Gradient
+    if NowPlayingScreen.albumImageOverlayColor <> invalid
+      NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.albumImageOverlayColor + 50) 'Color overlay
+    end if
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 190) 'Black overlay
+    NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 210) 'Top Gradient
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
 
 		'Header
