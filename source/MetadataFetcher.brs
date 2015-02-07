@@ -73,7 +73,7 @@ Function HandleJSON(jsonString as String)
     song.PopularityFetchCounter = 0
     song.MetadataFetchFailure = 0
 
-    if jsonObject.DoesExist("image") AND type(jsonObject.image) = "roAssociativeArray" AND jsonObject.image.DoesExist("url") AND isnonemptystr(jsonObject.image.url)
+    if jsonObject.image.url <> invalid
       song.HDPosterUrl = jsonObject.image.url
       song.SDPosterUrl = jsonObject.image.url
       song.image = jsonObject.image
@@ -114,7 +114,7 @@ Function HandleJSON(jsonString as String)
     shouldRefresh = true
   endif
 
-  ' Refresh because we've failed a number of times
+  ' Refresh because we've failed getting any metadata a number of times
   if song.metadataFault = true AND song.MetadataFetchFailure = 2
     shouldRefresh = true
   endif
