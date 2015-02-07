@@ -13,8 +13,6 @@ End Function
 Function DownloadArtistImageForSong(song as object)
   url = song.stationimage
 
-  'url = GetConfig().ApiHost + "artistImage.php?url=" + UrlEncode(song.image.url)
-
 	if song.image.DoesExist("color") AND song.image.color.DoesExist("rgb")
     url = song.image.url
   end if
