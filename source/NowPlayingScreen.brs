@@ -27,7 +27,7 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.previousArtistImage = invalid
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
-  NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 200)
+  NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 220)
 
   NowPlayingScreen.UpdateBackgroundImage = "true"
   NowPlayingScreen.UpdateArtistImage = "true"
@@ -244,9 +244,9 @@ Function DrawScreen()
 
     'Overlays
     if NowPlayingScreen.albumImageOverlayColor <> invalid
-      NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.albumImageOverlayColor + 50) 'Color overlay
+      NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.albumImageOverlayColor + 60) 'Color overlay
     end if
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 190) 'Black overlay
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 210) 'Black overlay
     NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 210) 'Top Gradient
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
 
