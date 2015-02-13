@@ -143,7 +143,7 @@ Sub HandleTimers()
 					end if
 				end if
 
-				if NowPlayingScreen.BackgroundImage = invalid AND song.BackgroundImageDownloadTimer <> invalid AND song.BackgroundImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
+				if (NowPlayingScreen.BackgroundImage = invalid OR NowPlayingScreen.BackgroundImage <> invalid AND NowPlayingScreen.BackgroundImage.valid <> true ) AND song.BackgroundImageDownloadTimer <> invalid AND song.BackgroundImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
 					song.UseFallbackBackgroundImage = true
 					song.BackgroundImageDownloadTimer = invalid
 					if GetGlobalAA().IsStationSelectorDisplayed <> true
@@ -158,23 +158,22 @@ End Sub
 
 Sub HandleAudioPlayerEvent(msg as Object)
 	if type(msg) = "roAudioPlayerEvent"  then	' event from audio player
+	Audio = GetGlobalAA().AudioPlayer
 
 		song = GetGlobalAA().SongObject
 
 	    if msg.isStatusMessage() then
 	        message = msg.getMessage()
-	        ' print "AudioPlayer Status Event - " message
 	    else if msg.isListItemSelected() then
-	        ' print "starting song:"; msg.GetIndex()
 	        song.failCounter = 0
-	        ' Audio.audioplayer.Seek(-180000)
+					Audio.audioplayer.Seek(-180000)
 	        Get_Metadata(song, GetPort())
 	    else if msg.isRequestSucceeded() OR msg.isRequestFailed()
-        	Audio = GetGlobalAA().AudioPlayer
 	    	if Audio.failCounter < 5 then
 	        	print "FullResult: End of Stream.  Restarting.  Failures: " + str(Audio.failCounter)
 	        	Audio.AudioPlayer.stop()
 	        	Audio.AudioPlayer.play()
+						Audio.Audioplayer.Seek(-180000)
 	        	Audio.failCounter = Audio.failCounter + 1
 	        else
 	        	BatLog("Failed playing station.", song.feedurl)
