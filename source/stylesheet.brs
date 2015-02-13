@@ -110,7 +110,7 @@ Function GetRegularColorForSong(song as Object) as Integer
 
 	  	brightness = GetBrightnessForSong(song)
 
-	  	if brightness < 55
+	  	if brightness < 65
 		  	brightnessOffset = targetBrightness - brightness
 		  	updatedColors = AlterBrightnessForRGB(red, green, blue, brightnessOffset/3)
 		  	red = updatedColors[0]
