@@ -16,11 +16,14 @@ Function BackgroundImage(filePath as String) as Object
 		isFadingOut: false
 		fadeAmount: 2
 
+		valid: false
+
 		draw: backgroundImage_draw
 	}
 
 	this.size = GetSession().deviceInfo.GetDisplaySize()
 	this.bitmap = CreateObject("roBitmap", filePath)
+	if this.bitmap <> invalid then this.valid = true
 	this.image = RlGetScaledImage(this.bitmap, this.size.w, this.size.h, 1)
 
 	this.bitmap = invalid
