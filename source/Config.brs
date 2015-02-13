@@ -8,7 +8,7 @@ Function GetConfig() as Object
 		LastFMSecret: "6ee44c8b24093c67dbe7f66aa82827e9"
 
 		Batserver: "http://batserver.thebatplayer.fm/"
-		MetadataFetchTimer: 8
+		MetadataFetchTimer: 6
 
 		ImageDownloadTimeout: 5
 	}
