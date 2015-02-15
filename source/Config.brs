@@ -8,6 +8,8 @@ Function GetConfig() as Object
 		LastFMSecret: "6ee44c8b24093c67dbe7f66aa82827e9"
 
 		Batserver: "http://api.thebatplayer.fm:3000/"
+		BatserverCDN: "http://batserver.thebatplayer.fm/"
+
 		MetadataFetchTimer: 6
 
 		ImageDownloadTimeout: 5

@@ -34,7 +34,7 @@ Function ListStations()
         SelectableStations.Push(stationObject)
 
         'Download custom poster images
-        url = GetConfig().Batserver + "images/resize/" + urlencode(station.image) + "/" + "266/150"
+        url = GetConfig().BatserverCDN + "images/resize/" + urlencode(station.image) + "/" + "266/150"
         if NOT FileExists(makemdfive(station.image))
           AsyncGetFile(url, "tmp:/" + makemdfive(station.image))
         end if
@@ -103,7 +103,7 @@ end Function
 Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
 
     item = CreatePosterItem("", title, description)
-    url = GetConfig().Batserver + "images/resize/" + urlencode(imageLocation) + "/" + "266/150"
+    url = GetConfig().BatserverCDN + "images/resize/" + urlencode(imageLocation) + "/" + "266/150"
     print url
 
     item.HDPosterUrl = url
@@ -145,7 +145,7 @@ Function GetStationSelectionHeader()
         text = Request.escape("Configure your Bat Player at http://" + ipAddress + ":9999")
         device = GetSession().deviceInfo
         width = ToStr(device.GetDisplaySize().w)
-        url = GetConfig().Batserver + "images/header/?text=" + text + "&width=" + width
+        url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
         print url
         Request.SetUrl(url)
         Request.GetToFile("tmp:/headerImage.png")
