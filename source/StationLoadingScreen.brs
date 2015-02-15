@@ -34,7 +34,7 @@ Function initStationLoadingScreen()
 	            TargetRect:{x:ResolutionX(420),y:ResolutionY(300),w:ResolutionX(400),h:ResolutionY(166)}
 	        },
 	        {
-	            Text:"Please wait while we try to get find some details about " + m.stationName + "."
+	            Text:"Please wait while we try to find some details about " + m.stationName + "."
 	            TextAttrs:{Color:"#FFCCCCCC", Font:"Medium",
 	            HAlign:"HCenter", VAlign:"VCenter",
 	            Direction:"LeftToRight"}
