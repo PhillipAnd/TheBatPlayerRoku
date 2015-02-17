@@ -94,14 +94,13 @@ Sub HandleTimers()
 	song = GetGlobalAA().SongObject
 	NowPlayingScreen = GetNowPlayingScreen()
 	Session = GetSession()
-
 	if GetGlobalAA().IsStationSelectorDisplayed <> true then
 		timer = GetNowPlayingTimer()
 		if timer <> invalid
-			if timer <> invalid and timer.totalSeconds() >= (7 + song.JSONDownloadDelay) then
-				timer.mark()
+			if timer <> invalid and timer.totalSeconds() >= GetConfig().MetadataFetchTimer + song.JSONDownloadDelay then
 				song = GetGlobalAA().SongObject
 				Get_Metadata(song, GetPort())
+				timer.mark()
 			end if
 		end if
 
@@ -190,7 +189,7 @@ End Sub
 Sub HandleDownloadEvents(msg)
 	if type(msg) = "roUrlEvent" then
 		Identity = str(msg.GetSourceIdentity())
-		Session = GetSession()
+		Downloads = GetSession().Downloads
 
 		'print msg.GetString() 'Uncomment for troubleshooting
 
@@ -244,7 +243,7 @@ Sub HandleDownloadEvents(msg)
 
 
 			'Artist popularity
-			if Session.Downloads.DoesExist("PopularityDownload") AND type(Session.Downloads.PopularityDownload) = "roAssociativeArray" AND Identity = str(Session.Downloads.PopularityDownload.Request.GetIdentity())
+			if Downloads.DoesExist("PopularityDownload") AND type(Downloads.PopularityDownload) = "roAssociativeArray" AND Identity = str(Downloads.PopularityDownload.Request.GetIdentity())
 				CompletedArtistPopulartiy(msg)
 			end if
 

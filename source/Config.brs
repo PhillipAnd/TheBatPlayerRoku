@@ -10,8 +10,7 @@ Function GetConfig() as Object
 		Batserver: "http://api.thebatplayer.fm:3000/"
 		BatserverCDN: "http://batserver.thebatplayer.fm/"
 
-		MetadataFetchTimer: 6
-
+		MetadataFetchTimer: 5
 		ImageDownloadTimeout: 5
 	}
 

@@ -209,29 +209,37 @@
       <h2 class="StepTitle">Search</h2>
 
       <h4>
-        You have the option of adding stations manually by finding stations you enjoy online, or searching for new ones.  If you'd prefer to manually add a station because you have it's audio stream URL just hit <strong>Next</strong>.
+        You have the option of adding stations by finding stations you enjoy online, or searching for new ones.
       </h4>
       <br>
 
       <div class="ui-widget">
-        <h4>If you know what type of station you want, or a name of a station, search for it here.</h4>
-        <p>
-          <p>Search:
-            <input placeholder="classic rock or Sanctuary Radio" id="wizard-shoutcast-search" style="width:360px;"><img id="activity-spinner-search" src="http://thebatplayer.fm/images/ajax-loader.gif" style="display:none">
+        <ol>
+          <li>
+            <h4>If you know what type of station you want, or a name of a station, search for it here.</h4>
+          </li>
+          <p>
+            <p>Search:
+              <input placeholder="classic rock or Sanctuary Radio" id="wizard-shoutcast-search" style="width:360px;"><img id="activity-spinner-search" src="http://thebatplayer.fm/images/ajax-loader.gif" style="display:none">
+            </p>
           </p>
-        </p>
 
-        <h4>If you know of a specific station and have a link to it's Playlist (<a href="http://en.wikipedia.org/wiki/PLS_%28file_format%29">pls</a>) file, paste it in here.</h4>
-        <p>Link to PLS or M3U Playlist file:
-          <input placeholder="http://rockradio.biz/station.pls" id="wizard-playlist-link" style="width:300px;"><img id="activity-spinner-playlist" src="http://thebatplayer.fm/images/ajax-loader.gif" style="display:none">
-        </p>
+          <li>
+            <h4>If you know of a specific station and have a link to it's Playlist (<a href="http://en.wikipedia.org/wiki/PLS_%28file_format%29">pls</a> or <a href="http://en.wikipedia.org/wiki/M3U"> m3u</a>) file, paste it in here.</h4>
+          </li>
+          <p>Link to PLS or M3U Playlist file:
+            <input placeholder="http://rockradio.biz/station.pls" id="wizard-playlist-link" style="width:300px;"><img id="activity-spinner-playlist" src="http://thebatplayer.fm/images/ajax-loader.gif" style="display:none">
+          </p>
 
-        <h4>If you know the actual stream URL  paste it in here.</h4>
-        <p>Link to PLS or M3U Playlist file:
-          <input placeholder="http://rockradio.biz:6699" id="wizard-step-one-stream-link" style="width:300px;"><img id="activity-spinner-stream" src="http://thebatplayer.fm/images/ajax-loader.gif" style="display:none">
-        </p>
-        <br>
-        <br>
+          <li>
+            <h4>If you know the actual stream URL paste it in here.</h4>
+          </li>
+          <p>Link to audio stream:
+            <input placeholder="http://rockradio.biz:6699" id="wizard-step-one-stream-link" style="width:300px;"><img id="activity-spinner-stream" src="http://thebatplayer.fm/images/ajax-loader.gif" style="display:none">
+          </p>
+          <br>
+          <br>
+        </ol>
       </div>
 
     </div>

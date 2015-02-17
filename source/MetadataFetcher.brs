@@ -38,6 +38,9 @@ Function HandleJSON(jsonString as String)
   song = GetGlobalAA().Lookup("SongObject")
   NowPlayingScreen = GetNowPlayingScreen()
 
+  song.backgroundimage = song.stationimage
+  song.artistimage = song.stationimage
+
   if song.MetadataFetchFailure = invalid
     song.MetadataFetchFailure = 0
     song.metadataFault = true
@@ -73,30 +76,25 @@ Function HandleJSON(jsonString as String)
     song.PopularityFetchCounter = 0
     song.MetadataFetchFailure = 0
 
-    if jsonObject.image.url <> invalid
-      song.HDPosterUrl = jsonObject.image.url
-      song.SDPosterUrl = jsonObject.image.url
-      song.image = jsonObject.image
-    else
-      song.HDPosterUrl = song.StationImage
-      song.SDPosterUrl = song.StationImage
-      song.image =  CreateObject("roAssociativeArray")
-      song.image.url = song.StationImage
-      song.album = invalid
-      song.MetadataFetchFailure = song.MetadataFetchFailure + 1
+    if jsonObject.image <> invalid
+      song.image = jsonObject.image 'Used for colors
+
+      if jsonObject.image.url <> invalid AND isnonemptystr(jsonObject.image.url)
+        song.artistimage = jsonObject.image.url
+      end if
+      if jsonObject.image.backgroundurl <> invalid AND isnonemptystr(jsonObject.image.backgroundurl)
+        song.backgroundimage = jsonObject.image.backgroundurl
+      end if
+
     end if
 
   else
     BatLog("There was an error processing or downloading metadata", "error")
     song.JSONDownloadDelay = song.JSONDownloadDelay + 1
-    song.image = CreateObject("roAssociativeArray")
-    song.image.url = song.StationImage
     song.Artist = song.stationName
     song.Title = song.feedurl
     song.bio = CreateObject("roAssociativeArray")
     song.bio.text = "The Bat Player displays additional information about the station and its songs when available.  " + song.stationName + " does not seem to have any data for The Bat to show you either due the Station not providing it or our services are experiencing difficulties."
-    song.HDPosterUrl = song.StationImage
-    song.SDPosterUrl = song.StationImage
     song.metadataFault = true
     song.metadataFetched = false
     song.album = invalid
@@ -129,18 +127,20 @@ Function HandleJSON(jsonString as String)
       GetGlobalAA().lastSongTitle = song.Title
 
       'Download artist image if needed
-      if NOT FileExists(makemdfive(song.Artist)) AND song.DoesExist("image") AND song.image.DoesExist("url") AND song.image.url <> "" then
-          song.ArtistImageDownloadTimer = CreateObject("roTimespan")
-          DownloadArtistImageForSong(song)
-        if NOT FileExists("colored-" + makemdfive(song.Artist)) then
+      if song.DoesExist("image")
+        if song.DoesExist("artistimage") AND NOT FileExists(makemdfive(song.Artist))
+            song.ArtistImageDownloadTimer = CreateObject("roTimespan")
+            DownloadArtistImageForSong(song)
+        end if
+
+        if song.DoesExist("backgroundimage") AND NOT FileExists("colored-" + makemdfive(song.Artist))
           song.BackgroundImageDownloadTimer = CreateObject("roTimespan")
           DownloadBackgroundImageForSong(song)
         endif
-
       end if
 
-      if type(song.album) = "roAssociativeArray" AND isnonemptystr(song.album.name) AND NOT FileExists(makemdfive(song.album.name)) then
-        ' Print "Downloading Album art"
+      'Download album art
+      if type(song.album) = "roAssociativeArray" AND isnonemptystr(song.album.image) AND NOT FileExists(makemdfive(song.album.name))
         AsyncGetFile(song.album.image, "tmp:/album-" + makemdfive(song.album.name + song.artist))
       endif
 

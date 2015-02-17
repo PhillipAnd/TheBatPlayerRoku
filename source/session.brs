@@ -31,14 +31,14 @@ Function CreateSession() as Object
 	Session.Analytics = Analytics(Session.userId, GetConfig().SegmentApiKey, GetPort())
 
 	GetGlobalAA().Session = Session
-	
+
 	Session.deviceInfo = CreateObject("roDeviceInfo")
 
 	Session.Downloads = CreateObject("roAssociativeArray")
 	Session.Downloads.PopularityDownload = invalid
 
-    Session.StationDownloads = CreateObject("roAssociativeArray")
-    Session.StationDownloads.Downloads = CreateObject("roAssociativeArray")
+  Session.StationDownloads = CreateObject("roAssociativeArray")
+  Session.StationDownloads.Downloads = CreateObject("roAssociativeArray")
 
-	return Session	
+	return Session
 End Function
