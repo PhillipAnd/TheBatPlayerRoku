@@ -12,7 +12,8 @@ Function AsyncGetFile(url as string, filepath as string) as Boolean
       if Request.AsyncGetToFile(filepath) then
         Identity = str(Request.GetIdentity())
         print "Started download of: " + url + " to " + filepath ". " + Identity
-        GetGlobalAA().AddReplace(Identity, Request)
+        Downloads = GetSession().Downloads
+        Downloads.AddReplace(Identity, Request)
         return true
       else
         BatLog("***** Failure BEGINNING download.", "error")
@@ -24,7 +25,8 @@ End Function
 
 Function IsDownloading(Identity as String) as Boolean
     Key = Identity
-    return (GetGlobalAA().DoesExist(Key))
+    Downloads = GetSession().Downloads
+    return (Downloads.DoesExist(Key))
 End Function
 
 Function FileExists(Filename as String) as Boolean

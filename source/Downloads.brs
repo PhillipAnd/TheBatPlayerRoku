@@ -1,20 +1,9 @@
 Function DownloadBackgroundImageForSong(song as object)
-    url = song.stationimage
-
-    if song.DoesExist("image") AND isnonemptystr(song.image.backgroundurl)
-      url = song.image.backgroundurl
-      print url
-    end if
-
-    AsyncGetFile(url,"tmp:/colored-" + makemdfive(song.Artist))
-
+  url = song.backgroundimage
+  AsyncGetFile(url,"tmp:/colored-" + makemdfive(song.Artist))
 End Function
 
 Function DownloadArtistImageForSong(song as object)
-  url = song.stationimage
-
-	if song.image.DoesExist("color") AND song.image.color.DoesExist("rgb")
-    url = song.image.url
-  end if
+  url = song.artistimage
   AsyncGetFile(url, "tmp:/artist-" + makemdfive(song.Artist))
 End Function
