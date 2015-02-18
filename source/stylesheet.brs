@@ -164,9 +164,14 @@ Function GetDropShadowColorForSong(song as Object) as integer
 End Function
 
 Sub CreateOverlayColor(song) as integer
-	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb")
-		color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, 0)
+  print "*** Calculating overlay color"
+	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
+    brightness = Sqr(0.299 * (song.image.color.rgb.red * song.image.color.rgb.red) + 0.587 * (song.image.color.rgb.green * song.image.color.rgb.green) + 0.114 * (song.image.color.rgb.blue * song.image.color.rgb.blue))
+    alpha = RlMin(60 * (180 / brightness), 60)
+    print "Background color brightness: " + ToStr(brightness) + ". Calculated alpha: " + ToStr(alpha)
+		color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, alpha)
 	else
+    print "No overlay color able to be made."
 		color = 0
 	end if
   return color

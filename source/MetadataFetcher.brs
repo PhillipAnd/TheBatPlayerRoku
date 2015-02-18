@@ -79,6 +79,8 @@ Function HandleJSON(jsonString as String)
     if jsonObject.image <> invalid
       song.image = jsonObject.image 'Used for colors
 
+      song.OverlayColor = CreateOverlayColor(song)
+
       if jsonObject.image.url <> invalid AND isnonemptystr(jsonObject.image.url)
         song.artistimage = jsonObject.image.url
       end if
