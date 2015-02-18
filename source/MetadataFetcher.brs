@@ -128,6 +128,8 @@ Function HandleJSON(jsonString as String)
 
       'Download artist image if needed
       if song.DoesExist("image")
+        song.OverlayColor = CreateOverlayColor(song)
+        
         if song.DoesExist("artistimage") AND NOT FileExists(makemdfive(song.Artist))
             song.ArtistImageDownloadTimer = CreateObject("roTimespan")
             DownloadArtistImageForSong(song)

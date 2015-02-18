@@ -78,7 +78,7 @@ Function albumImage_draw(screen as Object)
 
 		screen.DrawObject(m.x, m.y, m.image, m.alpha)
 		if m.overlayColor <> 0 AND m.image <> invalid
-			screen.DrawRect(m.x, m.y, m.image.GetWidth(), m.image.GetHeight(), m.overlayColor + 35)
+			screen.DrawRect(m.x, m.y, m.image.GetWidth(), m.image.GetHeight(), m.overlayColor)
 		end if
 
 	end if
