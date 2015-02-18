@@ -122,8 +122,7 @@ Function UpdateScreen()
     'Album Image
     if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = "true" then
       albumImageFilePath = "tmp:/album-" + makemdfive(song.album.name + song.artist)
-      NowPlayingScreen.albumImageOverlayColor = CreateOverlayColor(NowPlayingScreen.song)
-      NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 240, NowPlayingScreen.albumImageOverlayColor)
+      NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 240, song.OverlayColor)
       NowPlayingScreen.UpdateAlbumImage = "false"
     endif
 
@@ -243,8 +242,8 @@ Function DrawScreen()
 
 
     'Overlays
-    if NowPlayingScreen.albumImageOverlayColor <> invalid
-      NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.albumImageOverlayColor + 60) 'Color overlay
+    if NowPlayingScreen.OverlayColor <> invalid
+      NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, song.OverlayColor) 'Color overlay
     end if
     NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 210) 'Black overlay
     NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 210) 'Top Gradient
@@ -286,11 +285,11 @@ Function DrawScreen()
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
     if NowPlayingScreen.albumImage <> invalid
       NowPlayingScreen.albumImage.Draw(NowPlayingScreen.screen)
-      overlayColor = &h00000000
-      if NowPlayingScreen.song.DoesExist("color")
-        overlayColor = CreateOverlayColor(NowPlayingScreen.song.color.hex)
-      end if
-      NowPlayingScreen.screen.DrawRect(780, 230, 180, 180, overlayColor)
+      'overlayColor = &h00000000
+      'if NowPlayingScreen.song.DoesExist("color")
+      ''  overlayColor = CreateOverlayColor(NowPlayingScreen.song.color.hex)
+      'end if
+      'NowPlayingScreen.screen.DrawRect(780, 230, 180, 180, overlayColor)
     end if
     if NowPlayingScreen.previousAlbumImage <> invalid
       NowPlayingScreen.previousAlbumImage.Draw(NowPlayingScreen.screen)
