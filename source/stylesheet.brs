@@ -123,7 +123,9 @@ Function GetRegularColorForSong(song as Object) as Integer
       alpha = alpha - alphaOffset
     end if
 
-    return AlterSaturationForRGB(red, green, blue, alpha, 3.0)
+    saturationOffset = RlMin(2.0 + (brightness / 120 ), 2.8)
+    print "Text saturation: " ToStr(saturationOffset)
+    return AlterSaturationForRGB(red, green, blue, alpha, saturationOffset)
 
 	end if
 End Function
@@ -149,31 +151,29 @@ Function GetBrightnessForSong(song as Object) as Integer
 End Function
 
 Function GetDropShadowColorForSong(song as Object) as integer
-
 	return &h000000FF
-
-	' brightness = GetBrightnessForSong(song)
-
-	' if brightness < 40 AND brightness <> 0 AND brightness > 25
-	' 	dropShadowColor = &h44444410
-	' else
-	' 	dropShadowColor = &h000000FF
-	' end if
-
-	' return dropShadowColor
 End Function
 
 Sub CreateOverlayColor(song) as integer
-  print "*** Calculating overlay color"
 	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
     brightness = Sqr(0.299 * (song.image.color.rgb.red * song.image.color.rgb.red) + 0.587 * (song.image.color.rgb.green * song.image.color.rgb.green) + 0.114 * (song.image.color.rgb.blue * song.image.color.rgb.blue))
-    alpha = RlMin(70 * (160 / brightness), 100)
+    alpha = RlMin(70 * (130 / brightness), 70)
     print "Background color brightness: " + ToStr(brightness) + ". Calculated alpha: " + ToStr(alpha)
 		color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, alpha)
 	else
     print "No overlay color able to be made."
 		color = 0
 	end if
+  return color
+End Sub
+
+Sub CreateAlbumOverlayColor(song) as integer
+  if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
+    alpha = 40
+    color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, alpha)
+  else
+    color = 0
+  end if
   return color
 End Sub
 

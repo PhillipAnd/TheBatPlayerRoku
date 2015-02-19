@@ -122,7 +122,7 @@ Function UpdateScreen()
     'Album Image
     if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = "true" then
       albumImageFilePath = "tmp:/album-" + makemdfive(song.album.name + song.artist)
-      NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 240, song.OverlayColor)
+      NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 240, CreateAlbumOverlayColor(song))
       NowPlayingScreen.UpdateAlbumImage = "false"
     endif
 
@@ -285,11 +285,6 @@ Function DrawScreen()
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
     if NowPlayingScreen.albumImage <> invalid
       NowPlayingScreen.albumImage.Draw(NowPlayingScreen.screen)
-      'overlayColor = &h00000000
-      'if NowPlayingScreen.song.DoesExist("color")
-      ''  overlayColor = CreateOverlayColor(NowPlayingScreen.song.color.hex)
-      'end if
-      'NowPlayingScreen.screen.DrawRect(780, 230, 180, 180, overlayColor)
     end if
     if NowPlayingScreen.previousAlbumImage <> invalid
       NowPlayingScreen.previousAlbumImage.Draw(NowPlayingScreen.screen)
