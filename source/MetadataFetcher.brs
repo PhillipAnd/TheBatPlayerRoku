@@ -1,13 +1,6 @@
 Function GetJSONAtUrl(url as String)
   NowPlayingScreen = GetNowPlayingScreen()
 
-  'If we have an expiration time then respect that
-  if NowPlayingscreen.song <> invalid
-    nowDateTime = CreateObject("roDateTime").asSeconds()
-    expiresDateTime = ToStr(NowPlayingScreen.song.dataExpires).toInt() 'Because JSON parsing reads it as a double
-    if (nowDateTime < expiresDateTime) THEN return false
-  end if
-
   if NOT GetGlobalAA().DoesExist("jsontransfer") then
     Request = CreateObject("roUrlTransfer")
     Request.SetMinimumTransferRate(1, 20)
@@ -69,7 +62,6 @@ Function HandleJSON(jsonString as String)
     song.Genres = jsonObject.tags
     song.isOnTour = jsonObject.isOnTour
     song.album = jsonObject.album
-    song.dataExpires = jsonObject.expires
     song.metadataFault = false
     song.brightness = 0
     song.metadataFetched = jsonObject.metaDataFetched
@@ -129,7 +121,7 @@ Function HandleJSON(jsonString as String)
       'Download artist image if needed
       if song.DoesExist("image")
         song.OverlayColor = CreateOverlayColor(song)
-        
+
         if song.DoesExist("artistimage") AND NOT FileExists(makemdfive(song.Artist))
             song.ArtistImageDownloadTimer = CreateObject("roTimespan")
             DownloadArtistImageForSong(song)

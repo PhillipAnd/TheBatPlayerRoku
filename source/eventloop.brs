@@ -94,11 +94,12 @@ Sub HandleTimers()
 	song = GetGlobalAA().SongObject
 	NowPlayingScreen = GetNowPlayingScreen()
 	Session = GetSession()
+
 	if GetGlobalAA().IsStationSelectorDisplayed <> true then
 		timer = GetNowPlayingTimer()
 		if timer <> invalid
+
 			if timer <> invalid and timer.totalSeconds() >= GetConfig().MetadataFetchTimer + song.JSONDownloadDelay then
-				song = GetGlobalAA().SongObject
 				Get_Metadata(song, GetPort())
 				timer.mark()
 			end if
