@@ -94,14 +94,14 @@ Function UpdateScreen()
     song.image = CreateObject("roAssociativeArray")
   end if
 
-  if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR song.image.color = invalid OR song.image.color.hex = invalid then
+  if NOT song.image.DoesExist("color") OR song.image.color.rgb = invalid OR song.image.color.hex = invalid
     song.image.color = CreateObject("roAssociativeArray")
     song.image.color.hex = "#ffffffff"
   end if
 
     'Artist Image
-    if song.Artist <> invalid AND FileExists("artist-" + makemdfive(song.Artist)) then
-      artistImageFilePath = "tmp:/artist-" + makemdfive(song.Artist)
+    if FileExists(makemdfive(song.artistimage)) then
+      artistImageFilePath = "tmp:/" + makemdfive(song.artistimage)
 
       if artistImageFilePath <> invalid AND NowPlayingScreen.UpdateArtistImage = "true" then
         NowPlayingScreen.artistImage = ArtistImage(artistImageFilePath)
@@ -145,8 +145,8 @@ Function UpdateScreen()
   end if
 
   'Background Image
- 	if song.Artist <> invalid AND FileExists("colored-" + makemdfive(song.Artist)) AND NowPlayingScreen.UpdateBackgroundImage <> "false" then
-    NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/colored-" + makemdfive(song.Artist))
+ 	if FileExists(makemdfive(song.backgroundimage)) AND NowPlayingScreen.UpdateBackgroundImage <> "false"
+    NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/" + makemdfive(song.backgroundimage))
 
     if NowPlayingScreen.BackgroundImage <> invalid
       NowPlayingScreen.BackgroundImage.FadeIn()

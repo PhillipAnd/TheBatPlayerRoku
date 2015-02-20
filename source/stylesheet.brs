@@ -98,10 +98,10 @@ Function GetBoldColorForSong(song as Object) as Integer
 End Function
 
 Function GetRegularColorForSong(song as Object) as Integer
-	if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR NOT song.image.color.DoesExist("rgb") OR song.image.color.rgb.red = invalid OR song.image.color.rgb.green = invalid OR song.image.color.rgb.blue = invalid then
+	if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR NOT song.image.color.DoesExist("rgb") OR song.image.color.rgb = invalid
 		return MakeARGB(250,250,250,250)
 	else
-	  	targetBrightness = 80
+	  	targetBrightness = 70
 
 	  	red = song.image.color.rgb.red
 	  	green = song.image.color.rgb.green
@@ -110,22 +110,13 @@ Function GetRegularColorForSong(song as Object) as Integer
 
 	  	brightness = GetBrightnessForSong(song)
 
-	  	if brightness < 65
-		  	brightnessOffset = targetBrightness - brightness
-		  	updatedColors = AlterBrightnessForRGB(red, green, blue, brightnessOffset/3)
-		  	red = updatedColors[0]
-		  	green = updatedColors[1]
-		  	blue = updatedColors[2]
-		 end if
+	  	brightnessOffset = targetBrightness - brightness
+	  	updatedColors = AlterBrightnessForRGB(red, green, blue, brightnessOffset/3)
+	  	red = updatedColors[0]
+	  	green = updatedColors[1]
+	  	blue = updatedColors[2]
 
-    if brightness > targetBrightness
-      alphaOffset = (brightness - targetBrightness) / 7
-      alpha = alpha - alphaOffset
-    end if
-
-    saturationOffset = RlMin(2.0 + (brightness / 120 ), 2.8)
-    print "Text saturation: " ToStr(saturationOffset)
-    return AlterSaturationForRGB(red, green, blue, alpha, saturationOffset)
+    return AlterSaturationForRGB(red, green, blue, alpha, 2.7)
 
 	end if
 End Function
@@ -157,7 +148,7 @@ End Function
 Sub CreateOverlayColor(song) as integer
 	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
     brightness = Sqr(0.299 * (song.image.color.rgb.red * song.image.color.rgb.red) + 0.587 * (song.image.color.rgb.green * song.image.color.rgb.green) + 0.114 * (song.image.color.rgb.blue * song.image.color.rgb.blue))
-    alpha = RlMin(70 * (130 / brightness), 70)
+    alpha = RlMin(70 * (150 / brightness), 70)
     print "Background color brightness: " + ToStr(brightness) + ". Calculated alpha: " + ToStr(alpha)
 		color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, alpha)
 	else
