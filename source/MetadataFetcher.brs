@@ -68,12 +68,10 @@ Function HandleJSON(jsonString as String)
     song.PopularityFetchCounter = 0
     song.MetadataFetchFailure = 0
 
-    if jsonObject.image <> invalid OR jsonObject.image.url <> ""
+    if jsonObject.image <> invalid AND jsonObject.image.url <> ""
       song.image = jsonObject.image 'Used for colors
+      song.artistimage = jsonObject.image.url
 
-      if jsonObject.image.url <> invalid AND isnonemptystr(jsonObject.image.url)
-        song.artistimage = jsonObject.image.url
-      end if
       if jsonObject.image.backgroundurl <> invalid AND isnonemptystr(jsonObject.image.backgroundurl)
         song.backgroundimage = jsonObject.image.backgroundurl
       end if
