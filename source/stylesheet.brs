@@ -101,7 +101,7 @@ Function GetRegularColorForSong(song as Object) as Integer
 	if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR NOT song.image.color.DoesExist("rgb") OR song.image.color.rgb = invalid
 		return MakeARGB(250,250,250,250)
 	else
-	  	targetBrightness = 70
+	  	targetBrightness = 73
 
 	  	red = song.image.color.rgb.red
 	  	green = song.image.color.rgb.green
@@ -116,7 +116,7 @@ Function GetRegularColorForSong(song as Object) as Integer
 	  	green = updatedColors[1]
 	  	blue = updatedColors[2]
 
-    return AlterSaturationForRGB(red, green, blue, alpha, 2.7)
+    return AlterSaturationForRGB(red, green, blue, alpha, 2.8)
 
 	end if
 End Function
