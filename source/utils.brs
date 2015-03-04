@@ -9,6 +9,7 @@ Function AsyncGetFile(url as string, filepath as string) as Boolean
       Request = CreateObject("roUrlTransfer")
       Request.SetUrl(url)
       Request.SetPort(GetPort())
+      Request.EnableEncodings(True)
       if Request.AsyncGetToFile(filepath) then
         Identity = str(Request.GetIdentity())
         print "Started download of: " + url + " to " + filepath ". " + Identity

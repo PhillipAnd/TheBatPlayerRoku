@@ -17,7 +17,7 @@ Function GetJSONAtUrl(url as String)
     print "Checking for JSON at " metadataUrl
     Request.SetUrl(metadataUrl)
     Request.SetPort(GetPort())
-
+    Request.EnableEncodings(True)
     GetGlobalAA().AddReplace("jsontransfer", Request)
 
     Request.AsyncGetToString()
