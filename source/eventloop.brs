@@ -135,7 +135,7 @@ Sub HandleTimers()
       	end if
 
 				'Image download timeouts
-				if NowPlayingScreen.artistImage = invalid AND song.ArtistImageDownloadTimer <> invalid AND song.ArtistImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
+				if (NowPlayingScreen.artistImage = invalid OR song.ArtistImageDownloadTimer <> invalid AND NowPlayingScreen.artistImage.valid <> true ) AND song.ArtistImageDownloadTimer <> invalid AND song.ArtistImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
 					song.UseFallbackArtistImage = true
 					song.ArtistImageDownloadTimer = invalid
 					if GetGlobalAA().IsStationSelectorDisplayed <> true

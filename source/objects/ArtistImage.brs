@@ -25,11 +25,15 @@ Function ArtistImage(filePath as string) as Object
 		isFadingOut: false
 		fadeAmount: 2
 
+		valid: false
+
 		draw: artistImage_draw
 	}
 
 	this.bitmap = CreateObject("roBitmap", filePath)
 	if this.bitmap <> invalid
+		this.valid = true
+
 		this.width = this.bitmap.GetWidth()
 		this.height = this.bitmap.GetHeight()
 
