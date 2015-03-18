@@ -16,8 +16,8 @@ Function SongNameLabel(text as string, song as object, yLocation as integer, fon
 
 	dropShadowColor = GetDropShadowColorForSong(song)
 
-	if dropShadowColor <> 0 
-		this.dropShadowObject = RlTextArea(this.text, font, dropShadowColor, this.x + 2, this.y + 2, this.width, this.height, 2, 0.87, "center")
+	if dropShadowColor <> 0
+		this.dropShadowObject = RlTextArea(this.text, font, dropShadowColor, this.x + 2.0, this.y + 3.0, this.width, this.height, 2, 0.87, "center")
 	end if
 
 	return this
