@@ -100,7 +100,7 @@ Function UpdateScreen()
   end if
 
     'Artist Image
-    if FileExists(makemdfive(song.artistimage)) then
+    if isstr(song.artistimage) AND FileExists(makemdfive(song.artistimage)) then
       artistImageFilePath = "tmp:/" + makemdfive(song.artistimage)
 
       if artistImageFilePath <> invalid AND NowPlayingScreen.UpdateArtistImage = "true" then
