@@ -29,7 +29,7 @@ Function ArtistImage(filePath as string) as Object
 
 		draw: artistImage_draw
 	}
-
+	
 	this.bitmap = CreateObject("roBitmap", filePath)
 	if this.bitmap <> invalid
 		this.valid = true

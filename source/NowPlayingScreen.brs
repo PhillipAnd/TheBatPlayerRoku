@@ -29,9 +29,9 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
   NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 220)
 
-  NowPlayingScreen.UpdateBackgroundImage = "true"
-  NowPlayingScreen.UpdateArtistImage = "true"
-  NowPlayingScreen.UpdateAlbumImage = "true"
+  NowPlayingScreen.UpdateBackgroundImage = true
+  NowPlayingScreen.UpdateArtistImage = true
+  NowPlayingScreen.UpdateAlbumImage = true
 
   NowPlayingScreen.ScrobbleTimer = invalid
   NowPlayingScreen.NowPlayingOtherStationsTimer = invalid
@@ -103,9 +103,9 @@ Function UpdateScreen()
     if isstr(song.artistimage) AND FileExists(makemdfive(song.artistimage)) then
       artistImageFilePath = "tmp:/" + makemdfive(song.artistimage)
 
-      if artistImageFilePath <> invalid AND NowPlayingScreen.UpdateArtistImage = "true" then
+      if artistImageFilePath <> invalid AND NowPlayingScreen.UpdateArtistImage = true then
         NowPlayingScreen.artistImage = ArtistImage(artistImageFilePath)
-        NowPlayingScreen.UpdateArtistImage = "false"
+        NowPlayingScreen.UpdateArtistImage = false
       end if
     else if song.UseFallbackArtistImage = true
       NowPlayingScreen.artistImage = ArtistImage("tmp:/" + makemdfive(song.StationImage))
@@ -120,10 +120,10 @@ Function UpdateScreen()
     end if
 
     'Album Image
-    if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = "true" then
+    if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = true then
       albumImageFilePath = "tmp:/album-" + makemdfive(song.album.name + song.artist)
       NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 240, CreateAlbumOverlayColor(song))
-      NowPlayingScreen.UpdateAlbumImage = "false"
+      NowPlayingScreen.UpdateAlbumImage = false
     endif
 
     if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid
@@ -145,7 +145,7 @@ Function UpdateScreen()
   end if
 
   'Background Image
- 	if FileExists(makemdfive(song.backgroundimage)) AND NowPlayingScreen.UpdateBackgroundImage <> "false"
+ 	if FileExists(makemdfive(song.backgroundimage)) AND NowPlayingScreen.UpdateBackgroundImage <> false
     NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/" + makemdfive(song.backgroundimage))
 
     if NowPlayingScreen.BackgroundImage <> invalid
@@ -153,7 +153,7 @@ Function UpdateScreen()
       NowPlayingScreen.PreviousBackgroundImage = invalid
     end if
 
-    NowPlayingScreen.UpdateBackgroundImage = "false"
+    NowPlayingScreen.UpdateBackgroundImage = false
   else if song.UseFallbackBackgroundImage = true
     NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/" + makemdfive(song.StationImage))
   end if
@@ -346,9 +346,9 @@ Function RefreshNowPlayingScreen()
     end if
   end if
 
-  NowPlayingScreen.UpdateBackgroundImage = "true"
-  NowPlayingScreen.UpdateArtistImage = "true"
-  NowPlayingScreen.UpdateAlbumImage = "true"
+  NowPlayingScreen.UpdateBackgroundImage = true
+  NowPlayingScreen.UpdateArtistImage = true
+  NowPlayingScreen.UpdateAlbumImage = true
 
   NowPlayingScreen.ArtistPlaceholder = ArtistImage("tmp:/" + makemdfive(song.StationImage))
 
