@@ -179,10 +179,10 @@ Function UpdateScreen()
 
   if GetSession().deviceInfo.GetDisplaySize().W = 1280
     genreX = 120
-    genreY = 450 - verticalOffset
+    genreY = 440 - verticalOffset
   else
     genreX = ResolutionX(120)
-    genreY = ResolutionY(480)
+    genreY = ResolutionY(470)
   end if
   NowPlayingScreen.genresLabel = RlTextArea(genreText, NowPlayingScreen.smallFont, GetRegularColorForSong(song), genreX, genreY, ResolutionX(500), ResolutionY(30), 2, 0.8, "center")
 
@@ -278,7 +278,7 @@ Function DrawScreen()
     if NowPlayingScreen.genresLabel <> invalid
     NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
     end if
-    NowPlayingScreen.onTourLabel.draw(NowPlayingScreen.screen)
+    'NowPlayingScreen.onTourLabel.draw(NowPlayingScreen.screen)
 
 
 		'Album
