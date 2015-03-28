@@ -18,7 +18,7 @@ Function ArtistImage(filePath as string) as Object
 
 		FadeIn: FadeIn
 		FadeOut: FadeOut
-		MaxFade: 220
+		MaxFade: 230
 		MinFade: 0
 
 		isFadingIn: true
@@ -29,7 +29,7 @@ Function ArtistImage(filePath as string) as Object
 
 		draw: artistImage_draw
 	}
-	
+
 	this.bitmap = CreateObject("roBitmap", filePath)
 	if this.bitmap <> invalid
 		this.valid = true
