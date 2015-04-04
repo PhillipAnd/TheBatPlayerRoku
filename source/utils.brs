@@ -24,6 +24,26 @@ Function AsyncGetFile(url as string, filepath as string) as Object
   end if
 End Function
 
+Function SyncGetFile(url as string, filepath as string)
+  if url <> invalid AND filepath <> invalid AND url <> "" then
+    'Do we already have this file?
+    FileSystem = CreateObject("roFileSystem")
+    if FileSystem.Exists(filepath) = true then
+      'We already have this file
+      print "*** It seems we already have file: " +url
+    else
+      Request = CreateObject("roUrlTransfer")
+      Request.SetUrl(url)
+      if Request.GetToFile(filepath) then
+        'print "Started download of: " + url + " to " + filepath ". " + Identity
+      else
+        BatLog("***** Failure BEGINNING download.", "error")
+        return invalid
+      end if
+    end if
+  end if
+End Function
+
 Function FileExists(Filename as String) as Boolean
     FileSystem = CreateObject("roFileSystem")
     return FileSystem.Exists("tmp:/" + Filename)
