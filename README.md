@@ -14,6 +14,7 @@ A [BrightScript](http://sdkdocs.roku.com/display/sdkdoc/BrightScript+Language+Re
 1. Utilizes [RokuLib](https://github.com/dphang/roku-lib).
 2. Analytics are enabled via Segment.IO and the [SegmentIO-Brightscript](https://github.com/gabek/SegmentIO-Brightscript) library.
 3. The actual metadata work is done by [The Bat Server](https://github.com/gabek/TheBatPlayerServer).  A server-side application that does the heavy lifting.
+4. The [web configuration](https://github.com/gabek/TheBatPlayerRoku/tree/master/html) portion of The Bat Player (http://roku:9999) uses a bunch of Javascript, css, and even PHP that live elsewhere that is used to assist users in adding stations.
 
 ###**Running**
 1. Copy Config-example.brs to Config.brs.  Uncomment the file and add your respective keys.
