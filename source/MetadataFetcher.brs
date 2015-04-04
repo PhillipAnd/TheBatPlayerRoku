@@ -78,6 +78,7 @@ Function HandleJSON(jsonString as String)
 
     else
       'Set a default color
+      song.image = CreateObject("roAssociativeArray")
       song.image.color = CreateObject("roAssociativeArray")
       song.image.color.hex = "#ffffffff"
     end if
