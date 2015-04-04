@@ -14,7 +14,6 @@ A [BrightScript](http://sdkdocs.roku.com/display/sdkdoc/BrightScript+Language+Re
 1. Utilizes [RokuLib](https://github.com/dphang/roku-lib).
 2. Analytics are enabled via Segment.IO and the [SegmentIO-Brightscript](https://github.com/gabek/SegmentIO-Brightscript) library.
 
-###**TODOs**
-1. Migrate more of the server-side logic to the client.
-2. Display periodic "Playing on other stations" notifications to let you know what you're missing on the other stations you have configured.
-3. Calculate an "Artist Popularity" value to compare the current artist to others in terms of listener counts.
+###**Running**
+1. Copy Config-example.brs to Config.brs.  Uncomment the file and add your respective keys.
+2. Follow the deployment directions [On the Roku developer site](http://sdkdocs.roku.com/display/sdkdoc/Developer+Guide#DeveloperGuide-70LoadingandRunningyourApplicationWalkthrough).
