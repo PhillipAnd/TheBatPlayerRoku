@@ -193,8 +193,9 @@ Sub HandleDownloadEvents(msg)
 		Downloads = GetSession().Downloads
 
 		'print msg.GetString() 'Uncomment for troubleshooting
+		print ToStr(msg.GetResponseCode())
 
-		if msg.GetFailureReason() <> invalid then
+		if msg.GetResponseCode() = 200 OR msg.GetFailureReason() = invalid then
 
 			IsDownloadingFile = IsDownloading(Identity)
 			if IsDownloadingFile = true then
@@ -249,7 +250,24 @@ Sub HandleDownloadEvents(msg)
 			end if
 
 		else
-			BatLog("Download failed. " + msg.GetFailureReason())
+			print("Download failed. " + msg.GetFailureReason())
+			song = GetGlobalAA().SongObject
+
+			if IsBackgroundImageDownload(Identity)
+				'Background Image download failed
+				song.UseFallbackBackgroundImage = true
+				GetSession().BackgroundImageDownload = invalid
+				UpdateScreen()
+			end if
+
+			if IsArtistImageDownload(Identity)
+				'Artist Image download failed
+				song.UseFallbackArtistImage = true
+				GetSession().ArtistImageDownload = invalid
+				UpdateScreen()
+			end if
+
+
 		end if
 
 	end if

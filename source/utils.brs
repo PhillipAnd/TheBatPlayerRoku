@@ -1,4 +1,4 @@
-Function AsyncGetFile(url as string, filepath as string) as Boolean
+Function AsyncGetFile(url as string, filepath as string) as Object
   if url <> invalid AND filepath <> invalid AND url <> "" then
     'Do we already have this file?
     FileSystem = CreateObject("roFileSystem")
@@ -15,19 +15,13 @@ Function AsyncGetFile(url as string, filepath as string) as Boolean
         print "Started download of: " + url + " to " + filepath ". " + Identity
         Downloads = GetSession().Downloads
         Downloads.AddReplace(Identity, Request)
-        return true
+        return Request
       else
         BatLog("***** Failure BEGINNING download.", "error")
-        return false
+        return invalid
       end if
     end if
   end if
-End Function
-
-Function IsDownloading(Identity as String) as Boolean
-    Key = Identity
-    Downloads = GetSession().Downloads
-    return (Downloads.DoesExist(Key))
 End Function
 
 Function FileExists(Filename as String) as Boolean
