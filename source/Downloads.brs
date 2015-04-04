@@ -1,3 +1,49 @@
+Function AsyncGetFile(url as string, filepath as string) as Object
+  if url <> invalid AND filepath <> invalid AND url <> "" then
+    'Do we already have this file?
+    FileSystem = CreateObject("roFileSystem")
+    if FileSystem.Exists(filepath) = true then
+      'We already have this file
+      print "*** It seems we already have file: " +url
+    else
+      Request = CreateObject("roUrlTransfer")
+      Request.SetUrl(url)
+      Request.SetPort(GetPort())
+      Request.EnableEncodings(True)
+      if Request.AsyncGetToFile(filepath) then
+        Identity = str(Request.GetIdentity())
+        print "Started download of: " + url + " to " + filepath ". " + Identity
+        Downloads = GetSession().Downloads
+        Downloads.AddReplace(Identity, Request)
+        return Request
+      else
+        BatLog("***** Failure BEGINNING download.", "error")
+        return invalid
+      end if
+    end if
+  end if
+End Function
+
+Function SyncGetFile(url as string, filepath as string)
+  if url <> invalid AND filepath <> invalid AND url <> "" then
+    'Do we already have this file?
+    FileSystem = CreateObject("roFileSystem")
+    if FileSystem.Exists(filepath) = true then
+      'We already have this file
+      print "*** It seems we already have file: " +url
+    else
+      Request = CreateObject("roUrlTransfer")
+      Request.SetUrl(url)
+      if Request.GetToFile(filepath) then
+        'print "Started download of: " + url + " to " + filepath ". " + Identity
+      else
+        BatLog("***** Failure BEGINNING download.", "error")
+        return invalid
+      end if
+    end if
+  end if
+End Function
+
 Function DownloadBackgroundImageForSong(song as object)
   url = song.backgroundimage
   request = AsyncGetFile(url,"tmp:/" + makemdfive(url))
