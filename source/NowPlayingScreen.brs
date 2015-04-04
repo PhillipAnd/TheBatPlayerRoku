@@ -182,7 +182,7 @@ Function UpdateScreen()
     genreY = 440 - verticalOffset
   else
     genreX = ResolutionX(120)
-    genreY = ResolutionY(470)
+    genreY = ResolutionY(460)
   end if
   NowPlayingScreen.genresLabel = RlTextArea(genreText, NowPlayingScreen.smallFont, GetRegularColorForSong(song), genreX, genreY, ResolutionX(500), ResolutionY(30), 2, 0.8, "center")
 
