@@ -55,6 +55,7 @@ Function ArtistImage(filePath as string) as Object
 		this.y = ResolutionY(120 + this.verticalOffset)
 
 		this.image = RlGetScaledImage(this.bitmap, this.width, this.height, 1)
+		if this.image = invalid then this.valid = false
 		this.bitmap = invalid
 	end if
 

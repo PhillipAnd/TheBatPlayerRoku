@@ -25,6 +25,7 @@ Function BackgroundImage(filePath as String) as Object
 	this.bitmap = CreateObject("roBitmap", filePath)
 	if this.bitmap <> invalid then this.valid = true
 	this.image = RlGetScaledImage(this.bitmap, this.size.w, this.size.h, 1)
+	if this.image = invalid then this.valid = false
 
 	this.bitmap = invalid
 
