@@ -114,7 +114,6 @@ Function HandleJSON(jsonString as String)
 
 
  if shouldRefresh = true then
-  print "Refreshing Screen!"
 
      song.popularity = invalid
 

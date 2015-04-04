@@ -33,6 +33,9 @@ Sub HandleStationSelector (msg as Object)
         Station = Stations[selectionIndex]
 				Analytics_StationSelected(Station.stationName, Station.feedurl)
 
+				metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
+				print "JSON for selected station: " + metadataUrl
+
         GetGlobalAA().AddReplace("SongObject", Station)
         Show_Audio_Screen(Station)
         DisplayStationLoading(Station)
@@ -185,15 +188,14 @@ Sub HandleAudioPlayerEvent(msg as Object)
 	endif
 End Sub
 
-
-
 Sub HandleDownloadEvents(msg)
 	if type(msg) = "roUrlEvent" then
-		Identity = str(msg.GetSourceIdentity())
+		Identity = ToStr(msg.GetSourceIdentity())
 		Downloads = GetSession().Downloads
+		TransferRequest = Downloads.lookup(Identity)
 
 		'print msg.GetString() 'Uncomment for troubleshooting
-		print ToStr(msg.GetResponseCode())
+		'print ToStr(msg.GetResponseCode())
 
 		if msg.GetResponseCode() = 200 OR msg.GetFailureReason() = invalid then
 
@@ -208,7 +210,7 @@ Sub HandleDownloadEvents(msg)
 			'JSON
 			if GetGlobalAA().DoesExist("jsontransfer")
 				jsontransfer = GetGlobalAA().Lookup("jsontransfer")
-				jsonIdentity = str(jsontransfer.GetIdentity())
+				jsonIdentity = ToStr(jsontransfer.GetIdentity())
 				if jsonIdentity = Identity then
 					HandleJSON(msg.GetString())
 					GetGlobalAA().Delete("jsontransfer")
@@ -223,7 +225,7 @@ Sub HandleDownloadEvents(msg)
 			'Rdio Playlist search result
 			if GetGlobalAA().DoesExist("RdioPlaylistSearchRequest")
 				transfer = GetGlobalAA().RdioPlaylistSearchRequest
-				if str(transfer.GetIdentity()) = Identity
+				if ToStr(transfer.GetIdentity()) = Identity
 					RdioPlaylistSearchResult(msg.GetString())
 				end if
 			end if
@@ -232,7 +234,7 @@ Sub HandleDownloadEvents(msg)
 			'Rdio search results
 			if GetGlobalAA().DoesExist("RdioRequest")
 				transfer = GetGlobalAA().RdioRequest
-				if str(transfer.GetIdentity()) = Identity
+				if ToStr(transfer.GetIdentity()) = Identity
 					RdioSearchResult(msg.GetString())
 				end if
 			end if
@@ -245,12 +247,18 @@ Sub HandleDownloadEvents(msg)
 
 
 			'Artist popularity
-			if Downloads.DoesExist("PopularityDownload") AND type(Downloads.PopularityDownload) = "roAssociativeArray" AND Identity = str(Downloads.PopularityDownload.Request.GetIdentity())
+			if Downloads.DoesExist("PopularityDownload") AND type(Downloads.PopularityDownload) = "roAssociativeArray" AND Identity = ToStr(Downloads.PopularityDownload.Request.GetIdentity())
 				CompletedArtistPopulartiy(msg)
 			end if
 
 		else
-			print("Download failed. " + msg.GetFailureReason())
+			if TransferRequest <> invalid
+				errorUrl = TransferRequest.GetUrl()
+				print("Download failed. " + errorUrl + " " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason())
+			else
+				print("Download failed. " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason())
+			endif
+
 			song = GetGlobalAA().SongObject
 
 			if IsBackgroundImageDownload(Identity)
@@ -258,6 +266,7 @@ Sub HandleDownloadEvents(msg)
 				song.UseFallbackBackgroundImage = true
 				GetSession().BackgroundImageDownload = invalid
 				UpdateScreen()
+				return
 			end if
 
 			if IsArtistImageDownload(Identity)
@@ -265,7 +274,23 @@ Sub HandleDownloadEvents(msg)
 				song.UseFallbackArtistImage = true
 				GetSession().ArtistImageDownload = invalid
 				UpdateScreen()
+				return
 			end if
+
+
+			if GetGlobalAA().DoesExist("jsontransfer")
+				'Metadata download failed so reset the timer
+
+				if song.MetadataFetchFailure >= 2
+					UpdateScreen()
+				end if
+
+				song.MetadataFetchFailure = song.MetadataFetchFailure + 1
+				timer = GetNowPlayingTimer()
+				timer.mark()
+				return
+			end if
+
 
 
 		end if
@@ -297,6 +322,10 @@ function StartEventLoop()
 			HandleDownloadEvents(msg)
 			HandleNowPlayingScreenEvent(msg)
 			HandleAudioPlayerEvent(msg)
+
+			if type(msg)="roTextureRequestEvent"
+				HandleTextureManager(msg)
+			end if
 
 			'Analytics
 			Analytics = GetSession().Analytics

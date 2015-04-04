@@ -104,7 +104,6 @@ Function CreateSong(title as string, description as string, artist as string, st
 
     item = CreatePosterItem("", title, description)
     url = GetConfig().BatserverCDN + "images/resize/" + urlencode(imageLocation) + "/" + "266/150"
-    print url
 
     item.HDPosterUrl = url
     item.SDPosterUrl = url

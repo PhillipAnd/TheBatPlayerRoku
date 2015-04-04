@@ -57,6 +57,9 @@ Function ArtistImage(filePath as string) as Object
 		this.image = RlGetScaledImage(this.bitmap, this.width, this.height, 1)
 		if this.image = invalid then this.valid = false
 		this.bitmap = invalid
+	else
+		print "*** Artist image isn INVALID"
+		return invalid
 	end if
 
 	'Disable fading for old devices

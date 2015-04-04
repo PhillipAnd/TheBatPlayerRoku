@@ -23,10 +23,17 @@ Function BackgroundImage(filePath as String) as Object
 
 	this.size = GetSession().deviceInfo.GetDisplaySize()
 	this.bitmap = CreateObject("roBitmap", filePath)
-	if this.bitmap <> invalid then this.valid = true
-	this.image = RlGetScaledImage(this.bitmap, this.size.w, this.size.h, 1)
-	if this.image = invalid then this.valid = false
+	if this.bitmap = invalid then
+		print "*** Background image is INVALID"
+		return invalid
+	end if
 
+	this.image = RlGetScaledImage(this.bitmap, this.size.w, this.size.h, 1)
+	if this.image = invalid
+		return invalid
+	end if
+	
+	this.valid = true
 	this.bitmap = invalid
 
 	'Disable fading for old devices

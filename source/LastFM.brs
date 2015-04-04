@@ -4,11 +4,11 @@ Sub ScrobbleTrack(artist as String, track as String)
 		userArray = LastFMAccounts()
 
 		url = "https://ws.audioscrobbler.com/2.0/?method=track.scrobble&format=json"
-		
+
 		if userArray <> invalid AND userArray.count() > 0
 			for each user in userArray
 				sk = user.token
-				print "Scrobbling Using session token: " + sk
+				'print "Scrobbling Using session token: " + sk
 				api_key = GetConfig().LastFMKey
 				api_secret = GetConfig().LastFMSecret
 				timestamp = tostr(CreateObject("roDateTime").AsSeconds())
@@ -35,7 +35,7 @@ End Sub
 Function LastFMAccounts() as Object
 	if GetGlobalAA().DoesExist("ActiveLastFMUsers") then
 		activeUsers = GetGlobalAA().ActiveLastFMUsers
-	else 
+	else
 		activeUsers = CreateObject("roArray", 0, true)
 		GetGlobalAA().ActiveLastFMUsers = activeUsers
 	End if
@@ -59,7 +59,7 @@ Function ToggleLastFMAccounts()
 		return false
 	end if
 	i = 0
-	
+
 	'All users
 	if GetGlobalAA().ActiveLastFM = 0 OR GetGlobalAA().ActiveLastFM = totalUsers + 1
 		for each user in userArray
@@ -81,7 +81,7 @@ Function ToggleLastFMAccounts()
 	details.users = string
 	Analytics = GetSession().Analytics
 	Analytics.AddEvent("Toggled LastFM",details)
-	
+
 	DisplayPopup("Now Scrobbling to Last.FM as: " + string + ".",  &h000000FF, &hBBBBBB00, 3)
 
 	'Reset the timer

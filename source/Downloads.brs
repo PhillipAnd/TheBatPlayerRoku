@@ -4,15 +4,15 @@ Function AsyncGetFile(url as string, filepath as string) as Object
     FileSystem = CreateObject("roFileSystem")
     if FileSystem.Exists(filepath) = true then
       'We already have this file
-      print "*** It seems we already have file: " +url
+      'print "*** It seems we already have file: " +url
     else
       Request = CreateObject("roUrlTransfer")
       Request.SetUrl(url)
       Request.SetPort(GetPort())
       Request.EnableEncodings(True)
       if Request.AsyncGetToFile(filepath) then
-        Identity = str(Request.GetIdentity())
-        print "Started download of: " + url + " to " + filepath ". " + Identity
+        Identity = ToStr(Request.GetIdentity())
+        'print "Started download of: " + url + " to " + filepath ". " + Identity
         Downloads = GetSession().Downloads
         Downloads.AddReplace(Identity, Request)
         return Request
@@ -30,7 +30,7 @@ Function SyncGetFile(url as string, filepath as string)
     FileSystem = CreateObject("roFileSystem")
     if FileSystem.Exists(filepath) = true then
       'We already have this file
-      print "*** It seems we already have file: " +url
+      'print "*** It seems we already have file: " +url
     else
       Request = CreateObject("roUrlTransfer")
       Request.SetUrl(url)

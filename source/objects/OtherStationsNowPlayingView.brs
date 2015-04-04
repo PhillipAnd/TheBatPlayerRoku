@@ -110,7 +110,7 @@ Function otherStationsNowPlaying_draw(screen as Object)
 		m.Destroy()
 
 	'Animate out
-	else if m.TextX < (m.textLength * -1) + m.width - 40
+	else if m.TextX < (m.textLength * -1) + m.width - 300
 		m.BackgroundViewY = m.BackgroundViewY - 2
 		m.TextY = m.TextY - 2
 		m.ReadyToDestroy = true

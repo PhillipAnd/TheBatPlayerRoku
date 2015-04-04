@@ -149,7 +149,7 @@ Sub CreateOverlayColor(song) as integer
 	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
     brightness = Sqr(0.299 * (song.image.color.rgb.red * song.image.color.rgb.red) + 0.587 * (song.image.color.rgb.green * song.image.color.rgb.green) + 0.114 * (song.image.color.rgb.blue * song.image.color.rgb.blue))
     alpha = RlMin(50 * (150 / brightness), 70)
-    print "Background color brightness: " + ToStr(brightness) + ". Calculated alpha: " + ToStr(alpha)
+    print "Color brightness: " + ToStr(brightness) + ". Calculated alpha: " + ToStr(alpha)
 		color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, alpha)
 	else
     print "No overlay color able to be made."
