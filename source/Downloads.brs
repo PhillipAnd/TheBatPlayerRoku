@@ -46,14 +46,18 @@ End Function
 
 Function DownloadBackgroundImageForSong(song as object)
   url = song.backgroundimage
-  request = AsyncGetFile(url,"tmp:/" + makemdfive(url))
-  GetSession().BackgroundImageDownload = request
+  if url <> invalid
+    request = AsyncGetFile(url,"tmp:/" + makemdfive(url))
+    GetSession().BackgroundImageDownload = request
+  end if
 End Function
 
 Function DownloadArtistImageForSong(song as object)
   url = song.artistimage
-  request = AsyncGetFile(url, "tmp:/" + makemdfive(url))
-  GetSession().ArtistImageDownload = request
+  if url <> invalid
+    request = AsyncGetFile(url, "tmp:/" + makemdfive(url))
+    GetSession().ArtistImageDownload = request
+  end if
 End Function
 
 Function IsDownloading(Identity as String) as Boolean
