@@ -277,20 +277,20 @@ Sub HandleDownloadEvents(msg)
 				return
 			end if
 
-
+			'Handle JSON download failures
 			if GetGlobalAA().DoesExist("jsontransfer")
-				'Metadata download failed so reset the timer
+				jsontransfer = GetGlobalAA().Lookup("jsontransfer")
+				jsonIdentity = ToStr(jsontransfer.GetIdentity())
+				if jsonIdentity = Identity then
+					GetGlobalAA().Delete("jsontransfer")
 
-				if song.MetadataFetchFailure >= 2
-					UpdateScreen()
-				end if
+					song.MetadataFetchFailure = song.MetadataFetchFailure + 1
+					timer = GetNowPlayingTimer()
+					timer.mark()
+					return
 
-				song.MetadataFetchFailure = song.MetadataFetchFailure + 1
-				timer = GetNowPlayingTimer()
-				timer.mark()
-				return
+				End if
 			end if
-
 
 
 		end if
