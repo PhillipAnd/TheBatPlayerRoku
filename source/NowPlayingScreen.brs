@@ -27,7 +27,7 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.previousArtistImage = invalid
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
-  NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 220)
+  NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 240)
 
   NowPlayingScreen.UpdateBackgroundImage = true
   NowPlayingScreen.UpdateArtistImage = true
@@ -179,7 +179,7 @@ Function UpdateScreen()
 
   if GetSession().deviceInfo.GetDisplaySize().W = 1280
     genreX = 120
-    genreY = 440 - verticalOffset
+    genreY = 445 - verticalOffset
   else
     genreX = ResolutionX(120)
     genreY = ResolutionY(460)
