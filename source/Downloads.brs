@@ -71,6 +71,13 @@ Function IsBackgroundImageDownload(Identity as String) as Boolean
     end if
 
     BackgroundImageDownload = GetSession().BackgroundImageDownload
+
+    ' I don't know why non-requests (ints to be specific) are showing up
+    ' but for now let's just guard against it.
+    if type(BackgroundImageDownload) <> "roUrlRequest"
+      return false
+    end if
+
     BackgroundImageDownloadIdentity = ToStr(BackgroundImageDownload.GetIdentity())
 
     if BackgroundImageDownloadIdentity = invalid
