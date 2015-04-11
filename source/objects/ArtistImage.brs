@@ -58,7 +58,7 @@ Function ArtistImage(filePath as string) as Object
 		if this.image = invalid then this.valid = false
 		this.bitmap = invalid
 	else
-		print "*** Artist image isn INVALID"
+		print "*** Artist image is INVALID"
 		return invalid
 	end if
 
