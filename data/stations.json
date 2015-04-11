@@ -25,12 +25,6 @@
   "stream": "http://205.164.41.34:6699/",
   "image": "http://api.thebatplayer.fm/client/images/sanctuaryradiologo.png"
 }, {
-  "name": "Tupac Radio",
-  "provider": "2Pac Forum",
-  "format": "mp3",
-  "stream": "http://173.71.215.167:8000/",
-  "image": "http://i1.sndcdn.com/avatars-000036922398-2wpj8u-crop.jpg"
-}, {
   "name": "Uzic Techno",
   "provider": "Uzic",
   "format": "mp3",
