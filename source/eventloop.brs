@@ -283,7 +283,7 @@ Sub HandleDownloadEvents(msg)
 				jsonIdentity = ToStr(jsontransfer.GetIdentity())
 				if jsonIdentity = Identity then
 					GetGlobalAA().Delete("jsontransfer")
-
+					if song.MetadataFetchFailure = invalid then song.MetadataFetchFailure = 0
 					song.MetadataFetchFailure = song.MetadataFetchFailure + 1
 					timer = GetNowPlayingTimer()
 					timer.mark()
