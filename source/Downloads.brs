@@ -97,6 +97,13 @@ Function IsArtistImageDownload(Identity as String) as Boolean
     end if
 
     ArtistImageDownload = GetSession().ArtistImageDownload
+
+    ' I don't know why non-requests (ints to be specific) are showing up
+    ' but for now let's just guard against it.
+    if type(ArtistImageDownload) <> "roUrlRequest"
+      return false
+    end if
+
     ArtistImageDownloadIdentity = ToStr(ArtistImageDownload.GetIdentity())
 
     if ArtistImageDownloadIdentity = invalid
