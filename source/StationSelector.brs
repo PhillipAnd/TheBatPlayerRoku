@@ -155,7 +155,7 @@ End Function
 Function ShowConfigurationMessage(StationSelectionScreen as object)
     Analytics = GetSession().Analytics
     Analytics.AddEvent("Configuration Popup Displayed")
-    RegWrite("initialpopupdisplayed", true, "batplayer")
+    RegWrite("initialpopupdisplayed", "true", "batplayer")
 
     ipAddress = GetIPAddress()
 
