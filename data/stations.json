@@ -22,7 +22,7 @@
   "name": "Goth Industrial Electro",
   "provider": "Sanctuary Radio",
   "format": "mp3",
-  "stream": "http://205.164.41.34:6699/",
+  "stream": "http://streams.getmyip.com/",
   "image": "http://api.thebatplayer.fm/client/images/sanctuaryradiologo.png"
 }, {
   "name": "Uzic Techno",
@@ -34,7 +34,7 @@
   "name": "80s Retro",
   "provider": "Sanctuary Radio",
   "format": "mp3",
-  "stream": "http://205.164.41.42:1330/",
+  "stream": "http://stream.getmyip.com/",
   "image": "http://cdn.thebatplayer.fm/client/images/sanctuaryradiologo2.png"
 }, {
   "name": "Classic Rock",
