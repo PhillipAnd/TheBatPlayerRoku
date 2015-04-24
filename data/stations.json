@@ -22,7 +22,7 @@
   "name": "Goth Industrial Electro",
   "provider": "Sanctuary Radio",
   "format": "mp3",
-  "stream": "http://streams.getmyip.com/",
+  "stream": "http://23.27.51.2:6699/",
   "image": "http://api.thebatplayer.fm/client/images/sanctuaryradiologo.png"
 }, {
   "name": "Uzic Techno",
