@@ -17,7 +17,6 @@ Function GetJSONAtUrl(url as String)
     Request.SetUrl(metadataUrl)
     Request.SetPort(GetPort())
     Request.EnableEncodings(True)
-    Request.EnableEncodings(True)
     Request.EnableResume(True)
     GetGlobalAA().AddReplace("jsontransfer", Request)
 
@@ -31,7 +30,7 @@ Function HandleJSON(jsonString as String)
   'Reset audio player counter on success
   Audio = GetGlobalAA().AudioPlayer
   Audio.failCounter = 0
-  
+
   jsonObject = ParseJSON(jsonString)
   song = GetGlobalAA().Lookup("SongObject")
   NowPlayingScreen = GetNowPlayingScreen()
