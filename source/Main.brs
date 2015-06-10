@@ -1,22 +1,15 @@
-REM ******************************************************
-REM
-REM Main - all Roku scripts startup here.
-REM
-REM
-REM ******************************************************
-Sub Main()
+Sub RunUserInterface(aa as Object)
     'DeleteRegistry()
 
-    Analytics = GetSession().Analytics
     internetConnection = GetSession().deviceInfo.GetLinkStatus()
     if internetConnection = true
+      Analytics = GetSession().Analytics
       Analytics.AddEvent("Application Launched")
-      InitBatPlayer()
-      InitFonts()
+
       GetStationSelectionHeader()
-      StartServerWithPort(GetPort())
-      InitLastFM()
       ListStations()
+      InitBatPlayer()
+      StartServerWithPort(GetPort())
       StartEventLoop()
     else
       HandleInternetConnectivity()
@@ -26,4 +19,7 @@ End Sub
 Function InitBatPlayer()
 	GetGlobalAA().lastSongTitle = ""
     FindRdioPlaylist()
+    InitLastFM()
+    InitFonts()
+
 End Function

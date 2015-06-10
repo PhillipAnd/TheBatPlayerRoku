@@ -137,7 +137,7 @@ Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynam
 End Function
 
 Function GetStationSelectionHeader()
-    if NOT FileExists("headerImage.png")
+    if NOT FileExists("tmp:/headerImage.png")
         Request = CreateObject("roUrlTransfer")
 
         ipAddress = GetIPAddress()
@@ -146,8 +146,9 @@ Function GetStationSelectionHeader()
         width = ToStr(device.GetDisplaySize().w)
         url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
         print url
-        Request.SetUrl(url)
-        Request.GetToFile("tmp:/headerImage.png")
+        SyncGetFile(url, "tmp:/headerImage.png")
+        'Request.SetUrl(url)
+        'Request.GetToFile("tmp:/headerImage.png")
     end if
 End Function
 
