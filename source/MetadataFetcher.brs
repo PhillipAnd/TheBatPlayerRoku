@@ -162,15 +162,10 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 	Session = GetSession()
 
 	if url <> invalid
-		url = url + "7.html"
+		url = GetConfig().Batserver + "nowplaying/" + UrlEncode(url)
 
 		Request = CreateObject("roUrlTransfer")
-
-		useragent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13"
-		Request.AddHeader("user-agent", useragent)
-    Request.RetainBodyOnError(true)
 		Request.SetUrl(url)
-
 		Request.SetPort(GetPort())
 		if Request.AsyncGetToString() then
 
@@ -200,18 +195,16 @@ Function CompletedOtherStationsMetadata(msg as Object)
   if msg <> invalid
   	Identity = ToStr(msg.GetSourceIdentity())
   	key = "OtherStationsRequest-" + Identity
-
-  	stationRequestObject = Session.StationDownloads.Downloads.Lookup(key)
-  	Session.StationDownloads.Downloads.Delete(key)
-
-  	data = StringRemoveHTMLTags(msg.GetString())
-  	track = data.Tokenize(",")
-  	track = track[6]
+    jsonObject = ParseJSON(msg.GetString())
+    track = jsonObject.title
 
     'If there's no data then don't deal with it
     if track = invalid
       return false
     end if
+
+  	stationRequestObject = Session.StationDownloads.Downloads.Lookup(key)
+  	Session.StationDownloads.Downloads.Delete(key)
 
     if stationRequestObject.usedForStationSelector = true
       StationSelectorNowPlayingTrackReceived(track, stationRequestObject.stationSelectorIndex)
