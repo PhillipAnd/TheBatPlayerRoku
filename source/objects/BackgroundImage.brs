@@ -14,7 +14,7 @@ Function BackgroundImage(filePath as String) as Object
 
 		isFadingIn: true
 		isFadingOut: false
-		fadeAmount: 2
+		fadeAmount: GetConfig().ImageFadeDuration
 
 		valid: false
 
@@ -32,7 +32,7 @@ Function BackgroundImage(filePath as String) as Object
 	if this.image = invalid
 		return invalid
 	end if
-	
+
 	this.valid = true
 	this.bitmap = invalid
 

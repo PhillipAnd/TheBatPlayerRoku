@@ -20,7 +20,7 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 
 		isFadingIn: true
 		isFadingOut: false
-		fadeAmount: 2.5
+		fadeAmount: GetConfig().ImageFadeDuration
 		overlayColor: overlayColor
 
 		draw: albumImage_draw
