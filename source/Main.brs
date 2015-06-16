@@ -1,6 +1,5 @@
 Sub RunUserInterface(aa as Object)
     'DeleteRegistry()
-    print "------ Downloading header ------"
     GetStationSelectionHeader()
     print "------ Listing stations ------"
     ListStations()

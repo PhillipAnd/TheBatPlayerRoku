@@ -1,6 +1,6 @@
 Function ListStations()
     print "------ Displaying Station Selector ------"
-    
+
     GetGlobalAA().IsStationSelectorDisplayed = true
     GetGlobalAA().delete("screen")
     GetGlobalAA().delete("song")
@@ -138,6 +138,8 @@ Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynam
 End Function
 
 Function GetStationSelectionHeader()
+    print "------ Downloading header ------"
+
     if NOT FileExists("tmp:/headerImage.png")
         Request = CreateObject("roUrlTransfer")
 
@@ -147,6 +149,9 @@ Function GetStationSelectionHeader()
         width = ToStr(device.GetDisplaySize().w)
         url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
         SyncGetFile(url, "tmp:/headerImage.png")
+        print "------ Header download complete ------"
+    else
+        print "Not required to download."
     end if
 End Function
 
