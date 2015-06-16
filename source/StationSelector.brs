@@ -1,5 +1,6 @@
 Function ListStations()
-
+    print "------ Displaying Station Selector ------"
+    
     GetGlobalAA().IsStationSelectorDisplayed = true
     GetGlobalAA().delete("screen")
     GetGlobalAA().delete("song")
@@ -145,10 +146,7 @@ Function GetStationSelectionHeader()
         device = GetSession().deviceInfo
         width = ToStr(device.GetDisplaySize().w)
         url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
-        print url
         SyncGetFile(url, "tmp:/headerImage.png")
-        'Request.SetUrl(url)
-        'Request.GetToFile("tmp:/headerImage.png")
     end if
 End Function
 
@@ -171,14 +169,15 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
     dialog.EnableBackButton(true)
     dialog.Show()
     While True
-        msg = wait(0, dialog.GetMessagePort())
+        'msg = wait(0, dialog.GetMessagePort())
+        msg = port.GetMessage()
         HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
 
         If type(msg) = "roMessageDialogEvent"
             if msg.isButtonPressed()
                 if msg.GetIndex() = 1
                     Analytics.AddEvent("Configuration Popup Dismissed")
-                    ListStations()
+                    dialog.close()
                     exit while
                 end if
             else if msg.isScreenClosed()

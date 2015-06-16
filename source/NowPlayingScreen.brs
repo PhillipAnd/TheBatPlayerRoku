@@ -99,40 +99,49 @@ Function UpdateScreen()
     song.image.color.hex = "#ffffffff"
   end if
 
-    'Artist Image
-    if isstr(song.artistimage) AND FileExists(makemdfive(song.artistimage)) then
-      artistImageFilePath = "tmp:/" + makemdfive(song.artistimage)
+  'Artist Image
+  if song.UseFallbackArtistImage = true
+    NowPlayingScreen.artistImage = ArtistImage("tmp:/" + makemdfive(song.StationImage))
+  else if isstr(song.artistimage) AND FileExists(makemdfive(song.artistimage)) then
+    artistImageFilePath = "tmp:/" + makemdfive(song.artistimage)
 
-      if artistImageFilePath <> invalid AND NowPlayingScreen.UpdateArtistImage = true then
-        NowPlayingScreen.artistImage = ArtistImage(artistImageFilePath)
+    if artistImageFilePath <> invalid AND NowPlayingScreen.UpdateArtistImage = true then
+      NowPlayingScreen.artistImage = ArtistImage(artistImageFilePath)
+
+      if NowPlayingScreen.artistImage = invalid
+        song.UseFallbackArtistImage = true
+        NowPlayingScreen.UpdateArtistImage = true
+      else
         NowPlayingScreen.UpdateArtistImage = false
       end if
-    else if song.UseFallbackArtistImage = true
-      NowPlayingScreen.artistImage = ArtistImage("tmp:/" + makemdfive(song.StationImage))
+
+
     end if
 
-    'Artist bio
-    bioText = GetBioTextForSong(song)
+  end if
 
-    'Song Name
-    if song.Title <> invalid then
-   		songTitle = song.Title
-    end if
+  'Artist bio
+  bioText = GetBioTextForSong(song)
 
-    'Album Image
-    if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = true then
-      albumImageFilePath = "tmp:/album-" + makemdfive(song.album.name + song.artist)
-      NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 250, CreateAlbumOverlayColor(song))
-      NowPlayingScreen.UpdateAlbumImage = false
+  'Song Name
+  if song.Title <> invalid then
+ 		songTitle = song.Title
+  end if
+
+  'Album Image
+  if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = true then
+    albumImageFilePath = "tmp:/album-" + makemdfive(song.album.name + song.artist)
+    NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 250, CreateAlbumOverlayColor(song))
+    NowPlayingScreen.UpdateAlbumImage = false
+  endif
+
+  if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid
+    'Album Name
+    if (song.album.DoesExist("released") AND song.album.released <> invalid) then
+      albumTitle = song.album.name + " (" + ToStr(song.album.released) + ")"
+    else
+      albumTitle = song.album.name
     endif
-
-    if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid
-      'Album Name
-      if (song.album.DoesExist("released") AND song.album.released <> invalid) then
-        albumTitle = song.album.name + " (" + ToStr(song.album.released) + ")"
-      else
-        albumTitle = song.album.name
-      endif
   endif
 
   'Genres
@@ -317,6 +326,10 @@ End Function
 Function RefreshNowPlayingScreen()
 
   NowPlayingScreen = GetNowPlayingScreen()
+
+  if GetGlobalAA().IsStationSelectorDisplayed = true
+    return false
+  end if
 
   song = NowPlayingScreen.song
 

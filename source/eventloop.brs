@@ -3,7 +3,6 @@ REM Global event loop
 
 Sub HandleStationSelector (msg as Object)
 
-
 	if GetGlobalAA().IsStationSelectorDisplayed <> true
 		return
 	end if
@@ -23,25 +22,23 @@ Sub HandleStationSelector (msg as Object)
 
 
 	if msg.isListItemSelected()
-				GetGlobalAA().IsStationSelectorDisplayed = false
+		GetGlobalAA().IsStationSelectorDisplayed = false
 
-				StationList = GetGlobalAA().StationList
+		StationList = GetGlobalAA().StationList
 
-        selectionIndex = msg.GetData()
+    selectionIndex = msg.GetData()
 
-        Stations = GetGlobalAA().SelectableStations
-        Station = Stations[selectionIndex]
-				Analytics_StationSelected(Station.stationName, Station.feedurl)
+    Stations = GetGlobalAA().SelectableStations
+    Station = Stations[selectionIndex]
+		Analytics_StationSelected(Station.stationName, Station.feedurl)
 
-				metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
-				print "JSON for selected station: " + metadataUrl
+		metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
+		print "JSON for selected station: " + metadataUrl
 
-        GetGlobalAA().AddReplace("SongObject", Station)
-        Show_Audio_Screen(Station)
-        DisplayStationLoading(Station)
-				SelectionScreen = GetGlobalAA().StationSelectionScreen
-				SelectionScreen.close()
-				return
+    GetGlobalAA().AddReplace("SongObject", Station)
+    Show_Audio_Screen(Station)
+    DisplayStationLoading(Station)
+		return
 	end if
 
 End Sub
@@ -82,14 +79,16 @@ Sub HandleNowPlayingScreenEvent (msg as Object)
 
 	  else if key = 0 then
 	    'Exit
-	    ListStations()
-
+	    'ListStations()
+			NowPlayingScreen = GetNowPlayingScreen()
+			NowPlayingScreen.screen = invalid
+			GetGlobalAA().IsStationSelectorDisplayed = true
 	  else if key = 106
-	  	'Show help message
-	  	DisplayHelpPopup()
+			' Display help message
+			DisplayHelpPopup()
 	  end if
 
-    end if
+  end if
 
 End Sub
 
@@ -115,44 +114,44 @@ Sub HandleTimers()
 				if song.Artist <> invalid and song.Title <> invalid and song.metadatafault <> true and song.metadataFetched = true
 					NowPlayingScreen.scrobbleTimer = invalid
       				ScrobbleTrack(song.Artist, song.Title)
-      			end if
-      		end if
       	end if
+      end if
+    end if
 
-      	'Popularity Ranking
-      	if NowPlayingScreen.PopularityTimer <> invalid AND Song.PopularityFetchCounter <> invalid
-      		if NowPlayingScreen.PopularityTimer.totalSeconds() >= 5 AND Song.PopularityFetchCounter < 10
-      			FetchPopularityForArtistName(song.Artist)
-      		end if
-      	end if
+  	'Popularity Ranking
+  	if NowPlayingScreen.PopularityTimer <> invalid AND Song.PopularityFetchCounter <> invalid
+  		if NowPlayingScreen.PopularityTimer.totalSeconds() >= 5 AND Song.PopularityFetchCounter < 10
+  			FetchPopularityForArtistName(song.Artist)
+  		end if
+  	end if
 
 
-      	'Now Playing on other stations
-      	if (Session.StationDownloads <> invalid AND Session.StationDownloads.Timer <> invalid AND Session.StationDownloads.Timer.totalSeconds() > GetConfig().MetadataFetchTimer)
-      		CancelOtherStationsNowPlayingRequests()
-      	end if
+  	'Now Playing on other stations
+  	if (Session.StationDownloads <> invalid AND Session.StationDownloads.Timer <> invalid AND Session.StationDownloads.Timer.totalSeconds() > GetConfig().MetadataFetchTimer)
+  		CancelOtherStationsNowPlayingRequests()
+  	end if
 
-      	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 1000
-  		    NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
-      		CreateOtherStationsNowPlaying()
-      	end if
+  	if NowPlayingScreen.NowPlayingOtherStationsTimer <> invalid AND NowPlayingScreen.NowPlayingOtherStationsTimer.totalSeconds() > 1000
+	    NowPlayingScreen.NowPlayingOtherStationsTimer.mark()
+  		CreateOtherStationsNowPlaying()
+  	end if
 
-				'Image download timeouts
-				if (NowPlayingScreen.artistImage = invalid OR song.ArtistImageDownloadTimer <> invalid AND NowPlayingScreen.artistImage.valid <> true ) AND song.ArtistImageDownloadTimer <> invalid AND song.ArtistImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
-					song.UseFallbackArtistImage = true
-					song.ArtistImageDownloadTimer = invalid
-					if GetGlobalAA().IsStationSelectorDisplayed <> true
-						UpdateScreen()
-					end if
-				end if
+		'Image download timeouts
+		if song.ArtistImageDownloadTimer <> invalid AND song.ArtistImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
+			if NowPlayingScreen.artistImage = invalid OR NowPlayingScreen.artistImage.valid <> true
+				song.UseFallbackArtistImage = true
+				song.ArtistImageDownloadTimer = invalid
+				UpdateScreen()
+			end if
+		end if
 
-				if (NowPlayingScreen.BackgroundImage = invalid OR NowPlayingScreen.BackgroundImage <> invalid AND NowPlayingScreen.BackgroundImage.valid <> true ) AND song.BackgroundImageDownloadTimer <> invalid AND song.BackgroundImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
-					song.UseFallbackBackgroundImage = true
-					song.BackgroundImageDownloadTimer = invalid
-					if GetGlobalAA().IsStationSelectorDisplayed <> true
-						UpdateScreen()
-					end if
-				end if
+		if song.BackgroundImageDownloadTimer <> invalid AND song.BackgroundImageDownloadTimer.totalSeconds() > GetConfig().ImageDownloadTimeout
+			if NowPlayingScreen.BackgroundImage = invalid OR NowPlayingScreen.BackgroundImage.valid <> true
+				song.UseFallbackBackgroundImage = true
+				song.BackgroundImageDownloadTimer = invalid
+				UpdateScreen()
+			end if
+		end if
 
 	end if
 
@@ -193,9 +192,6 @@ Sub HandleDownloadEvents(msg)
 		Identity = ToStr(msg.GetSourceIdentity())
 		Downloads = GetSession().Downloads
 		TransferRequest = Downloads.lookup(Identity)
-
-		'print msg.GetString() 'Uncomment for troubleshooting
-		'print ToStr(msg.GetResponseCode())
 
 		if msg.GetResponseCode() = 200 OR msg.GetFailureReason() = invalid then
 
@@ -263,6 +259,7 @@ Sub HandleDownloadEvents(msg)
 
 			if IsBackgroundImageDownload(Identity)
 				'Background Image download failed
+				print "Using background fallback image."
 				song.UseFallbackBackgroundImage = true
 				GetSession().BackgroundImageDownload = invalid
 				UpdateScreen()
@@ -271,6 +268,7 @@ Sub HandleDownloadEvents(msg)
 
 			if IsArtistImageDownload(Identity)
 				'Artist Image download failed
+				print "Using artist fallback image."
 				song.UseFallbackArtistImage = true
 				GetSession().ArtistImageDownload = invalid
 				UpdateScreen()
