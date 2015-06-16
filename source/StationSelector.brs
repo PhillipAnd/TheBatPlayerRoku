@@ -16,39 +16,15 @@ Function ListStations()
     StationSelectionScreen.SetLoadingPoster("pkg:/images/icon-hd.png", "pkg:/images/icon-sd.png")
     port = GetPort()
     StationSelectionScreen.SetMessagePort(port)
+    GetGlobalAA().AddReplace("StationSelectionScreen", StationSelectionScreen)
 
-    stationsArray = GetStations()
 
     StationSelectionScreen.SetupLists(1)
     StationSelectionScreen.SetListName(0, "Stations")
 
-    Session = GetSession()
-
-    SelectableStations = CreateObject("roArray", stationsArray.Count(), true)
-    for i = 0 to stationsArray.Count()-1
-
-        station = stationsArray[i]
-
-        FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
-
-        stationObject = CreateSong(station.name,station.provider,"", station.format, station.stream, station.image)
-        SelectableStations.Push(stationObject)
-
-        'Download custom poster images
-        url = GetConfig().BatserverCDN + "images/resize/" + urlencode(station.image) + "/" + "266/150"
-        if NOT FileExists(makemdfive(station.image))
-          AsyncGetFile(url, "tmp:/" + makemdfive(station.image))
-        end if
-
-    end for
-
-    GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
-    GetGlobalAA().AddReplace("StationSelectionScreen", StationSelectionScreen)
-
-    StationSelectionScreen.SetContentList(0, SelectableStations)
-    StationSelectionScreen.Show()
-
+    UpdateStations()
     HandleInternetConnectivity()
+    StationSelectionScreen.Show()
 
     'First launch popup
     if RegRead("initialpopupdisplayed", "batplayer") = invalid
@@ -59,6 +35,32 @@ Function ListStations()
 
     Return -1
 
+End Function
+
+Function UpdateStations()
+  StationSelectionScreen = GetGlobalAA().StationSelectionScreen
+  stationsArray = GetStations()
+  SelectableStations = CreateObject("roArray", stationsArray.Count(), true)
+
+  for i = 0 to stationsArray.Count()-1
+
+      station = stationsArray[i]
+
+      FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
+
+      stationObject = CreateSong(station.name,station.provider,"", station.format, station.stream, station.image)
+      SelectableStations.Push(stationObject)
+
+      'Download custom poster images
+      url = GetConfig().BatserverCDN + "images/resize/" + urlencode(station.image) + "/" + "266/150"
+      if NOT FileExists(makemdfive(station.image))
+        AsyncGetFile(url, "tmp:/" + makemdfive(station.image))
+      end if
+
+  end for
+
+  GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
+  StationSelectionScreen.SetContentList(0, SelectableStations)
 End Function
 
 Function HandleInternetConnectivity()
