@@ -82,6 +82,7 @@ Sub HandleNowPlayingScreenEvent (msg as Object)
 	    'ListStations()
 			NowPlayingScreen = GetNowPlayingScreen()
 			NowPlayingScreen.screen = invalid
+			GetGlobalAA().lastSongTitle = invalid
 			GetGlobalAA().IsStationSelectorDisplayed = true
 	  else if key = 106
 			' Display help message
