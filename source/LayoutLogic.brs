@@ -40,6 +40,6 @@ Sub StationDetailsLabel(listeners as String, bitrate as String) as Object
       text = "This server: " + listeners + " listeners " + bitrate + "kbps"
     end if
 
-    label = RlTextArea(text, font, &hFFFFFFFF, 182, ResolutionY(70), 300, 50, 1, 1, "left")
+    label = RlTextArea(text, font, &hFFFFFFFF, 182, ResolutionY(68), 300, 50, 1, 1, "left")
     return label
 End Sub

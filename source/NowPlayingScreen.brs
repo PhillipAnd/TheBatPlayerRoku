@@ -259,9 +259,13 @@ Function DrawScreen()
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
 
 		'Header
+    headerTitleY = 35
+    if NowPlayingScreen.song.stationDetails.Listeners <> invalid
+      headerTitleY = 28
+    end if
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
 		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
-		NowPlayingScreen.screen.DrawText(NowPlayingScreen.stationTitle,180,28,&hFFFFFFFF,NowPlayingScreen.headerFont)
+		NowPlayingScreen.screen.DrawText(NowPlayingScreen.stationTitle,180,headerTitleY,&hFFFFFFFF,NowPlayingScreen.headerFont) 'Station title
 
     DrawStationDetailsLabel(NowPlayingScreen)
     DrawHelpLabel(NowPlayingScreen)
