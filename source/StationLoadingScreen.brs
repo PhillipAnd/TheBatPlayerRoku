@@ -27,7 +27,7 @@ Function initStationLoadingScreen()
 					},
 	        {
 	            url:m.stationImage
-	            TargetRect:{x:ResolutionX(390),y:ResolutionY(170),w:ResolutionX(450),h:ResolutionY(400)}
+	            TargetRect:{x:ResolutionX(390),y:ResolutionY(200),w:ResolutionX(450),h:ResolutionY(350)}
 	        },
 	        {
 	        	url:"pkg:/images/batoverlay.png"
@@ -47,7 +47,6 @@ Function initStationLoadingScreen()
 	LoadingScreen.SetMessagePort(port)
 
 	LoadingScreen.SetLayer(0, {Color:"#FF000000", CompositionMode:"Source"})
-	LoadingScreen.SetRequireAllImagesToDraw(true)
 	LoadingScreen.SetLayer(1, canvasItems)
 	LoadingScreen.Show()
 	m.canvas = LoadingScreen
