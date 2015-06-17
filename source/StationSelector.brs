@@ -142,7 +142,7 @@ End Function
 Function GetStationSelectionHeader()
     print "------ Downloading header ------"
 
-    if NOT FileExists("tmp:/headerImage.png")
+    if NOT FileExists("tmp:/headerImage.jpg")
         Request = CreateObject("roUrlTransfer")
 
         ipAddress = GetIPAddress()
@@ -150,7 +150,8 @@ Function GetStationSelectionHeader()
         device = GetSession().deviceInfo
         width = ToStr(device.GetDisplaySize().w)
         url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
-        SyncGetFile(url, "tmp:/headerImage.png")
+        print url
+        SyncGetFile(url, "tmp:/headerImage.jpg")
         print "------ Header download complete ------"
     else
         print "Not required to download."

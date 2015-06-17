@@ -14,8 +14,8 @@ Sub SetTheme()
   	theme.GridScreenDescriptionTitleColor = "#FFFFFF"
   	theme.GridScreenDescriptionSynopsisColor = "#000000"
 
-    theme.GridScreenLogoHD = "tmp:/headerImage.png"
-    theme.GridScreenLogoSD = "tmp:/headerImage.png"
+    theme.GridScreenLogoHD = "tmp:/headerImage.jpg"
+    theme.GridScreenLogoSD = "tmp:/headerImage.jpg"
 
     theme.GridScreenLogoOffsetHD_X = "0"
     theme.GridScreenLogoOffsetHD_Y = "0"

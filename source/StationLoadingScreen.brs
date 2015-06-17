@@ -18,11 +18,11 @@ Function initStationLoadingScreen()
 
     device = GetSession().deviceInfo
     width = device.GetDisplaySize().w
-		headerSize = SizeOfImageAtPath("tmp:/headerImage.png")
+		headerSize = SizeOfImageAtPath("tmp:/headerImage.jpg")
 
 		canvasItems = [
 					{
-						url: "tmp:/headerImage.png",
+						url: "tmp:/headerImage.jpg",
 						TargetRect:{x:ResolutionX(0),y:ResolutionY(0),w:width,h:headerSize.height}
 					},
 	        {
