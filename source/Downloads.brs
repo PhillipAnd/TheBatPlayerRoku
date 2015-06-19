@@ -10,6 +10,8 @@ Function AsyncGetFile(url as string, filepath as string) as Object
       Request.SetUrl(url)
       Request.SetPort(GetPort())
       Request.EnableEncodings(True)
+      Request.AddHeader("Accept-Encoding","deflate")
+      Request.AddHeader("Accept-Encoding","gzip")
       if Request.AsyncGetToFile(filepath) then
         Identity = ToStr(Request.GetIdentity())
         'print "Started download of: " + url + " to " + filepath ". " + Identity
@@ -34,6 +36,8 @@ Function SyncGetFile(url as string, filepath as string)
     else
       Request = CreateObject("roUrlTransfer")
       Request.SetUrl(url)
+      Request.AddHeader("Accept-Encoding","deflate")
+      Request.AddHeader("Accept-Encoding","gzip")
       if Request.GetToFile(filepath) then
         'print "Started download of: " + url + " to " + filepath ". " + Identity
       else
