@@ -165,3 +165,11 @@ function HtmlEntityDecode(inStr)
 
   return result
 end function
+
+Function SanitizeStreamUrl(url)
+  if Right(url) <> "/"
+    url = url + "/"
+  end if
+
+  return url
+end function
