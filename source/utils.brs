@@ -167,8 +167,14 @@ function HtmlEntityDecode(inStr)
 end function
 
 Function SanitizeStreamUrl(url)
-  if Right(url) <> "/"
-    url = url + "/"
+  if url.Right(1) <> "/"
+    url = url + "/;"
+    return url
+  end if
+
+  if url.Right(1) = "/"
+    url = url + ";"
+    return url
   end if
 
   return url

@@ -163,24 +163,32 @@ End Sub
 Sub HandleAudioPlayerEvent(msg as Object)
 	if type(msg) = "roAudioPlayerEvent"  then	' event from audio player
 	Audio = GetGlobalAA().AudioPlayer
-
-		song = GetGlobalAA().SongObject
-
+	Station = Audio.station
+	song = GetGlobalAA().SongObject
+	
 	    if msg.isStatusMessage() then
 	        message = msg.getMessage()
 	    else if msg.isListItemSelected() then
-	        song.failCounter = 0
+	        Station.failCounter = 0
 					Audio.audioplayer.Seek(-180000)
 	        Get_Metadata(song, GetPort())
 	    else if msg.isRequestSucceeded() OR msg.isRequestFailed()
 	    	if Audio.failCounter < 5 then
-	        	print "FullResult: End of Stream.  Restarting.  Failures: " + str(Audio.failCounter)
+
+						if Audio.FailCounter > 2
+							url = Station.url
+							print "Attempting to sanitize url: " + url
+							url = SanitizeStreamUrl(url)
+							Audio.updateStreamUrl(url)
+						end if
+
+	        	print "FullResult: End of Stream. " + Station.url + "  Restarting.  Failures: " + str(Audio.failCounter)
 	        	Audio.AudioPlayer.stop()
 	        	Audio.AudioPlayer.play()
 						Audio.Audioplayer.Seek(-180000)
 	        	Audio.failCounter = Audio.failCounter + 1
 	        else
-	        	BatLog("Failed playing station.", song.feedurl)
+	        	BatLog("Failed playing station.", Station.url)
 	        	Audio.AudioPlayer.stop()
 	        	Audio.failCounter = 0
 	        	ListStations()

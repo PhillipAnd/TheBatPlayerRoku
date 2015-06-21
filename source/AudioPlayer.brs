@@ -16,7 +16,7 @@ REM
 REM ******************************************************
 Function AudioInit() As Object
 	o = CreateObject("roAssociativeArray")
-	
+
 	o.isPlayState			= 0   ' Stopped
 	o.setPlayState			= audioPlayer_newstate
 	o.setupSong			= audioPlayer_setup
@@ -28,9 +28,10 @@ Function AudioInit() As Object
 	audioPlayer.SetMessagePort(o.port)
 	o.audioPlayer			= audioPlayer
 	o.failCounter = 0
-
+	o.updateStreamUrl = audioPlayer_updateStreamUrl
+	o.station = invalid
 	audioPlayer.SetLoop(0)
-	
+
 	return o
 End Function
 
@@ -44,8 +45,15 @@ Sub audioPlayer_setup(song As string, format as string)
 	item = CreateObject("roAssociativeArray")
 	item.Url = song
 	item.StreamFormat = format
+	m.station = item
 	m.audioPlayer.AddContent(item)
 End Sub
+
+Sub audioPlayer_updateStreamUrl(url as String)
+	m.station.url = url
+	m.audioPlayer.ClearContent()
+	m.audioPlayer.AddContent(m.station)
+end sub
 
 Sub audioPlayer_reset()
 	m.setPlayState(0)
@@ -86,6 +94,6 @@ REM
 REM Set content list
 REM
 REM ******************************************************
-Sub audioPlayer_set_content_list(contentList As Object) 
+Sub audioPlayer_set_content_list(contentList As Object)
 	m.audioPlayer.SetContentList(contentList)
 End Sub
