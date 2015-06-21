@@ -101,7 +101,7 @@ Function GetRegularColorForSong(song as Object) as Integer
 	if NOT song.DoesExist("image") OR NOT song.image.DoesExist("color") OR NOT song.image.color.DoesExist("rgb") OR song.image.color.rgb = invalid
 		return MakeARGB(250,250,250,250)
 	else
-	  	targetBrightness = 73
+	  	targetBrightness = 90
 
 	  	red = song.image.color.rgb.red
 	  	green = song.image.color.rgb.green
@@ -116,7 +116,7 @@ Function GetRegularColorForSong(song as Object) as Integer
 	  	green = updatedColors[1]
 	  	blue = updatedColors[2]
 
-    return AlterSaturationForRGB(red, green, blue, alpha, 2.8)
+    return AlterSaturationForRGB(red, green, blue, alpha, 1.0)
 
 	end if
 End Function
@@ -148,7 +148,7 @@ End Function
 Sub CreateOverlayColor(song) as integer
 	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
     brightness = Sqr(0.299 * (song.image.color.rgb.red * song.image.color.rgb.red) + 0.587 * (song.image.color.rgb.green * song.image.color.rgb.green) + 0.114 * (song.image.color.rgb.blue * song.image.color.rgb.blue))
-    alpha = RlMin(50 * (150 / brightness), 70)
+    alpha = RlMin(50 * (150 / brightness), 90)
     print "Color brightness: " + ToStr(brightness) + ". Calculated alpha: " + ToStr(alpha)
 		color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, alpha)
 	else

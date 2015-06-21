@@ -254,7 +254,7 @@ Function DrawScreen()
     if NowPlayingScreen.OverlayColor <> invalid
       NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, song.OverlayColor) 'Color overlay
     end if
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 210) 'Black overlay
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 200) 'Black overlay
     NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 210) 'Top Gradient
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
 
