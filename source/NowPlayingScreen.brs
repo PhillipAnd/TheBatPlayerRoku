@@ -7,7 +7,7 @@ Function CreateNowPlayingScreen() as Object
 	NowPlayingScreen = CreateObject("roAssociativeArray")
 
 	NowPlayingScreen.headerFont = GetHeaderFont()
-  NowPlayingScreen.boldFont = GetLargeBoldFont()
+  NowPlayingScreen.boldFont = GetLargeFont()
   NowPlayingScreen.defaultFont = GetMediumFont()
   NowPlayingScreen.smallFont = GetSmallFont()
   NowPlayingScreen.songNameFont = GetSongNameFont()
@@ -176,7 +176,7 @@ Function UpdateScreen()
 	endif
 
   songNameHeight = GetTextHeight(songTitle, 500, NowPlayingScreen.songNameFont)
-  artistNameLocation = 165 - songNameHeight
+  artistNameLocation = 155 - songNameHeight
   songNameLocation = artistNameLocation + 40
 
   NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, song, artistNameLocation, NowPlayingScreen.boldFont)
@@ -261,7 +261,7 @@ Function DrawScreen()
 		'Header
     headerTitleY = 35
     if NowPlayingScreen.song.stationDetails.Listeners <> invalid
-      headerTitleY = 28
+      headerTitleY = 25
     end if
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
 		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)

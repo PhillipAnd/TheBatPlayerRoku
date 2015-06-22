@@ -50,42 +50,50 @@ Function InitFonts()
 		i = DirectoryListing.GetIndex()
 	end while
 
+  print reg.GetFamilies()
+
     GetGlobalAA().AddReplace("FontRegistry", reg)
 End Function
 
 Function GetMediumFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Calibri", ResolutionY(23), false, false)
+    Font = reg.GetFont("Arimo", ResolutionY(21), false, false)
     return Font
 End Function
 
 Function GetSongNameFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Calibri", ResolutionY(28), false, false)
+    Font = reg.GetFont("Arimo", ResolutionY(28), false, false)
     return Font
 End Function
 
 Function GetSmallFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Calibri", ResolutionY(21), false, false)
+    Font = reg.GetFont("Arimo", ResolutionY(21), false, false)
     return Font
 End Function
 
 Function GetExtraSmallFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Calibri", ResolutionY(14), false, false)
+    Font = reg.GetFont("Arimo", ResolutionY(14), false, false)
     return Font
 End Function
 
 Function GetLargeBoldFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Calibri", ResolutionY(42), true, false)
+    Font = reg.GetFont("Arimo", ResolutionY(42), true, false)
+    return Font
+End Function
+
+Function GetLargeFont() as Object
+	reg = GetGlobalAA().FontRegistry
+    Font = reg.GetFont("Arimo", ResolutionY(42), false, false)
     return Font
 End Function
 
 Function GetHeaderFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Calibri", ResolutionY(39), true, false)
+    Font = reg.GetFont("Arimo", ResolutionY(39), true, false)
     return Font
 End Function
 
