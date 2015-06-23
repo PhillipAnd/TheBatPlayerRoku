@@ -38,6 +38,7 @@ Function ListStations()
 End Function
 
 Function UpdateStations()
+  print "------ Updating list of stations ------"
   StationSelectionScreen = GetGlobalAA().StationSelectionScreen
   stationsArray = GetStations()
   SelectableStations = CreateObject("roArray", stationsArray.Count(), true)
