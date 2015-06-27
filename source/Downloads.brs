@@ -14,7 +14,6 @@ Function AsyncGetFile(url as string, filepath as string) as Object
       Request.AddHeader("Accept-Encoding","gzip")
       if Request.AsyncGetToFile(filepath) then
         Identity = ToStr(Request.GetIdentity())
-        'print "Started download of: " + url + " to " + filepath ". " + Identity
         Downloads = GetSession().Downloads
         Downloads.AddReplace(Identity, Request)
         return Request
@@ -38,9 +37,11 @@ Function SyncGetFile(url as string, filepath as string)
       Request.SetUrl(url)
       Request.AddHeader("Accept-Encoding","deflate")
       Request.AddHeader("Accept-Encoding","gzip")
+      Request.EnableEncodings(True)
+      Request.EnableResume(true)
       Request.SetPort(GetPort())
       if Request.GetToFile(filepath) then
-        'print "Started download of: " + url + " to " + filepath ". " + Identity
+        print "Started download of: " + url + " to " + filepath ". "
       else
         BatLog("***** Failure BEGINNING download.", "error")
         return invalid

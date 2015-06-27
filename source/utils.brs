@@ -84,7 +84,7 @@ Function GetReverseColorForRGB(Red as Integer, Green as Integer, Blue as Integer
 End Function
 
 Function GetIPAddress() as String
-  IPs = createObject("roDeviceInfo").getIpAddrs()
+  IPs = GetSession().deviceInfo.getIpAddrs()
   IPs.reset()
   ip = IPs[IPs.next()]
   return ip

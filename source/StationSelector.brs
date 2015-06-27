@@ -142,10 +142,8 @@ Function GetStationSelectionHeader()
     print "------ Downloading header ------"
 
     if NOT FileExists("tmp:/headerImage.jpg")
-        Request = CreateObject("roUrlTransfer")
-
         ipAddress = GetIPAddress()
-        text = Request.escape("Configure your Bat Player at http://" + ipAddress + ":9999")
+        text = urlescape("Configure your Bat Player at http://" + ipAddress + ":9999")
         device = GetSession().deviceInfo
         width = ToStr(device.GetDisplaySize().w)
         url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
