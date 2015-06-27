@@ -189,13 +189,13 @@ Function UpdateScreen()
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
 
   if GetSession().deviceInfo.GetDisplaySize().W = 1280
-    genreX = 107
-    genreY = 430 - verticalOffset
+    genreX = ResolutionX(120)
+    genreY = 435 - verticalOffset
   else
     genreX = ResolutionX(120)
     genreY = ResolutionY(460)
   end if
-  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(500), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song), "center", 1, 2, 2, false)
+  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(480), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song), "center", 1, 2, 2, false)
   onTourText = ""
   if song.isOnTour = true
     onTourText = "On Tour"
