@@ -38,6 +38,7 @@ Function SyncGetFile(url as string, filepath as string)
       Request.SetUrl(url)
       Request.AddHeader("Accept-Encoding","deflate")
       Request.AddHeader("Accept-Encoding","gzip")
+      Request.SetPort(GetPort())
       if Request.GetToFile(filepath) then
         'print "Started download of: " + url + " to " + filepath ". " + Identity
       else

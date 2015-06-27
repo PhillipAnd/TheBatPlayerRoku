@@ -18,7 +18,7 @@ Function ArtistImage(filePath as string) as Object
 
 		FadeIn: FadeIn
 		FadeOut: FadeOut
-		MaxFade: 240
+		MaxFade: 250
 		MinFade: 0
 
 		isFadingIn: true

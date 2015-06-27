@@ -20,6 +20,7 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.PopularityImage = invalid
   NowPlayingScreen.GradientTop = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-top.png")
   NowPlayingScreen.GradientBottom = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-bottom.png")
+  NowPlayingScreen.AlbumShadow = CreateObject("roBitmap", "pkg:/images/album-shadow.png")
 
   NowPlayingScreen.albumImage = invalid
   NowPlayingScreen.previousAlbumImage = invalid
@@ -293,9 +294,7 @@ Function DrawScreen()
     end if
 
     'Fake album drop shadow
-    fakeDropshadowX = NowPlayingScreen.albumPlaceholder.x + 5
-    fakeDropshadowY = NowPlayingScreen.albumPlaceholder.y + 5
-    NowPlayingScreen.screen.DrawRect(fakeDropshadowX,fakeDropshadowY, NowPlayingScreen.albumPlaceholder.width, NowPlayingScreen.albumPlaceholder.height, &h1F1F1F + 130)
+    NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x,NowPlayingScreen.albumPlaceholder.y,NowPlayingScreen.AlbumShadow)
 
 		'Album
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
