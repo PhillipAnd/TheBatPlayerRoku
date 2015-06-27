@@ -12,7 +12,7 @@ Function SongNameLabel(text as string, song as object, yLocation as integer, fon
 		draw: songNameLabel_draw
 
 	}
-	this.labelObject = DropShadowLabel(this.text, this.x, this.y, this.width, this.height, this.font, this.color)
+	this.labelObject = DropShadowLabel(this.text, this.x, this.y, this.width, this.height, this.font, this.color, "center", 2)
 
 	return this
 End Function

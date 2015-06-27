@@ -2,18 +2,17 @@ Function ArtistNameLabel(text as string, yLocation as integer, font as Object, c
 	this = {
 		text: text
 		labelObject: invalid
-		dropShadowObject: invalid
 		font: font
-		x: ResolutionX(625)
+		x: ResolutionX(575)
 		y: ResolutionY(yLocation)
-		width: ResolutionX(500)
+		width: ResolutionX(600)
 		height: ResolutionY(60)
 		color: color
 
 		draw: artistNameLabel_draw
 
 	}
-	this.labelObject = DropShadowLabel(this.text, this.x, this.y, this.width, this.height, this.font, this.color)
+	this.labelObject = DropShadowLabel(this.text, this.x, this.y, this.width, this.height, this.font, this.color, "center", 1)
 
 	return this
 End Function

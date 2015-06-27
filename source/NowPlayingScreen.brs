@@ -182,7 +182,7 @@ Function UpdateScreen()
 
   NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, artistNameLocation, NowPlayingScreen.boldFont, GetRegularColorForSong(song))
   NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont, GetRegularColorForSong(song))
-  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(725), ResolutionY(425), ResolutionX(300), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song))
+  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(705), ResolutionY(425), ResolutionX(340), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song))
   NowPlayingScreen.bioLabel = BatBioLabel(bioText, song)
 
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
@@ -293,9 +293,9 @@ Function DrawScreen()
     end if
 
     'Fake album drop shadow
-    fakeDropshadowX = NowPlayingScreen.albumPlaceholder.x + 4
+    fakeDropshadowX = NowPlayingScreen.albumPlaceholder.x + 5
     fakeDropshadowY = NowPlayingScreen.albumPlaceholder.y + 5
-    NowPlayingScreen.screen.DrawRect(fakeDropshadowX,fakeDropshadowY, NowPlayingScreen.albumPlaceholder.width, NowPlayingScreen.albumPlaceholder.height, &hFFFFFF + 140)
+    NowPlayingScreen.screen.DrawRect(fakeDropshadowX,fakeDropshadowY, NowPlayingScreen.albumPlaceholder.width, NowPlayingScreen.albumPlaceholder.height, &h1F1F1F + 130)
 
 		'Album
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
