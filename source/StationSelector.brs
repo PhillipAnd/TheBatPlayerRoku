@@ -141,18 +141,19 @@ End Function
 Function GetStationSelectionHeader()
     print "------ Downloading header ------"
 
-    if NOT FileExists("tmp:/headerImage.jpg")
-        ipAddress = GetIPAddress()
-        text = urlescape("Configure your Bat Player at http://" + ipAddress + ":9999")
-        device = GetSession().deviceInfo
-        width = ToStr(device.GetDisplaySize().w)
-        url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
-        print url
-        SyncGetFile(url, "tmp:/headerImage.jpg")
-        print "------ Header download complete ------"
-    else
-        print "Not required to download."
-    end if
+    ipAddress = GetIPAddress()
+    text = urlescape("Configure your Bat Player at http://" + ipAddress + ":9999")
+    device = GetSession().deviceInfo
+    width = ToStr(device.GetDisplaySize().w)
+    url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
+    'print url
+
+    Request = CreateObject("roUrlTransfer")
+    Request.SetUrl(url)
+    Request.GetToFile("tmp:/headerImage.jpg")
+    
+    print "------ Header download complete ------"
+
 End Function
 
 
