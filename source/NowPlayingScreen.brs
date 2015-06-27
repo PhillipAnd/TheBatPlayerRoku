@@ -20,7 +20,6 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.PopularityImage = invalid
   NowPlayingScreen.GradientTop = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-top.png")
   NowPlayingScreen.GradientBottom = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-bottom.png")
-  NowPlayingScreen.AlbumShadow = CreateObject("roBitmap", "pkg:/images/album-shadow.png")
 
   NowPlayingScreen.albumImage = invalid
   NowPlayingScreen.previousAlbumImage = invalid
@@ -30,6 +29,7 @@ Function CreateNowPlayingScreen() as Object
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
   NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 240)
+  NowPlayingScreen.AlbumShadow = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-shadow.png"), NowPlayingScreen.albumPlaceholder.width +10, NowPlayingScreen.albumPlaceholder.height +10, 1)
 
   NowPlayingScreen.UpdateBackgroundImage = true
   NowPlayingScreen.UpdateArtistImage = true
@@ -293,10 +293,9 @@ Function DrawScreen()
     NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
     end if
 
-    'Fake album drop shadow
-    NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x,NowPlayingScreen.albumPlaceholder.y,NowPlayingScreen.AlbumShadow)
 
 		'Album
+    NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x,NowPlayingScreen.albumPlaceholder.y,NowPlayingScreen.AlbumShadow)
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
     if NowPlayingScreen.albumImage <> invalid
       NowPlayingScreen.albumImage.Draw(NowPlayingScreen.screen)
@@ -304,7 +303,6 @@ Function DrawScreen()
     if NowPlayingScreen.previousAlbumImage <> invalid
       NowPlayingScreen.previousAlbumImage.Draw(NowPlayingScreen.screen)
     end if
-
 
 		'LastFM Logo
     if GetGlobalAA().ActiveLastFM <> 0 THEN

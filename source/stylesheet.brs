@@ -57,50 +57,65 @@ End Function
 
 Function GetMediumFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Lato", ResolutionY(21.3), false, false)
-    return Font
+  size = 21
+  deviceSize = GetSession().deviceInfo.GetDisplaySize()
+
+  if deviceSize.W = 720
+    size = 13
+  end if
+
+  Font = reg.GetFont("Lato", size, false, false)
+  return Font
 End Function
 
 Function GetSongNameFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Lato", ResolutionY(28), false, false)
-    return Font
+  size = 28
+
+  deviceSize = GetSession().deviceInfo.GetDisplaySize()
+
+  if deviceSize.W = 720
+    size = 13
+  end if
+
+  Font = reg.GetFont("Lato", size, false, false)
+  return Font
 End Function
 
 Function GetSmallFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Lato", ResolutionY(21), false, false)
-    return Font
+  Font = reg.GetFont("Lato", ResolutionY(21), false, false)
+  return Font
 End Function
 
 Function GetExtraSmallFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Lato", ResolutionY(14), false, false)
-    return Font
+  Font = reg.GetFont("Lato", ResolutionY(14), false, false)
+  return Font
 End Function
 
 Function GetGenreFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Lato Medium", ResolutionY(19), false, false)
-    return Font
+  Font = reg.GetFont("Lato Medium", ResolutionY(19), false, false)
+  return Font
 End Function
 
 Function GetLargeBoldFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Lato", ResolutionY(42), true, false)
-    return Font
+  Font = reg.GetFont("Lato", ResolutionY(42), true, false)
+  return Font
 End Function
 
 Function GetLargeFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Lato Medium", ResolutionY(42), false, false)
-    return Font
+  Font = reg.GetFont("Lato Medium", ResolutionY(42), false, false)
+  return Font
 End Function
 
 Function GetHeaderFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Lato Semibold", ResolutionY(39), true, false)
-    return Font
+  Font = reg.GetFont("Lato Semibold", ResolutionY(39), true, false)
+  return Font
 End Function
 
 Function GetHeaderColor() as Integer
