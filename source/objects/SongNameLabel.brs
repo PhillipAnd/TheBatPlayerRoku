@@ -18,12 +18,7 @@ Function SongNameLabel(text as string, song as object, yLocation as integer, fon
 End Function
 
 Function songNameLabel_draw(screen as Object)
-	'if m.dropShadowObject <> invalid
-	''	m.dropShadowObject.Draw(screen)
-	'end if
-
 	if m.labelObject <> invalid
 		m.labelObject.Draw(screen)
 	end if
-
 End Function

@@ -152,7 +152,7 @@ Function GetStationSelectionHeader()
         width = ToStr(device.GetDisplaySize().w)
         url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
         print url
-        ASyncGetFile(url, "tmp:/headerImage.jpg")
+        SyncGetFile(url, "tmp:/headerImage.jpg")
         print "------ Header download complete ------"
     else
         print "Not required to download."

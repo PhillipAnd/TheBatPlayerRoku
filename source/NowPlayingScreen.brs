@@ -29,7 +29,7 @@ Function CreateNowPlayingScreen() as Object
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
   NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 240)
-  NowPlayingScreen.AlbumShadow = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-shadow.png"), NowPlayingScreen.albumPlaceholder.width +10, NowPlayingScreen.albumPlaceholder.height +10, 1)
+  NowPlayingScreen.AlbumShadow = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-shadow.png"), NowPlayingScreen.albumPlaceholder.width + 9, NowPlayingScreen.albumPlaceholder.height +10, 1)
 
   NowPlayingScreen.UpdateBackgroundImage = true
   NowPlayingScreen.UpdateArtistImage = true
@@ -183,19 +183,19 @@ Function UpdateScreen()
 
   NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, artistNameLocation, NowPlayingScreen.boldFont, GetRegularColorForSong(song))
   NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont, GetRegularColorForSong(song))
-  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(705), ResolutionY(425), ResolutionX(340), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song))
+  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(705), ResolutionY(425), ResolutionX(340), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2)
   NowPlayingScreen.bioLabel = BatBioLabel(bioText, song)
 
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
 
   if GetSession().deviceInfo.GetDisplaySize().W = 1280
-    genreX = 120
-    genreY = 435 - verticalOffset
+    genreX = 107
+    genreY = 430 - verticalOffset
   else
     genreX = ResolutionX(120)
     genreY = ResolutionY(460)
   end if
-  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(500), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song))
+  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(500), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song), "center", 1)
   onTourText = ""
   if song.isOnTour = true
     onTourText = "On Tour"
