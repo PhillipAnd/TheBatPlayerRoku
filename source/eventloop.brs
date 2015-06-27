@@ -47,7 +47,8 @@ End Sub
 
 Sub HandleWebEvent (msg as Object)
     server = GetGlobalAA().lookup("WebServer")
-    if server <> invalid
+
+		if server <> invalid
 	    server.prewait()
 	    tm = type(msg)
 	    if tm="roSocketEvent" or msg=invalid
@@ -165,7 +166,7 @@ Sub HandleAudioPlayerEvent(msg as Object)
 	Audio = GetGlobalAA().AudioPlayer
 	Station = Audio.station
 	song = GetGlobalAA().SongObject
-	
+
 	    if msg.isStatusMessage() then
 	        message = msg.getMessage()
 	    else if msg.isListItemSelected() then

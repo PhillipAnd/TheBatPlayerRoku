@@ -164,13 +164,13 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
     Analytics = GetSession().Analytics
     Analytics.AddEvent("Configuration Popup Displayed")
     RegWrite("initialpopupdisplayed", "true", "batplayer")
-
+    port = GetPort()
     ipAddress = GetIPAddress()
 
-    message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":9999 to customize your Bat Player experience by adding stations, enabling lighting, Last.FM and more."
+    message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":9999 to customize your Bat Player experience by adding stations, enabling lighting, Last.FM, Rdio support and more."
 
     dialog = CreateObject("roMessageDialog")
-    dialog.SetMessagePort(GetPort())
+    dialog.SetMessagePort(port)
     dialog.SetTitle("Configure Your Bat Player")
     dialog.SetText(message)
 
@@ -181,7 +181,6 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
         'msg = wait(0, dialog.GetMessagePort())
         msg = port.GetMessage()
         HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
-
         If type(msg) = "roMessageDialogEvent"
             if msg.isButtonPressed()
                 if msg.GetIndex() = 1
