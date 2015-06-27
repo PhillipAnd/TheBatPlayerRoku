@@ -222,15 +222,3 @@ End Function
 Function MakeARGB(r As integer, g As integer, b As integer, alpha as integer) As integer
   return r*256*256*256 + g*256*256 + b*256 + alpha
 End Function
-
-Function ResolutionX(x as Integer) as Integer
-	deviceSize = GetSession().deviceInfo.GetDisplaySize()
-	ratio = deviceSize.W / 1280
-	return x * ratio
-End Function
-
-Function ResolutionY(y as Integer) as Integer
-	deviceSize = GetSession().deviceInfo.GetDisplaySize()
-	ratio = deviceSize.H / 710
-	return y * ratio
-End Function

@@ -43,3 +43,15 @@ Sub StationDetailsLabel(listeners as String, bitrate as String) as Object
     label = RlTextArea(text, font, &hFFFFFFFF, 182, ResolutionY(68), 300, 50, 1, 1, "left")
     return label
 End Sub
+
+Function ResolutionX(x as Integer) as Integer
+	deviceSize = GetSession().deviceInfo.GetDisplaySize()
+	ratio = deviceSize.W / 1280
+	return x * ratio
+End Function
+
+Function ResolutionY(y as Integer) as Integer
+	deviceSize = GetSession().deviceInfo.GetDisplaySize()
+	ratio = deviceSize.H / 710
+	return y * ratio
+End Function
