@@ -147,11 +147,7 @@ Function GetStationSelectionHeader()
     width = ToStr(device.GetDisplaySize().w)
     url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
     'print url
-
-    Request = CreateObject("roUrlTransfer")
-    Request.SetUrl(url)
-    Request.GetToFile("tmp:/headerImage.jpg")
-    
+    SyncGetFile(url, "tmp:/headerImage.jpg")
     print "------ Header download complete ------"
 
 End Function
