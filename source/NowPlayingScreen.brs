@@ -183,7 +183,7 @@ Function UpdateScreen()
 
   NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, artistNameLocation, NowPlayingScreen.boldFont, GetRegularColorForSong(song))
   NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont, GetRegularColorForSong(song))
-  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(705), ResolutionY(425), ResolutionX(340), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2)
+  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(705), ResolutionY(425), ResolutionX(340), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
   NowPlayingScreen.bioLabel = BatBioLabel(bioText, song)
 
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
@@ -195,7 +195,7 @@ Function UpdateScreen()
     genreX = ResolutionX(120)
     genreY = ResolutionY(460)
   end if
-  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(500), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song), "center", 1)
+  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(500), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song), "center", 1, 2, 2, false)
   onTourText = ""
   if song.isOnTour = true
     onTourText = "On Tour"

@@ -46,9 +46,6 @@ Function UpdateStations()
   for i = 0 to stationsArray.Count()-1
 
       station = stationsArray[i]
-
-      FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
-
       stationObject = CreateSong(station.name,station.provider,"", station.format, station.stream, station.image)
       SelectableStations.Push(stationObject)
 
@@ -58,6 +55,7 @@ Function UpdateStations()
         AsyncGetFile(url, "tmp:/" + makemdfive(station.image))
       end if
 
+      FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
   end for
 
   GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
