@@ -79,6 +79,12 @@ Function GetExtraSmallFont() as Object
     return Font
 End Function
 
+Function GetGenreFont() as Object
+	reg = GetGlobalAA().FontRegistry
+    Font = reg.GetFont("Lato Medium", ResolutionY(19), false, false)
+    return Font
+End Function
+
 Function GetLargeBoldFont() as Object
 	reg = GetGlobalAA().FontRegistry
     Font = reg.GetFont("Lato", ResolutionY(42), true, false)

@@ -12,14 +12,7 @@ Function SongNameLabel(text as string, song as object, yLocation as integer, fon
 		draw: songNameLabel_draw
 
 	}
-	this.labelObject = DropShadowLabel(this.text, this.x, this.y, this.width, this.height, this.font, 2, this.color)
-
-
-	'dropShadowColor = GetDropShadowColorForSong(song)
-
-	'if dropShadowColor <> 0
-	''	this.dropShadowObject = RlTextArea(this.text, font, dropShadowColor, this.x + 2.0, this.y + 3.0, this.width, this.height, 2, 0.87, "center")
-	'end if
+	this.labelObject = DropShadowLabel(this.text, this.x, this.y, this.width, this.height, this.font, this.color)
 
 	return this
 End Function

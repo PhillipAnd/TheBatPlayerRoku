@@ -1,4 +1,4 @@
-Function DropShadowLabel(text as string, x as integer, y as integer, width as integer, height as integer, font as Object, size as integer, color = &hFFFFFFFF as integer) as Object
+Function DropShadowLabel(text as string, x as integer, y as integer, width as integer, height as integer, font as Object, color = &hFFFFFFFF as integer) as Object
 	this = {
 		text: text
 		labelObject: invalid

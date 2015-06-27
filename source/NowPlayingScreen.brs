@@ -11,6 +11,7 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.defaultFont = GetMediumFont()
   NowPlayingScreen.smallFont = GetSmallFont()
   NowPlayingScreen.songNameFont = GetSongNameFont()
+  NowPlayingScreen.genreFont = GetGenreFont()
 
   NowPlayingScreen.HeaderLogo = CreateObject("roBitmap", "pkg:/images/bat.png")
   NowPlayingScreen.StationDetailsLabel = invalid
@@ -179,9 +180,9 @@ Function UpdateScreen()
   artistNameLocation = 160 - songNameHeight
   songNameLocation = artistNameLocation + 45
 
-  NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, song, artistNameLocation, NowPlayingScreen.boldFont)
+  NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, artistNameLocation, NowPlayingScreen.boldFont, GetRegularColorForSong(song))
   NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont, GetRegularColorForSong(song))
-  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(725), ResolutionY(425), ResolutionX(300), ResolutionY(200), NowPlayingScreen.smallFont, 3, GetBoldColorForSong(song))
+  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(725), ResolutionY(425), ResolutionX(300), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song))
   NowPlayingScreen.bioLabel = BatBioLabel(bioText, song)
 
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
@@ -193,7 +194,7 @@ Function UpdateScreen()
     genreX = ResolutionX(120)
     genreY = ResolutionY(460)
   end if
-  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(500), ResolutionY(30), NowPlayingScreen.smallFont, 2, GetRegularColorForSong(song))
+  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(500), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song))
   onTourText = ""
   if song.isOnTour = true
     onTourText = "On Tour"
