@@ -57,7 +57,7 @@ End Function
 
 Function GetMediumFont() as Object
 	reg = GetGlobalAA().FontRegistry
-    Font = reg.GetFont("Lato", ResolutionY(21), false, false)
+    Font = reg.GetFont("Lato", ResolutionY(21.3), false, false)
     return Font
 End Function
 
@@ -157,10 +157,10 @@ Sub CreateOverlayColor(song) as integer
 	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
     brightness = Sqr(0.299 * (song.image.color.rgb.red * song.image.color.rgb.red) + 0.587 * (song.image.color.rgb.green * song.image.color.rgb.green) + 0.114 * (song.image.color.rgb.blue * song.image.color.rgb.blue))
     alpha = RlMin(50 * (150 / brightness), 90)
-    print "Color brightness: " + ToStr(brightness) + ". Calculated alpha: " + ToStr(alpha)
+    'print "Color brightness: " + ToStr(brightness) + ". Calculated alpha: " + ToStr(alpha)
 		color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, alpha)
 	else
-    print "No overlay color able to be made."
+    'print "No overlay color able to be made."
 		color = 0
 	end if
   return color
@@ -168,7 +168,7 @@ End Sub
 
 Sub CreateAlbumOverlayColor(song) as integer
   if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
-    alpha = 40
+    alpha = 20
     color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, alpha)
   else
     color = 0

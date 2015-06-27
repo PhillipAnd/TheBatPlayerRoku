@@ -5,7 +5,7 @@ Function BatBioLabel(text as string, song as object) as Object
 		dropShadowObject: invalid
 
 		x: ResolutionX(120)
-		y: ResolutionY(510)
+		y: ResolutionY(500)
 		width: ResolutionX(1030)
 		height: ResolutionY(200)
 
@@ -13,11 +13,11 @@ Function BatBioLabel(text as string, song as object) as Object
 
 	}
 
-	this.labelObject = RlTextArea(this.text, GetMediumFont(), GetRegularColorForSong(song), this.x, this.y, this.width, this.height, 6, 1.2)
+	this.labelObject = RlTextArea(this.text, GetMediumFont(), GetRegularColorForSong(song), this.x, this.y, this.width, this.height, 6, 1.15)
 
 	dropShadowColor = GetDropShadowColorForSong(song)
 	if dropShadowColor <> 0
-		this.dropShadowObject = RlTextArea(this.text, GetMediumFont(), dropShadowColor, this.x + 2.0, this.y + 3.0, this.width, this.height, 6, 1.2)
+		this.dropShadowObject = RlTextArea(this.text, GetMediumFont(), dropShadowColor, this.x + 2.0, this.y + 3.0, this.width, this.height, 6, 1.15)
 	end if
 
 	return this

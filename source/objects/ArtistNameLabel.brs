@@ -4,7 +4,7 @@ Function ArtistNameLabel(text as string, song as object, yLocation as integer, f
 		labelObject: invalid
 		dropShadowObject: invalid
 		font: font
-		x: ResolutionX(620)
+		x: ResolutionX(625)
 		y: ResolutionY(yLocation)
 		width: ResolutionX(500)
 		height: ResolutionY(60)

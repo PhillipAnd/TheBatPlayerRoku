@@ -176,25 +176,24 @@ Function UpdateScreen()
 	endif
 
   songNameHeight = GetTextHeight(songTitle, 500, NowPlayingScreen.songNameFont)
-  artistNameLocation = 155 - songNameHeight
-  songNameLocation = artistNameLocation + 40
+  artistNameLocation = 160 - songNameHeight
+  songNameLocation = artistNameLocation + 45
 
   NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, song, artistNameLocation, NowPlayingScreen.boldFont)
-  NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont)
-  NowPlayingScreen.albumNameLabel = RlTextArea(albumTitle, NowPlayingScreen.smallFont, GetBoldColorForSong(song), ResolutionX(725), ResolutionY(425), ResolutionX(300), ResolutionY(200), 3, 0.9, "center")
+  NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont, GetRegularColorForSong(song))
+  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(725), ResolutionY(425), ResolutionX(300), ResolutionY(200), NowPlayingScreen.smallFont, 3, GetBoldColorForSong(song))
   NowPlayingScreen.bioLabel = BatBioLabel(bioText, song)
 
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
 
   if GetSession().deviceInfo.GetDisplaySize().W = 1280
     genreX = 120
-    genreY = 445 - verticalOffset
+    genreY = 435 - verticalOffset
   else
     genreX = ResolutionX(120)
     genreY = ResolutionY(460)
   end if
-  NowPlayingScreen.genresLabel = RlTextArea(genreText, NowPlayingScreen.smallFont, GetRegularColorForSong(song), genreX, genreY, ResolutionX(500), ResolutionY(30), 2, 0.8, "center")
-
+  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(500), ResolutionY(30), NowPlayingScreen.smallFont, 2, GetRegularColorForSong(song))
   onTourText = ""
   if song.isOnTour = true
     onTourText = "On Tour"
@@ -252,16 +251,16 @@ Function DrawScreen()
 
     'Overlays
     if NowPlayingScreen.OverlayColor <> invalid
-      NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, song.OverlayColor) 'Color overlay
+      NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.song.OverlayColor) 'Color overlay
     end if
     NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 200) 'Black overlay
     NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 210) 'Top Gradient
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
 
 		'Header
-    headerTitleY = 35
+    headerTitleY = 28
     if NowPlayingScreen.song.stationDetails.Listeners <> invalid
-      headerTitleY = 25
+      headerTitleY = 22
     end if
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
 		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
@@ -291,8 +290,11 @@ Function DrawScreen()
     if NowPlayingScreen.genresLabel <> invalid
     NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
     end if
-    'NowPlayingScreen.onTourLabel.draw(NowPlayingScreen.screen)
 
+    'Fake album drop shadow
+    fakeDropshadowX = NowPlayingScreen.albumPlaceholder.x + 4
+    fakeDropshadowY = NowPlayingScreen.albumPlaceholder.y + 5
+    NowPlayingScreen.screen.DrawRect(fakeDropshadowX,fakeDropshadowY, NowPlayingScreen.albumPlaceholder.width, NowPlayingScreen.albumPlaceholder.height, &hFFFFFF + 140)
 
 		'Album
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
@@ -302,6 +304,7 @@ Function DrawScreen()
     if NowPlayingScreen.previousAlbumImage <> invalid
       NowPlayingScreen.previousAlbumImage.Draw(NowPlayingScreen.screen)
     end if
+
 
 		'LastFM Logo
     if GetGlobalAA().ActiveLastFM <> 0 THEN
@@ -409,7 +412,7 @@ End Function
 Function DrawHelpLabel(NowPlayingScreen as Object)
 
       if NowPlayingScreen.HelpLabel = invalid
-        NowPlayingScreen.HelpLabel = RlText("Press OK for help", GetExtraSmallFont(), &hFFFFFF77,  NowPlayingScreen.Width - 130, ResolutionY(70))
+        NowPlayingScreen.HelpLabel = RlText("Press OK for help", GetExtraSmallFont(), &hFFFFFF77,  NowPlayingScreen.Width - 140, ResolutionY(70))
       end if
 
       NowPlayingScreen.HelpLabel.draw(NowPlayingScreen.screen)
