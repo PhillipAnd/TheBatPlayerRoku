@@ -219,6 +219,14 @@ Sub HandleDownloadEvents(msg)
 				jsontransfer = GetGlobalAA().Lookup("jsontransfer")
 				jsonIdentity = ToStr(jsontransfer.GetIdentity())
 				if jsonIdentity = Identity then
+					' Check if this is a cached version'
+					headers = msg.GetResponseHeaders()
+					if headers.DoesExist("etag") AND GetGlobalAA().DoesExist("jsonEtag") AND GetGlobalAA().jsonEtag = headers.etag
+						GetGlobalAA().Delete("jsontransfer")
+						return
+					end if
+
+					GetGlobalAA().jsonEtag = headers.etag
 					HandleJSON(msg.GetString())
 					GetGlobalAA().Delete("jsontransfer")
 				End if

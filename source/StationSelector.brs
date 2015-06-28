@@ -4,6 +4,7 @@ Function ListStations()
     GetGlobalAA().IsStationSelectorDisplayed = true
     GetGlobalAA().delete("screen")
     GetGlobalAA().delete("song")
+    GetGlobalAA().Delete("jsonEtag")
     GetGlobalAA().lastSongTitle = invalid
 
     SetTheme()
