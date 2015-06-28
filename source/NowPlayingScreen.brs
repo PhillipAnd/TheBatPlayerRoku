@@ -29,7 +29,7 @@ Function CreateNowPlayingScreen() as Object
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
   NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 240)
-  NowPlayingScreen.AlbumShadow = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-shadow.png"), NowPlayingScreen.albumPlaceholder.width + 9, NowPlayingScreen.albumPlaceholder.height +11, 0)
+  NowPlayingScreen.AlbumShadow = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-shadow.png"), ResolutionX(200), ResolutionY(200), 1)
 
   NowPlayingScreen.UpdateBackgroundImage = true
   NowPlayingScreen.UpdateArtistImage = true
@@ -295,7 +295,7 @@ Function DrawScreen()
 
 
 		'Album
-    NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x,NowPlayingScreen.albumPlaceholder.y,NowPlayingScreen.AlbumShadow)
+    NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x + 4,NowPlayingScreen.albumPlaceholder.y + 5,NowPlayingScreen.AlbumShadow)
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
     if NowPlayingScreen.albumImage <> invalid
       NowPlayingScreen.albumImage.Draw(NowPlayingScreen.screen)
