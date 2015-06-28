@@ -7,8 +7,6 @@ Function ListStations()
     GetGlobalAA().Delete("jsonEtag")
     GetGlobalAA().lastSongTitle = invalid
 
-    SetTheme()
-
     StationSelectionScreen = CreateObject("roGridScreen")
     StationSelectionScreen.SetGridStyle("two-row-flat-landscape-custom")
     StationSelectionScreen.SetDescriptionVisible(true)
@@ -147,9 +145,7 @@ Function GetStationSelectionHeader()
     device = GetSession().deviceInfo
     width = ToStr(device.GetDisplaySize().w)
     url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
-    HeaderRequest = ASyncGetFile(url, "tmp:/headerImage.jpg", true)
-    HeaderRequestIdentity = HeaderRequest.GetIdentity()
-    GetGlobalAA().AddReplace("HeaderRequestIdentity", ToStr(HeaderRequestIdentity))
+    SyncGetFile(url, "tmp:/headerImage.jpg", true)
 End Function
 
 

@@ -1,12 +1,12 @@
 Sub RunUserInterface(aa as Object)
     'DeleteRegistry()
-    print "------ Copying Temp Header ------"
-    CopyTempHeader()
+    SetTheme()
+    GetStationSelectionHeader()
+    
+    print "------ Listing stations ------"
+    ListStations()
     print "------ Starting web server ------"
     StartServerWithPort(GetPort())
-    print "------ Listing stations ------"
-    GetStationSelectionHeader()
-    ListStations()
     InitBatPlayer()
     print "------ Starting Loop ------"
     StartEventLoop()
@@ -24,8 +24,3 @@ Function InitBatPlayer()
     print "------ Initializing fonts ------"
     InitFonts()
 End Function
-
-Function CopyTempHeader()
-  filesystem = CreateObject("roFileSystem")
-  filesystem.CopyFile("pkg:/images/header-placeholder.jpg", "tmp:/headerImage.jpg")
-End function

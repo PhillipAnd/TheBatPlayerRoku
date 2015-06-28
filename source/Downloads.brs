@@ -25,11 +25,11 @@ Function AsyncGetFile(url as string, filepath as string, overrideFileCheck = fal
   end if
 End Function
 
-Function SyncGetFile(url as string, filepath as string)
+Function SyncGetFile(url as string, filepath as string, overrideFileCheck = false as Boolean)
   if url <> invalid AND filepath <> invalid AND url <> "" then
     'Do we already have this file?
     FileSystem = CreateObject("roFileSystem")
-    if FileSystem.Exists(filepath) = true then
+    if FileSystem.Exists(filepath) = true AND overrideFileCheck = false then
       'We already have this file
       'print "*** It seems we already have file: " +url
     else

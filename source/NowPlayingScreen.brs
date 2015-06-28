@@ -190,7 +190,7 @@ Function UpdateScreen()
 
   if GetSession().deviceInfo.GetDisplaySize().W = 1280
     genreX = ResolutionX(120)
-    genreY = 435 - verticalOffset
+    genreY = 437 - verticalOffset
   else
     genreX = ResolutionX(120)
     genreY = ResolutionY(460)

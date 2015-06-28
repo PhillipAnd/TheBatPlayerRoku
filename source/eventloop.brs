@@ -261,22 +261,6 @@ Sub HandleDownloadEvents(msg)
 				CompletedOtherStationsMetadata(msg)
 			end if
 
-			' Header image download
-			if GetGlobalAA().DoesExist("HeaderRequestIdentity")
-				HeaderRequestIdentity = GetGlobalAA().Lookup("HeaderRequestIdentity")
-
-				if HeaderRequestIdentity = Identity
-					print "------ Header download complete ------"
-
-					GetGlobalAA().Delete("HeaderRequestIdentity")
-					if GetGlobalAA().IsStationSelectorDisplayed = true
-						StationSelectionScreen = GetGlobalAA().StationSelectionScreen
-						StationSelectionScreen.Show()
-					end if
-				end if
-
-			end if
-
 		else
 			if TransferRequest <> invalid
 				errorUrl = TransferRequest.GetUrl()
