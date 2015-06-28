@@ -218,6 +218,7 @@ Sub HandleDownloadEvents(msg)
 			if GetGlobalAA().DoesExist("jsontransfer")
 				jsontransfer = GetGlobalAA().Lookup("jsontransfer")
 				jsonIdentity = ToStr(jsontransfer.GetIdentity())
+
 				if jsonIdentity = Identity then
 					' Check if this is a cached version'
 					headers = msg.GetResponseHeaders()
@@ -260,10 +261,20 @@ Sub HandleDownloadEvents(msg)
 				CompletedOtherStationsMetadata(msg)
 			end if
 
+			' Header image download
+			if GetGlobalAA().DoesExist("HeaderRequestIdentity")
+				HeaderRequestIdentity = GetGlobalAA().Lookup("HeaderRequestIdentity")
 
-			'Artist popularity
-			if Downloads.DoesExist("PopularityDownload") AND type(Downloads.PopularityDownload) = "roAssociativeArray" AND Identity = ToStr(Downloads.PopularityDownload.Request.GetIdentity())
-				CompletedArtistPopulartiy(msg)
+				if HeaderRequestIdentity = Identity
+					print "------ Header download complete ------"
+
+					GetGlobalAA().Delete("HeaderRequestIdentity")
+					if GetGlobalAA().IsStationSelectorDisplayed = true
+						StationSelectionScreen = GetGlobalAA().StationSelectionScreen
+						StationSelectionScreen.Show()
+					end if
+				end if
+
 			end if
 
 		else

@@ -147,10 +147,9 @@ Function GetStationSelectionHeader()
     device = GetSession().deviceInfo
     width = ToStr(device.GetDisplaySize().w)
     url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
-    'print url
-    SyncGetFile(url, "tmp:/headerImage.jpg")
-    print "------ Header download complete ------"
-
+    HeaderRequest = ASyncGetFile(url, "tmp:/headerImage.jpg", true)
+    HeaderRequestIdentity = HeaderRequest.GetIdentity()
+    GetGlobalAA().AddReplace("HeaderRequestIdentity", ToStr(HeaderRequestIdentity))
 End Function
 
 

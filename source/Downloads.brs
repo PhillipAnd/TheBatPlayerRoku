@@ -1,10 +1,10 @@
-Function AsyncGetFile(url as string, filepath as string) as Object
+Function AsyncGetFile(url as string, filepath as string, overrideFileCheck = false as Boolean) as Object
   if url <> invalid AND filepath <> invalid AND url <> "" then
     'Do we already have this file?
     FileSystem = CreateObject("roFileSystem")
-    if FileSystem.Exists(filepath) = true then
+    if FileSystem.Exists(filepath) = true AND overrideFileCheck = false then
       'We already have this file
-      'print "*** It seems we already have file: " +url
+      print "*** It seems we already have file: " +url
     else
       Request = CreateObject("roUrlTransfer")
       Request.SetUrl(url)
