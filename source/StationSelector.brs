@@ -50,9 +50,7 @@ Function UpdateStations()
 
       'Download custom poster images
       url = GetConfig().BatserverCDN + "images/resize/" + urlencode(station.image) + "/" + "266/150"
-      if NOT FileExists(makemdfive(station.image))
-        AsyncGetFile(url, "tmp:/" + makemdfive(station.image))
-      end if
+      AsyncGetFile(url, "tmp:/" + makemdfive(station.image))
 
       FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
   end for
@@ -139,7 +137,6 @@ End Function
 
 Function GetStationSelectionHeader()
     print "------ Downloading header ------"
-
     ipAddress = GetIPAddress()
     text = urlescape("Configure your Bat Player at http://" + ipAddress + ":9999")
     device = GetSession().deviceInfo
@@ -175,6 +172,7 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
                 if msg.GetIndex() = 1
                     Analytics.AddEvent("Configuration Popup Dismissed")
                     dialog.close()
+                    UpdateStations()
                     exit while
                 end if
             else if msg.isScreenClosed()

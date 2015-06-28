@@ -1,12 +1,14 @@
 Sub RunUserInterface(aa as Object)
     'DeleteRegistry()
     SetTheme()
-    GetStationSelectionHeader()
-    
-    print "------ Listing stations ------"
-    ListStations()
+
     print "------ Starting web server ------"
     StartServerWithPort(GetPort())
+
+    GetStationSelectionHeader()
+
+    print "------ Listing stations ------"
+    ListStations()
     InitBatPlayer()
     print "------ Starting Loop ------"
     StartEventLoop()

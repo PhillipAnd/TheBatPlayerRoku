@@ -141,7 +141,7 @@ Function HandleJSON(jsonString as String)
       end if
 
       'Download album art
-      if type(song.album) = "roAssociativeArray" AND isnonemptystr(song.album.image) AND NOT FileExists(makemdfive(song.album.name))
+      if type(song.album) = "roAssociativeArray" AND isnonemptystr(song.album.image)
         AsyncGetFile(song.album.image, "tmp:/album-" + makemdfive(song.album.name + song.artist))
       endif
 
