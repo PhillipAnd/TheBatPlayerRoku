@@ -159,30 +159,29 @@ Function ToggleBrightnessMode(direction as String)
 	brightness = 0
 	if direction = "down" then
 		GetSession().Lighting.Brightness.Mode = RlMin(GetSession().Lighting.Brightness.Mode + 1, 3)
+		modeString = "Brightened lighting."
 	end if
 
 	if direction = "up" then
 		GetSession().Lighting.Brightness.Mode = RlMax(GetSession().Lighting.Brightness.Mode - 1, 0)
+		modeString = "Dimmed lighting."
 	end if
 
 	if GetSession().Lighting.Brightness.Mode = 2 then
 		GetSession().Lighting.Brightness.Minimum = GetSession().Lighting.Brightness.DefaultMinimum
 		GetSession().Lighting.Brightness.Maximum = GetSession().Lighting.Brightness.DefaultMaximum
 		brightness = 150
-		modeString = "default"
 	else if GetSession().Lighting.Brightness.Mode = 1 then
 		GetSession().Lighting.Brightness.Minimum = GetSession().Lighting.Brightness.DefaultMinimum - 70
 		GetSession().Lighting.Brightness.Maximum = GetSession().Lighting.Brightness.DefaultMaximum  - 70
-		modeString = "dim"
 		brightness = 75
 	else if GetSession().Lighting.Brightness.Mode = 3 then
 		GetSession().Lighting.Brightness.Minimum = GetSession().Lighting.Brightness.DefaultMinimum + 70
 		GetSession().Lighting.Brightness.Maximum = GetSession().Lighting.Brightness.DefaultMaximum  + 70
-		modeString = "bright"
 		brightness = 250
 	end if
 
-	DisplayPopup("Lighting changed to " + modeString + ".")
+	DisplayPopup(modeString)
 	ChangeBrightnessTo(brightness)
 
 	details = CreateObject("roAssociativeArray")
