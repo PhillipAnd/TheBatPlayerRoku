@@ -29,7 +29,7 @@ Function CreateNowPlayingScreen() as Object
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
   NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 240)
-  NowPlayingScreen.AlbumShadow = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-shadow.png"), NowPlayingScreen.albumPlaceholder.width + 9, NowPlayingScreen.albumPlaceholder.height +10, 1)
+  NowPlayingScreen.AlbumShadow = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-shadow.png"), NowPlayingScreen.albumPlaceholder.width + 9, NowPlayingScreen.albumPlaceholder.height +11, 0)
 
   NowPlayingScreen.UpdateBackgroundImage = true
   NowPlayingScreen.UpdateArtistImage = true
