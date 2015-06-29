@@ -177,13 +177,13 @@ Function UpdateScreen()
 		NowPlayingScreen.stationTitle = song.stationName
 	endif
 
-  songNameHeight = GetTextHeight(songTitle, 500, NowPlayingScreen.songNameFont)
+  songNameHeight = GetTextHeight(songTitle, 600, NowPlayingScreen.songNameFont)
   artistNameLocation = 160 - songNameHeight
   songNameLocation = artistNameLocation + 45
 
   NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, artistNameLocation, NowPlayingScreen.boldFont, GetRegularColorForSong(song))
   NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont, GetRegularColorForSong(song))
-  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(705), ResolutionY(425), ResolutionX(340), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
+  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(575), ResolutionY(425), ResolutionX(600), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
   NowPlayingScreen.bioLabel = BatBioLabel(bioText, song)
 
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
