@@ -50,9 +50,9 @@ Function InitFonts()
 		i = DirectoryListing.GetIndex()
 	end while
 
-  print reg.GetFamilies()
+  'print reg.GetFamilies()
 
-    GetGlobalAA().AddReplace("FontRegistry", reg)
+  GetGlobalAA().AddReplace("FontRegistry", reg)
 End Function
 
 Function GetMediumFont() as Object
