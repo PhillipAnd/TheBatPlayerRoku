@@ -285,12 +285,9 @@ Function DrawScreen()
     'All the text
     NowPlayingScreen.artistNameLabel.draw(NowPlayingScreen.screen)
     NowPlayingScreen.songNameLabel.draw(NowPlayingScreen.screen)
-    if NowPlayingScreen.albumNameLabel <> invalid
-    NowPlayingScreen.albumNameLabel.draw(NowPlayingScreen.screen)
-    end if
     NowPlayingScreen.bioLabel.draw(NowPlayingScreen.screen)
     if NowPlayingScreen.genresLabel <> invalid
-    NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
+      NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
     end if
 
 
@@ -302,6 +299,9 @@ Function DrawScreen()
     end if
     if NowPlayingScreen.previousAlbumImage <> invalid
       NowPlayingScreen.previousAlbumImage.Draw(NowPlayingScreen.screen)
+    end if
+    if NowPlayingScreen.albumNameLabel <> invalid
+      NowPlayingScreen.albumNameLabel.draw(NowPlayingScreen.screen)
     end if
 
 		'LastFM Logo
