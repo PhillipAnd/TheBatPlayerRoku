@@ -49,8 +49,8 @@ Function UpdateStations()
       SelectableStations.Push(stationObject)
 
       'Download custom poster images
-      url = GetConfig().BatserverCDN + "images/resize/" + urlencode(station.image) + "/" + "266/150"
-      AsyncGetFile(url, "tmp:/" + makemdfive(station.image))
+      AsyncGetFile(stationObject.hdposterurl, "tmp:/" + makemdfive(stationObject.hdposterurl))
+      AsyncGetFile(stationObject.stationimage, "tmp:/" + makemdfive(stationObject.stationimage))
 
       FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
   end for
