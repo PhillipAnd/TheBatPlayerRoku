@@ -247,6 +247,7 @@ Function DrawScreen()
 
 
     'Overlays
+    NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x + 4,NowPlayingScreen.albumPlaceholder.y + 5,NowPlayingScreen.AlbumShadow)
     if NowPlayingScreen.song.OverlayColor <> invalid
       NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.song.OverlayColor) 'Color overlay
     end if
@@ -287,7 +288,6 @@ Function DrawScreen()
 
 
 		'Album
-    NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x + 4,NowPlayingScreen.albumPlaceholder.y + 5,NowPlayingScreen.AlbumShadow)
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
     if NowPlayingScreen.albumImage <> invalid
       NowPlayingScreen.albumImage.Draw(NowPlayingScreen.screen)
