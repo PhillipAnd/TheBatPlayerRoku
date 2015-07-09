@@ -268,11 +268,8 @@ Function DrawScreen()
     DrawHelpLabel(NowPlayingScreen)
 
 		'Artist
-    'NowPlayingScreen.screen.DrawObject(200, 120, NowPlayingScreen.artistPlaceholder, &hFFFFFFFF)
     if NowPlayingScreen.artistImage <> invalid
       NowPlayingScreen.artistImage.Draw(NowPlayingScreen.screen)
-    'else if NowPlayingScreen.ArtistPlaceholder <> invalid
-    ''  NowPlayingScreen.ArtistPlaceholder.Draw(NowPlayingScreen.screen)
     end if
     if NowPlayingScreen.previousArtistImage <> invalid
       NowPlayingScreen.previousArtistImage.Draw(NowPlayingScreen.screen)
@@ -362,8 +359,6 @@ Function RefreshNowPlayingScreen()
   NowPlayingScreen.UpdateBackgroundImage = true
   NowPlayingScreen.UpdateArtistImage = true
   NowPlayingScreen.UpdateAlbumImage = true
-
-  'NowPlayingScreen.ArtistPlaceholder = ArtistImage("tmp:/" + makemdfive(song.StationImage))
 
   NowPlayingScreen.stationTitle = song.stationName
 
