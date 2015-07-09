@@ -120,8 +120,6 @@ Function HandleJSON(jsonString as String)
 
  if shouldRefresh = true then
 
-     song.popularity = invalid
-
       RefreshNowPlayingScreen()
       GetGlobalAA().lastSongTitle = song.Title
 
@@ -149,11 +147,6 @@ Function HandleJSON(jsonString as String)
         NowPlayingScreen.scrobbleTimer = CreateObject("roTimespan")
       end if
       NowPlayingScreen.scrobbleTimer.mark()
-
-      if NowPlayingScreen.PopularityTimer = invalid
-      	NowPlayingScreen.PopularityTimer = CreateObject("roTimespan")
-      end if
-      NowPlayingScreen.PopularityTimer.mark()
 
   end if
 
@@ -247,60 +240,4 @@ Function IsOtherStationsValidDownload(msg as Object) as Boolean
 
 	return false
 
-End Function
-
-
-Function FetchPopularityForArtistName(artistname as String)
-	NowPlayingScreen = GetNowPlayingScreen()
-	Session = GetSession()
-  NowPlayingScreen.Song.PopularityFetchCounter = NowPlayingScreen.Song.PopularityFetchCounter + 1
-	NowPlayingScreen.PopularityTimer = invalid
-
-	Request = CreateObject("roUrlTransfer")
-
-	url = "http://api.thebatplayer.fm:4567/artistrank/" + Request.escape(artistname)
-	Request.SetUrl(url)
-	Request.SetPort(GetPort())
-
-	'if Request.AsyncGetToString()
-	'	RequestObject = CreateObject("roAssociativeArray")
-	'	RequestObject.artistname = artistname
-	'	RequestObject.request = Request
-	'	Session.Downloads.PopularityDownload = RequestObject
-	'end if
-
-End Function
-
-Function CompletedArtistPopulartiy(msg as Object)
-		Session = GetSession()
-		NowPlayingScreen = GetNowPlayingScreen()
-		Song = NowPlayingScreen.song
-
-		if Session.Downloads.PopularityDownload.artistname = Song.Artist
-
-      if msg.GetString() = invalid
-        return false
-      end if
-
-			data = ParseJson(msg.GetString())
-			if data <> invalid AND data.DoesExist("comparison")
-				popularity = data.comparison
-				Song.popularity = popularity
-				UpdateScreen()
-			else
-				RestartFetchPopularityTimer()
-			end if
-		else
-			print "Wrong artist popularity!"
-			RestartFetchPopularityTimer()
-		end if
-		Session.Downloads.PopularityDownload = invalid
-End Function
-
-Function RestartFetchPopularityTimer()
-	NowPlayingScreen = GetNowPlayingScreen()
-	NowPlayingScreen.PopularityTimer = CreateObject("roTimespan")
-
-	print "Restarting fetching of artist popularity."
-	NowPlayingScreen.PopularityTimer.mark() 'Reset the timer and try again
 End Function

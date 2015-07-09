@@ -94,8 +94,6 @@ Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Obj
     item = CreateObject("roAssociativeArray")
     item.ShortDescriptionLine1 = desc1
     item.ShortDescriptionLine2 = desc2
-    item.HDPosterUrl = "pkg:/images/" + id + "/Poster_Logo_HD.png"
-    item.SDPosterUrl = item.HDPosterUrl
     return item
 end Function
 
@@ -103,20 +101,19 @@ Function CreateSong(title as string, description as string, artist as string, st
 
     item = CreatePosterItem("", title, description)
     url = GetConfig().BatserverCDN + "images/resize/" + urlencode(imageLocation) + "/" + "266/150"
-
-    item.HDPosterUrl = url
-    item.SDPosterUrl = url
     item.Artist = artist
     item.Title = title    ' Song name
     item.feedurl = feedurl
     item.streamformat = streamformat
-    item.picture = item.HDPosterUrl      ' default audioscreen picture to PosterScreen Image
+    item.picture = url      ' default audioscreen picture to PosterScreen Image
     item.stationProvider = description
     item.stationName = title
     item.StationImage = imagelocation
     item.Description = "Select Station to find what is currently playing."
     item.JSONDownloadDelay = 0
     item.dataExpires = 0
+    item.HDPosterUrl = url
+    item.SDPosterUrl = item.HDPosterUrl
     return item
 End Function
 

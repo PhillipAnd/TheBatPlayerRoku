@@ -204,11 +204,6 @@ Function UpdateScreen()
   if NowPlayingScreen.artistImage <> invalid then horizontalOffset = NowPlayingScreen.artistImage.horizontalOffset else horizontalOffset = 0
   NowPlayingScreen.onTourLabel = RlTextArea(onTourText, NowPlayingScreen.smallFont, &hFFFFFF00 + 100, ResolutionX(120 + horizontalOffset + 5), ResolutionY(125 + verticalOffset), 300, 50, 1, 1.0, "left")
 
-  'Popularity
-  if NowPlayingScreen.PopularityImage = invalid AND NowPlayingScreen.Song.popularity <> invalid
-    NowPlayingScreen.PopularityImage = CreateObject("roBitmap", "pkg:/images/popularity-" + NowPlayingScreen.Song.Popularity + ".png")
-  end if
-
   if NowPlayingScreen.loadingScreen <> invalid then
     NowPlayingScreen.loadingScreen.close()
     NowPlayingScreen.loadingScreen = invalid
@@ -272,11 +267,11 @@ Function DrawScreen()
     DrawHelpLabel(NowPlayingScreen)
 
 		'Artist
-    NowPlayingScreen.screen.DrawObject(200, 120, NowPlayingScreen.artistPlaceholder, &hFFFFFFFF)
+    'NowPlayingScreen.screen.DrawObject(200, 120, NowPlayingScreen.artistPlaceholder, &hFFFFFFFF)
     if NowPlayingScreen.artistImage <> invalid
       NowPlayingScreen.artistImage.Draw(NowPlayingScreen.screen)
-    else if NowPlayingScreen.ArtistPlaceholder <> invalid
-      NowPlayingScreen.ArtistPlaceholder.Draw(NowPlayingScreen.screen)
+    'else if NowPlayingScreen.ArtistPlaceholder <> invalid
+    ''  NowPlayingScreen.ArtistPlaceholder.Draw(NowPlayingScreen.screen)
     end if
     if NowPlayingScreen.previousArtistImage <> invalid
       NowPlayingScreen.previousArtistImage.Draw(NowPlayingScreen.screen)
@@ -368,7 +363,7 @@ Function RefreshNowPlayingScreen()
   NowPlayingScreen.UpdateArtistImage = true
   NowPlayingScreen.UpdateAlbumImage = true
 
-  NowPlayingScreen.ArtistPlaceholder = ArtistImage("tmp:/" + makemdfive(song.StationImage))
+  'NowPlayingScreen.ArtistPlaceholder = ArtistImage("tmp:/" + makemdfive(song.StationImage))
 
   NowPlayingScreen.stationTitle = song.stationName
 
