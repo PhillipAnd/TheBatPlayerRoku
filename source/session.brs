@@ -33,12 +33,13 @@ Function CreateSession() as Object
 	GetGlobalAA().Session = Session
 
 	Session.deviceInfo = CreateObject("roDeviceInfo")
-
+	Session.IPAddress = invalid
 	Session.Downloads = CreateObject("roAssociativeArray")
 	Session.Downloads.PopularityDownload = invalid
 
   Session.StationDownloads = CreateObject("roAssociativeArray")
   Session.StationDownloads.Downloads = CreateObject("roAssociativeArray")
 
+	Session.IPAddress = GetIPAddress()
 	return Session
 End Function

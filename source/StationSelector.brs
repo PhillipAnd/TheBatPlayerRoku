@@ -143,12 +143,13 @@ End Function
 
 Function GetStationSelectionHeader()
     print "------ Downloading header ------"
-    ipAddress = GetIPAddress()
+    ipAddress = GetSession().IPAddress
     text = urlescape("Configure your Bat Player at http://" + ipAddress + ":9999")
     device = GetSession().deviceInfo
     width = ToStr(device.GetDisplaySize().w)
     url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
     SyncGetFile(url, "tmp:/headerImage.jpg", true)
+    print "------ Downloading header complete------"
 End Function
 
 
@@ -157,7 +158,7 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
     Analytics.AddEvent("Configuration Popup Displayed")
     RegWrite("initialpopupdisplayed", "true", "batplayer")
     port = GetPort()
-    ipAddress = GetIPAddress()
+    ipAddress = GetSession().IPAddress
 
     message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":9999 to customize your Bat Player experience by adding stations, enabling lighting, Last.FM, Rdio support and more."
 
