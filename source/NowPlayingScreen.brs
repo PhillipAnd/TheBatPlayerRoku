@@ -15,6 +15,8 @@ Function CreateNowPlayingScreen() as Object
 
   NowPlayingScreen.HeaderLogo = CreateObject("roBitmap", "pkg:/images/bat.png")
   NowPlayingScreen.StationDetailsLabel = invalid
+  NowPlayingScreen.StationTitleLabel = invalid
+
   NowPlayingScreen.BackgroundImage = invalid
   NowPlayingScreen.PreviousBackgroundImage = invalid
   NowPlayingScreen.PopularityImage = invalid
@@ -175,7 +177,12 @@ Function UpdateScreen()
 		NowPlayingScreen.stationTitle = song.stationName + " - " + song.stationProvider
 	else if song.stationTitle <> invalid
 		NowPlayingScreen.stationTitle = song.stationName
-	endif
+	end if
+  headerTitleY = 28
+  if NowPlayingScreen.song.stationDetails <> invalid AND NowPlayingScreen.song.stationDetails.Listeners <> invalid
+    headerTitleY = 22
+  end if
+  NowPlayingScreen.StationTitleLabel = RlTextArea(NowPlayingScreen.stationTitle, NowPlayingScreen.headerFont, &hFFFFFFFF, 180, headerTitleY, NowPlayingScreen.screen.GetWidth() - 200, 90, 1, 1.0, "left", true)
 
   songNameHeight = GetTextHeight(songTitle, 600, NowPlayingScreen.songNameFont)
   artistNameLocation = 160 - songNameHeight
@@ -262,7 +269,7 @@ Function DrawScreen()
     end if
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
 		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
-		NowPlayingScreen.screen.DrawText(NowPlayingScreen.stationTitle,180,headerTitleY,&hFFFFFFFF,NowPlayingScreen.headerFont) 'Station title
+    NowPlayingScreen.StationTitleLabel.Draw(NowPlayingScreen.screen)
 
     DrawStationDetailsLabel(NowPlayingScreen)
     DrawHelpLabel(NowPlayingScreen)
