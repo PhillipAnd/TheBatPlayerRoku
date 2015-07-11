@@ -75,7 +75,7 @@ Function UpdateScreen()
     screen.Clear(&h000000FF)
 
     GetGlobalAA().IsStationSelectorDisplayed = false
-
+    GetGlobalAA().IsStationLoadingDisplayed = false
   end if
 
 	song = NowPlayingScreen.song
@@ -257,7 +257,7 @@ Function DrawScreen()
 
 		'Header
     headerTitleY = 28
-    if NowPlayingScreen.song.stationDetails.Listeners <> invalid
+    if NowPlayingScreen.song.stationDetails <> invalid AND NowPlayingScreen.song.stationDetails.Listeners <> invalid
       headerTitleY = 22
     end if
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())

@@ -35,7 +35,6 @@ Sub HandleNowPlayingScreenEvent (msg as Object)
 
 	  else if key = 0 then
 	    'Exit
-	    'ListStations()
 			NowPlayingScreen = GetNowPlayingScreen()
 			NowPlayingScreen.screen = invalid
 			GetGlobalAA().lastSongTitle = invalid
@@ -224,6 +223,14 @@ Sub HandleDownloadEvents(msg)
 				print("Download failed. " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason())
 			endif
 
+			if GetGlobalAA().DoesExist("jsontransfer")
+				jsontransfer = GetGlobalAA().Lookup("jsontransfer")
+				jsonIdentity = ToStr(jsontransfer.GetIdentity())
+				if jsonIdentity = Identity
+					HandleJSON(msg)
+				end if
+			end if
+
 			song = GetGlobalAA().SongObject
 
 			if IsBackgroundImageDownload(Identity)
@@ -254,9 +261,8 @@ Sub HandleDownloadEvents(msg)
 					song.MetadataFetchFailure = song.MetadataFetchFailure + 1
 					timer = GetNowPlayingTimer()
 					timer.mark()
-					return
-
 				End if
+
 			end if
 
 

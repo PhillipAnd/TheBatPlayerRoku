@@ -100,8 +100,9 @@ Function HandleJSON(jsonString as String)
     song.album = invalid
     song.brightness = 0
     song.MetadataFetchFailure = song.MetadataFetchFailure + 1
+    song.backgroundImage = song.hdposterurl
+    song.artistImage = song.hdposterurl
   end if
-
   NowPlayingScreen.song = song
 
   if song.artist = invalid then song.artist = song.stationName
@@ -113,7 +114,7 @@ Function HandleJSON(jsonString as String)
   endif
 
   ' Refresh because we've failed getting any metadata a number of times
-  if song.metadataFault = true AND song.MetadataFetchFailure = 2
+  if song.metadataFault = true AND song.MetadataFetchFailure = 3
     shouldRefresh = true
   endif
 
