@@ -49,8 +49,12 @@ Function UpdateStations()
       SelectableStations.Push(stationObject)
 
       'Download custom poster images
-      AsyncGetFile(stationObject.hdposterurl, "tmp:/" + makemdfive(stationObject.hdposterurl))
-      AsyncGetFile(stationObject.stationimage, "tmp:/" + makemdfive(stationObject.stationimage))
+      if NOT FileExists(makemdfive(stationObject.hdposterurl))
+        AsyncGetFile(stationObject.hdposterurl, "tmp:/" + makemdfive(stationObject.hdposterurl))
+      end if
+      if NOT FileExists(makemdfive(stationObject.stationimage))
+        AsyncGetFile(stationObject.stationimage, "tmp:/" + makemdfive(stationObject.stationimage))
+      end if
 
       FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
   end for
