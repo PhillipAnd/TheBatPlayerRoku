@@ -120,6 +120,11 @@ End Function
 Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynamic)
 
     if track <> invalid AND index <> invalid
+
+      if NOT isnonemptystr(track)
+        return false
+      end if
+
         nowPlayingString = track
 
         StationList = GetGlobalAA().StationSelectionScreen
