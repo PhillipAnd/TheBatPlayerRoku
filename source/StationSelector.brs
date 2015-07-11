@@ -161,7 +161,6 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
     dialog.EnableBackButton(true)
     dialog.Show()
     While True
-        'msg = wait(0, dialog.GetMessagePort())
         msg = port.GetMessage()
         HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
         If type(msg) = "roMessageDialogEvent"
@@ -178,3 +177,36 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
         end if
     end while
 End Function
+
+Sub HandleStationSelector (msg as Object)
+
+	if GetGlobalAA().IsStationSelectorDisplayed <> true
+		return
+	end if
+
+	if msg.isScreenClosed()
+		GetGlobalAA().IsStationSelectorDisplayed = false
+		return
+	end if
+
+
+	if msg.isListItemSelected()
+		GetGlobalAA().IsStationSelectorDisplayed = false
+
+		StationList = GetGlobalAA().StationList
+
+    selectionIndex = msg.GetData()
+
+    Stations = GetGlobalAA().SelectableStations
+    Station = Stations[selectionIndex]
+		Analytics_StationSelected(Station.stationName, Station.feedurl)
+
+		metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
+		print "JSON for selected station: " + metadataUrl
+
+    GetGlobalAA().AddReplace("SongObject", Station)
+    Show_Audio_Screen(Station)
+    DisplayStationLoading(Station)
+	end if
+
+End Sub

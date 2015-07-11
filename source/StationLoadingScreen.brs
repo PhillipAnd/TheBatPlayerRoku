@@ -9,6 +9,9 @@ Function DisplayStationLoading(station as Object)
 
 	this.init()
 	GetNowPlayingScreen().loadingScreen = this
+	GetGlobalAA().StationLoadingScreen = this
+	GetGlobalAA().IsStationLoadingDisplayed = true
+	GetGlobalAA().IsStationSelectorDisplayed = false
 
 	return this
 
@@ -55,8 +58,18 @@ End Function
 
 Function Loading_close()
 	print "Closing loading screen"
-	GetGlobalAA().IsStationSelectorDisplayed = false
+	GetGlobalAA().IsStationLoadingDisplayed = false
 	m.canvas.close()
 	m.canvas = invalid
 	m = invalid
+End Function
+
+Function HandleStationLoadingScreenEvent(msg)
+	if msg.GetIndex() = 0 then
+		screen = GetGlobalAA().StationLoadingScreen
+		if screen <> invalid
+			screen.close()
+			GetGlobalAA().IsStationSelectorDisplayed = true
+		end if
+	end if
 End Function

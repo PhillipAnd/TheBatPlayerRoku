@@ -1,50 +1,5 @@
 REM Global event loop
 
-
-Sub HandleStationSelector (msg as Object)
-
-	if GetGlobalAA().IsStationSelectorDisplayed <> true
-		return
-	end if
-
-	if type(msg) = "roUniversalControlEvent" AND msg.GetInt() = 0
-		end
-	endif
-
-	if type(msg) <> "roGridScreenEvent"
-		return
-	end if
-
-	if msg.isScreenClosed()
-		GetGlobalAA().IsStationSelectorDisplayed = false
-		return
-	end if
-
-
-	if msg.isListItemSelected()
-		GetGlobalAA().IsStationSelectorDisplayed = false
-
-		StationList = GetGlobalAA().StationList
-
-    selectionIndex = msg.GetData()
-
-    Stations = GetGlobalAA().SelectableStations
-    Station = Stations[selectionIndex]
-		Analytics_StationSelected(Station.stationName, Station.feedurl)
-
-		metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
-		print "JSON for selected station: " + metadataUrl
-
-    GetGlobalAA().AddReplace("SongObject", Station)
-    Show_Audio_Screen(Station)
-    DisplayStationLoading(Station)
-		return
-	end if
-
-End Sub
-
-
-
 Sub HandleWebEvent (msg as Object)
     server = GetGlobalAA().lookup("WebServer")
 
@@ -314,7 +269,7 @@ End Sub
 'Utilities
 
 function StartEventLoop()
-    port = GetPort()
+  port = GetPort()
 	GetGlobalAA().AddReplace("endloop", false)
 
 	while NOT GetGlobalAA().lookup("endloop")
@@ -327,17 +282,17 @@ function StartEventLoop()
 
 		if msg <> invalid then
 
-			if GetGlobalAA().IsStationSelectorDisplayed = true
+			if GetGlobalAA().IsStationLoadingDisplayed = true AND type(msg) = "roImageCanvasEvent"
+				HandleStationLoadingScreenEvent(msg)
+			end if
+
+			if GetGlobalAA().IsStationSelectorDisplayed = true AND type(msg) = "roGridScreenEvent"
 				HandleStationSelector(msg)
 			end if
 
 			HandleDownloadEvents(msg)
 			HandleNowPlayingScreenEvent(msg)
 			HandleAudioPlayerEvent(msg)
-
-			if type(msg)="roTextureRequestEvent"
-				HandleTextureManager(msg)
-			end if
 
 			'Analytics
 			Analytics = GetSession().Analytics
