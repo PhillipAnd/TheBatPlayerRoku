@@ -36,7 +36,7 @@ Function HandleJSON(jsonString as String)
   song = GetGlobalAA().Lookup("SongObject")
   NowPlayingScreen = GetNowPlayingScreen()
 
-  song.backgroundimage = song.stationimage
+  song.backgroundimage = song.hdposterurl
   song.artistimage = song.stationimage
 
   if song.MetadataFetchFailure = invalid

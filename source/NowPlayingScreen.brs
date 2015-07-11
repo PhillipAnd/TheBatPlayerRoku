@@ -166,7 +166,7 @@ Function UpdateScreen()
 
     NowPlayingScreen.UpdateBackgroundImage = false
   else if song.UseFallbackBackgroundImage = true
-    NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/" + makemdfive(song.StationImage))
+    NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/" + makemdfive(song.hdposterurl))
   end if
 
 	'Station Name
