@@ -1,6 +1,6 @@
-[submodule "source/SegmentIO-Brightscript"]
-	path = source/SegmentIO-Brightscript
-	url = https://github.com/gabek/SegmentIO-Brightscript
 [submodule "source/roku-lib"]
 	path = source/roku-lib
 	url = https://github.com/gabek/roku-lib.git
+[submodule "source/Amplitude-Brightscript"]
+	path = source/Amplitude-Brightscript
+	url = https://github.com/gabek/Amplitude-Brightscript.git

@@ -28,7 +28,7 @@ Function CreateSession() as Object
 	Session.Lighting.Brightness.Maximum = Session.Lighting.Brightness.DefaultMaximum
 	Session.Lighting.Brightness.Mode = 2
 
-	Session.Analytics = Analytics(Session.userId, GetConfig().SegmentApiKey, GetPort())
+	Session.Analytics = Analytics(Session.userId, GetConfig().AmplitudeApiKey, GetPort())
 
 	GetGlobalAA().Session = Session
 
