@@ -20,12 +20,12 @@ Function GetSyslog() as Object
   udp.notifyReadable(true)
   this.udp = udp
   GetGlobalAA().SyslogService = this
-  return this
 
+  return this
 End Function
 
 Function _sendSyslogMessage(message, level = 6)
-    logLevel = level + 2*8
+    logLevel = level + 1*8
     message = "<" + ToStr(logLevel) + ">" + m.deviceId + ":" + message
     m.udp.sendStr(message)
 End Function

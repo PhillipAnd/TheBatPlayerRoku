@@ -27,12 +27,18 @@ Function BatLog(logMessage as string, logType = "message" as string, properties 
 
 	if isDev
 		print "****" + logMessage
-		'return
+		return
 	end if
 
 	if logType = "message" OR logType = "error"
+
+		level = 6
+		if logType = "error"
+			level = 3
+		end if
+
 		logging = GetSyslog()
-		logging.send("Batlog: " + logMessage)
+		logging.send("Batlog: " + logMessage, level)
 		return true
 	end if
 
