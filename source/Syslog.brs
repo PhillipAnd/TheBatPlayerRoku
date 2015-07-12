@@ -14,7 +14,7 @@ Function GetSyslog() as Object
 
   addr = createobject("roSocketAddress")
   addr.SetHostName(GetConfig().SyslogServer)
-  addr.setPort(GetConfig().SylogPort)
+  addr.setPort(GetConfig().SyslogPort)
   udp.setAddress(addr)
   udp.setSendToAddress(addr)
   udp.notifyReadable(true)

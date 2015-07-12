@@ -27,7 +27,7 @@ Function BatLog(logMessage as string, logType = "message" as string, properties 
 
 	if isDev
 		print "****" + logMessage
-		return
+		'return true
 	end if
 
 	if logType = "message" OR logType = "error"
