@@ -22,7 +22,19 @@ Function Analytics_StationSelected(stationName as string, url as string)
 End Function
 
 Function BatLog(logMessage as string, logType = "message" as string, properties = invalid as Object)
-	print "****" + logMessage
+	appInfo = CreateObject("roAppInfo")
+	isDev = appInfo.IsDev()
+
+	if isDev
+		print "****" + logMessage
+		'return
+	end if
+
+	if logType = "message" OR logType = "error"
+		logging = GetSyslog()
+		logging.send("Batlog: " + logMessage)
+		return true
+	end if
 
 	if properties = invalid
 		properties = CreateObject("roAssociativeArray")

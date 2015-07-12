@@ -75,7 +75,7 @@ Function ToggleLastFMAccounts()
 	end if
 	GetGlobalAA().ActiveLastFM = GetGlobalAA().ActiveLastFM + 1
 
-	print "Toggling Last.FM Accounts: " + string
+	BatLog("Toggling Last.FM Accounts: " + string)
 
 	details = CreateObject("roAssociativeArray")
 	details.users = string

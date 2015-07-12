@@ -143,7 +143,7 @@ Sub HandleAudioPlayerEvent(msg as Object)
 						Audio.Audioplayer.Seek(-180000)
 	        	Audio.failCounter = Audio.failCounter + 1
 	        else
-	        	BatLog("Failed playing station.", Station.url)
+	        	BatLog("Failed playing station: " + Station.url)
 	        	Audio.AudioPlayer.stop()
 	        	Audio.failCounter = 0
 	        	ListStations()
@@ -218,9 +218,9 @@ Sub HandleDownloadEvents(msg)
 		else
 			if TransferRequest <> invalid
 				errorUrl = TransferRequest.GetUrl()
-				print("Download failed. " + errorUrl + " " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason())
+				BatLog("Download failed. " + errorUrl + " " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason(), "error")
 			else
-				print("Download failed. " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason())
+				BatLog("Download failed. " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason(), "error")
 			endif
 
 			if GetGlobalAA().DoesExist("jsontransfer")
