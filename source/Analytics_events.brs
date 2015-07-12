@@ -13,7 +13,7 @@ End Function
 Function Analytics_StationSelected(stationName as string, url as string)
 	if isnonemptystr(stationName) AND isnonemptystr(url)
 		Analytics = GetSession().Analytics
-		
+
 		properties = CreateObject("roAssociativeArray")
 		properties.stationName = stationName
 		properties.stationStream = url
@@ -28,12 +28,12 @@ Function BatLog(logMessage as string, logType = "message" as string, properties 
 		properties = CreateObject("roAssociativeArray")
 	end if
 	properties.type = logType
-	
+
 	NowPlayingScreen = GetNowPlayingScreen()
 	if NowPlayingScreen <> invalid
 		properties.song = NowPlayingScreen.song
 	end if
-	
+
 	Analytics = GetSession().Analytics
 	Analytics.AddEvent("Log", properties)
 End Function
