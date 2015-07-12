@@ -10,6 +10,9 @@ Function AsyncGetFile(url as string, filepath as string, overrideFileCheck = fal
       Request.SetUrl(url)
       Request.SetPort(GetPort())
       Request.EnableEncodings(True)
+      Request.EnablePeerVerification(false)
+      Request.EnableHostVerification(false)
+
       Request.AddHeader("Accept-Encoding","deflate")
       Request.AddHeader("Accept-Encoding","gzip")
       if Request.AsyncGetToFile(filepath) then
@@ -39,6 +42,9 @@ Function SyncGetFile(url as string, filepath as string, overrideFileCheck = fals
       Request.AddHeader("Accept-Encoding","gzip")
       Request.EnableEncodings(True)
       Request.EnableResume(true)
+      Request.EnablePeerVerification(false)
+      Request.EnableHostVerification(false)
+
       Request.SetPort(GetPort())
       if Request.GetToFile(filepath) then
         print "Started download of: " + url + " to " + filepath ". "
