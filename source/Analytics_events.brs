@@ -25,7 +25,7 @@ Function BatLog(logMessage as string, logType = "message" as string, properties 
 	appInfo = CreateObject("roAppInfo")
 	isDev = appInfo.IsDev()
 
-	if isDev
+	if GetSession().IsDev
 		print "****" + logMessage
 		return true
 	end if
@@ -54,4 +54,13 @@ Function BatLog(logMessage as string, logType = "message" as string, properties 
 
 	Analytics = GetSession().Analytics
 	Analytics.AddEvent("Log", properties)
+End Function
+
+Function BatAnalytics_Handle()
+	if GetSession().IsDev
+		return false
+	end if
+
+	Analytics = GetSession().Analytics
+	Analytics.HandleAnalyticsEvents(msg)
 End Function

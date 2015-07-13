@@ -301,8 +301,8 @@ function StartEventLoop()
 			HandleAudioPlayerEvent(msg)
 
 			'Analytics
-			Analytics = GetSession().Analytics
-			Analytics.HandleAnalyticsEvents(msg)
+      BatAnalytics_Handle()
+      
 		end if
 
 		song = GetGlobalAA().SongObject

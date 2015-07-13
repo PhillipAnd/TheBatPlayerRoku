@@ -29,7 +29,7 @@ Function CreateSession() as Object
 	Session.Lighting.Brightness.Mode = 2
 
 	Session.Analytics = Analytics(Session.userId, GetConfig().AmplitudeApiKey, GetPort())
-
+	Session.IsDev = CreateObject("roAppInfo").IsDev()
 	GetGlobalAA().Session = Session
 
 	Session.deviceInfo = CreateObject("roDeviceInfo")
