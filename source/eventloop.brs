@@ -235,7 +235,7 @@ Sub HandleDownloadEvents(msg)
 
 			if IsBackgroundImageDownload(Identity)
 				'Background Image download failed
-				print "Using background fallback image."
+				BatLog("Using background fallback image.")
 				song.UseFallbackBackgroundImage = true
 				GetSession().BackgroundImageDownload = invalid
 				UpdateScreen()
@@ -244,7 +244,7 @@ Sub HandleDownloadEvents(msg)
 
 			if IsArtistImageDownload(Identity)
 				'Artist Image download failed
-				print "Using artist fallback image."
+				BatLog("Using artist fallback image.")
 				song.UseFallbackArtistImage = true
 				GetSession().ArtistImageDownload = invalid
 				UpdateScreen()

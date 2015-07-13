@@ -89,7 +89,7 @@ Function HandleJSON(jsonString as String)
     end if
 
   else
-    BatLog("There was an error processing or downloading metadata", "error")
+    BatLog("There was an error processing or downloading metadata: " + song.feedurl, "error")
     song.JSONDownloadDelay = song.JSONDownloadDelay + 1
     song.Artist = song.stationName
     song.Title = song.feedurl
