@@ -34,7 +34,7 @@
   "name": "80s Retro",
   "provider": "Sanctuary Radio",
   "format": "mp3",
-  "stream": "http://stream.getmyip.com/",
+  "stream": "http://23.27.51.2:1330/",
   "image": "http://cdn.thebatplayer.fm/client/images/sanctuaryradiologo2.png"
 }, {
   "name": "Classic Rock",
