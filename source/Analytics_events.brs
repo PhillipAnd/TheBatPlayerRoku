@@ -57,9 +57,11 @@ Function BatLog(logMessage as string, logType = "message" as string, properties 
 End Function
 
 Function BatAnalytics_Handle(msg)
-	if GetSession().IsDev = true
-		return false
-	end if
+
+	'if GetSession().IsDev = true
+''		Batlog("Development device disables Analytics.")
+''		return false
+''	end if
 
 	Analytics = GetSession().Analytics
 	Analytics.HandleAnalyticsEvents(msg)

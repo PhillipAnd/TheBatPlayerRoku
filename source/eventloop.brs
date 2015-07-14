@@ -299,10 +299,6 @@ function StartEventLoop()
 			HandleDownloadEvents(msg)
 			HandleNowPlayingScreenEvent(msg)
 			HandleAudioPlayerEvent(msg)
-
-      'Analytics
-      BatAnalytics_Handle(msg)
-
 		end if
 
 		song = GetGlobalAA().SongObject
@@ -313,6 +309,9 @@ function StartEventLoop()
 				DrawScreen()
 			end if
 		end if
+
+    'Analytics
+    BatAnalytics_Handle(msg)
 
 	end while
 
