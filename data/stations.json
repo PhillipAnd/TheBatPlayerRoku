@@ -10,7 +10,7 @@
   "provider": "1.FM",
   "format": "mp3",
   "stream": "http://205.164.62.22:8075/",
-  "image": "http://api.thebatplayer.fm/client/images/1fm.png",
+  "image": "http://cdn.thebatplayer.fm/client/images/1fm.png",
   "genres": ["Top 40", "Hits"]
 }, {
   "name": "90s Mix",
@@ -23,7 +23,7 @@
   "provider": "Sanctuary Radio",
   "format": "mp3",
   "stream": "http://23.27.51.2:6699/",
-  "image": "http://api.thebatplayer.fm/client/images/sanctuaryradiologo.png"
+  "image": "http://cdn.thebatplayer.fm/client/images/sanctuaryradiologo.png"
 }, {
   "name": "Uzic Techno",
   "provider": "Uzic",
