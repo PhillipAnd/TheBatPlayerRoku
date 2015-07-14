@@ -30,16 +30,21 @@ Function CreateSession() as Object
 
 	Session.Analytics = Analytics(Session.userId, GetConfig().AmplitudeApiKey, GetPort())
 	Session.IsDev = CreateObject("roAppInfo").IsDev()
-	GetGlobalAA().Session = Session
 
 	Session.deviceInfo = CreateObject("roDeviceInfo")
 	Session.IPAddress = invalid
 	Session.Downloads = CreateObject("roAssociativeArray")
-	Session.Downloads.PopularityDownload = invalid
+
+	' IP address'
+	IPs = Session.deviceInfo.getIpAddrs()
+	IPs.reset()
+	ip = IPs[IPs.next()]
+	Session.IPAddress = ip
 
   Session.StationDownloads = CreateObject("roAssociativeArray")
   Session.StationDownloads.Downloads = CreateObject("roAssociativeArray")
 
-	Session.IPAddress = GetIPAddress()
+	GetGlobalAA().Session = Session
+
 	return Session
 End Function

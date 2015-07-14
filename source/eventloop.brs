@@ -300,9 +300,9 @@ function StartEventLoop()
 			HandleNowPlayingScreenEvent(msg)
 			HandleAudioPlayerEvent(msg)
 
-			'Analytics
-      BatAnalytics_Handle()
-      
+      'Analytics
+      BatAnalytics_Handle(msg)
+
 		end if
 
 		song = GetGlobalAA().SongObject

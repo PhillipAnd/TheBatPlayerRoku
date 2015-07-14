@@ -56,8 +56,8 @@ Function BatLog(logMessage as string, logType = "message" as string, properties 
 	Analytics.AddEvent("Log", properties)
 End Function
 
-Function BatAnalytics_Handle()
-	if GetSession().IsDev
+Function BatAnalytics_Handle(msg)
+	if GetSession().IsDev = true
 		return false
 	end if
 
