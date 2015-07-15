@@ -3,39 +3,39 @@
   "provider": "soma fm",
   "format": "mp3",
   "stream": "http://uwstream1.somafm.com/",
-  "image": "http://i.img.co/radio/80/26/2608_290.png",
+  "image": "https://s3-us-west-2.amazonaws.com/roku-client-assets/stationicons/groovesalad.png",
   "genres": ["chill", "lounge"]
 }, {
   "name": "ABSOLUTE TOP 40 RADIO",
   "provider": "1.FM",
   "format": "mp3",
   "stream": "http://205.164.62.22:8075/",
-  "image": "http://cdn.thebatplayer.fm/client/images/1fm.png",
+  "image": "https://s3-us-west-2.amazonaws.com/roku-client-assets/stationicons/1fm.png",
   "genres": ["Top 40", "Hits"]
 }, {
   "name": "90s Mix",
   "provider": "BatesFM",
   "format": "mp3",
   "stream": "http://107.155.126.58:8590/",
-  "image": "http://www.batesfm.com/images/logo.png"
+  "image": "https://s3-us-west-2.amazonaws.com/roku-client-assets/stationicons/bateslogo.png"
 }, {
   "name": "Goth Industrial Electro",
   "provider": "Sanctuary Radio",
   "format": "mp3",
   "stream": "http://23.27.51.2:6699/",
-  "image": "http://cdn.thebatplayer.fm/client/images/sanctuaryradiologo.png"
+  "image": "https://s3-us-west-2.amazonaws.com/roku-client-assets/stationicons/sanctuaryradiologo.png"
 }, {
   "name": "80s Retro",
   "provider": "Sanctuary Radio",
   "format": "mp3",
   "stream": "http://23.27.51.2:1330/",
-  "image": "http://cdn.thebatplayer.fm/client/images/sanctuaryradiologo2.png"
+  "image": "https://s3-us-west-2.amazonaws.com/roku-client-assets/stationicons/sanctuaryradiologo2.png"
 }, {
   "name": "Classic Rock",
   "provider": "Best Net Radio",
   "stream": "http://107.155.126.58:7150/",
   "format": "mp3",
-  "image": "http://d1i6vahw24eb07.cloudfront.net/s206288q.png"
+  "image": "https://s3-us-west-2.amazonaws.com/roku-client-assets/stationicons/bestnetradio.png"
 }, {
   "name": "Somehow Jazz",
   "provider": "Somehow Jazz",
@@ -47,5 +47,5 @@
   "provider": "Nerdy Show",
   "stream": "http://streams4.museter.com:8344/",
   "format": "mp3",
-  "image": "http://debsanderrol.com/wp-content/uploads/2013/09/NerdydotFM-logo.jpg"
+  "image": "https://s3-us-west-2.amazonaws.com/roku-client-assets/stationicons/nerdyfm.jpg"
 }]
