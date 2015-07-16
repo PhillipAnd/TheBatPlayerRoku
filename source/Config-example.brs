@@ -1,19 +1,23 @@
-''Function GetConfig() as Object
+'Function GetConfig() as Object
 ''	this = {
 ''		type: "Config"
 ''
-''		SegmentApiKey: "YOUR-SEGMENT-IO-KEY"
+''		AmplitudeApiKey: "AMPLITUDE-KEY-ABC123YOUANDME"
 ''
-''		LastFMKey: "ADD-KEY-HERE"
-''		LastFMSecret: "ADD-SECRET-HERE"
+''		LastFMKey: "LAST-FM-KEY-8675309"
+''		LastFMSecret: "LAST-FM-SECRET-8675309"
 ''
-''		Batserver: "http://api.thebatplayer.fm:6081/"
-''		BatserverCDN: "http://batserver.thebatplayer.fm/"
+''		Batserver: "http://thebatserver.thebatplayer.fm/"
+''		BatserverCDN: "http://apicdn.thebatplayer.fm/"
 ''
-''		MetadataFetchTimer: 5
+''		SyslogServer: "my.syslog.server.net
+''		SyslogPort: 12345
+''
+''		MetadataFetchTimer: 7
+''
 ''		ImageDownloadTimeout: 5
-''    ImageFadeDuration: 1.5
+''		ImageFadeDuration: 3
 ''	}
 ''
 ''	return this
-''End Function
+'End Function
