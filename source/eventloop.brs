@@ -37,9 +37,10 @@ Sub HandleNowPlayingScreenEvent (msg as Object)
 	    'Exit
 			NowPlayingScreen = GetNowPlayingScreen()
 			NowPlayingScreen.screen = invalid
-			GetGlobalAA().lastSongTitle = invalid
+
+      GetGlobalAA().lastSongTitle = invalid
 			GetGlobalAA().IsStationSelectorDisplayed = true
-			UpdateStations()
+
 	  else if key = 106
 			' Display help message
 			DisplayHelpPopup()
@@ -293,7 +294,8 @@ function StartEventLoop()
 			end if
 
 			if GetGlobalAA().IsStationSelectorDisplayed = true AND type(msg) = "roGridScreenEvent"
-				HandleStationSelector(msg)
+        StationSelectionScreen = GetGlobalAA().StationSelectionScreen
+				StationSelectionScreen.Handle(msg)
 			end if
 
 			HandleDownloadEvents(msg)

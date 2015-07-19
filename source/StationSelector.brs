@@ -1,50 +1,61 @@
 Function ListStations()
-    print "------ Displaying Station Selector ------"
-
-    GetGlobalAA().IsStationSelectorDisplayed = true
-    GetGlobalAA().delete("screen")
-    GetGlobalAA().delete("song")
-    GetGlobalAA().Delete("jsonEtag")
-    GetGlobalAA().lastSongTitle = invalid
-
-    StationSelectionScreen = CreateObject("roGridScreen")
-    StationSelectionScreen.SetGridStyle("two-row-flat-landscape-custom")
-    StationSelectionScreen.SetDescriptionVisible(true)
-    StationSelectionScreen.SetUpBehaviorAtTopRow("stop")
-    StationSelectionScreen.SetBreadcrumbEnabled(false)
-    StationSelectionScreen.SetLoadingPoster("pkg:/images/icon-hd.png", "pkg:/images/icon-sd.png")
-    port = GetPort()
-    StationSelectionScreen.SetMessagePort(port)
-    GetGlobalAA().AddReplace("StationSelectionScreen", StationSelectionScreen)
-
-
-    StationSelectionScreen.SetupLists(1)
-    StationSelectionScreen.SetListName(0, "Stations")
-
-    UpdateStations()
-    HandleInternetConnectivity()
-    StationSelectionScreen.Show()
-
-    'First launch popup
-    if RegRead("initialpopupdisplayed", "batplayer") = invalid
-        Analytics = GetSession().Analytics
-        Analytics.AddEvent("First Session began")
-        ShowConfigurationMessage(StationSelectionScreen)
-    end if
-
-    Return -1
+  print "------ Displaying Station Selector ------"
+  StationSelectionScreen = StationSelectionScreen()
 
 End Function
 
-Function UpdateStations()
+Function StationSelectionScreen()
+
+  this = {
+    Stations: GetStations()
+    SelectableStations: invalid
+    Screen: CreateObject("roGridScreen")
+    SelectedIndex: 0
+    GetStations: selection_getStations
+    Handle: selection_handle
+  }
+
+  this.Screen.SetGridStyle("two-row-flat-landscape-custom")
+  this.Screen.SetDescriptionVisible(true)
+  this.Screen.SetUpBehaviorAtTopRow("stop")
+  this.Screen.SetBreadcrumbEnabled(false)
+  this.Screen.SetLoadingPoster("pkg:/images/icon-hd.png", "pkg:/images/icon-sd.png")
+  port = GetPort()
+  this.Screen.SetMessagePort(port)
+  this.Screen.SetupLists(1)
+  this.Screen.SetListName(0, "Stations")
+  this.Screen.Show()
+
+  GetGlobalAA().IsStationSelectorDisplayed = true
+  GetGlobalAA().delete("screen")
+  GetGlobalAA().delete("song")
+  GetGlobalAA().Delete("jsonEtag")
+  GetGlobalAA().lastSongTitle = invalid
+
+  this.Screen.SetContentList(0,this.Stations)
+  GetGlobalAA().AddReplace("StationSelectionScreen", this)
+
+  this.GetStations()
+
+  HandleInternetConnectivity()
+
+  'First launch popup
+  if RegRead("initialpopupdisplayed", "batplayer") = invalid
+    Analytics = GetSession().Analytics
+    Analytics.AddEvent("First Session began")
+    ShowConfigurationMessage(StationSelectionScreen)
+  end if
+
+  return this
+End Function
+
+Function selection_getStations()
   print "------ Updating list of stations ------"
-  StationSelectionScreen = GetGlobalAA().StationSelectionScreen
-  stationsArray = GetStations()
-  SelectableStations = CreateObject("roArray", stationsArray.Count(), true)
+  SelectableStations = CreateObject("roArray", m.Stations.Count(), true)
 
-  for i = 0 to stationsArray.Count()-1
+  for i = 0 to m.Stations.Count()-1
 
-      station = stationsArray[i]
+      station = m.Stations[i]
       stationObject = CreateSong(station.name,station.provider,"", station.format, station.stream, station.image)
       SelectableStations.Push(stationObject)
 
@@ -55,12 +66,13 @@ Function UpdateStations()
       if NOT FileExists(makemdfive(stationObject.stationimage))
         AsyncGetFile(stationObject.stationimage, "tmp:/" + makemdfive(stationObject.stationimage))
       end if
-
+      m.Screen.SetContentList(0, SelectableStations)
+      m.SelectableStations = SelectableStations
       FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
   end for
 
-  GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
-  StationSelectionScreen.SetContentList(0, SelectableStations)
+  'GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
+  m.Stations = SelectableStations
 End Function
 
 Function HandleInternetConnectivity()
@@ -122,6 +134,9 @@ Function CreateSong(title as string, description as string, artist as string, st
 End Function
 
 Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynamic)
+    StationSelectionScreen = GetGlobalAA().StationSelectionScreen
+    Stations = GetGlobalAA().StationSelectionScreen.SelectableStations
+    Screen = GetGlobalAA().StationSelectionScreen.Screen
 
     if track <> invalid AND index <> invalid
 
@@ -129,14 +144,10 @@ Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynam
         return false
       end if
 
-        nowPlayingString = track
-
-        StationList = GetGlobalAA().StationSelectionScreen
-        SelectableStations = GetGlobalAA().SelectableStations
-        station = SelectableStations[index]
-
-        station.Description = nowPlayingString
-        StationList.SetContentListSubset(0, SelectableStations, index, 1)
+        'nowPlayingString = track
+        station = Stations[index]
+        station.Description = track
+        Screen.SetContentListSubset(0, Stations, index, 1)
     end if
 
 End Function
@@ -147,7 +158,7 @@ Function GetStationSelectionHeader()
     text = urlescape("Configure your Bat Player at http://" + ipAddress + ":9999")
     device = GetSession().deviceInfo
     width = ToStr(device.GetDisplaySize().w)
-    url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
+    url = GetConfig().Batserver + "images/header/?text=" + text + "&width=" + width
     SyncGetFile(url, "tmp:/headerImage.jpg", true)
     print "------ Downloading header complete------"
 End Function
@@ -188,27 +199,18 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
     end while
 End Function
 
-Sub HandleStationSelector (msg as Object)
+Function selection_handle(msg as Object)
 
 	if GetGlobalAA().IsStationSelectorDisplayed <> true
-		return
+		return false
 	end if
-
-	if msg.isScreenClosed()
-		GetGlobalAA().IsStationSelectorDisplayed = false
-		return
-	end if
-
 
 	if msg.isListItemSelected()
 		GetGlobalAA().IsStationSelectorDisplayed = false
 
-		StationList = GetGlobalAA().StationList
-
     selectionIndex = msg.GetData()
-
-    Stations = GetGlobalAA().SelectableStations
-    Station = Stations[selectionIndex]
+    m.SelectedIndex = selectionIndex
+    Station = m.SelectableStations[selectionIndex]
 		Analytics_StationSelected(Station.stationName, Station.feedurl)
 
 		metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
@@ -219,4 +221,4 @@ Sub HandleStationSelector (msg as Object)
     DisplayStationLoading(Station)
 	end if
 
-End Sub
+End Function

@@ -1,6 +1,7 @@
 Sub RunUserInterface(aa as Object)
     'DeleteRegistry()
     SetTheme()
+    GetGlobalAA().IsStationSelectorDisplayed = true
 
     print "------ Starting web server ------"
     StartServerWithPort(GetPort())
