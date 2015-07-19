@@ -44,6 +44,8 @@ Function LastFMAccounts() as Object
 End Function
 
 Function ToggleLastFMAccounts()
+	print "Active LastFM: " ToStr(GetGlobalAA().ActiveLastFM)
+
 	userArray = GetLastFMData(false)
 	string = ""
 
@@ -55,25 +57,32 @@ Function ToggleLastFMAccounts()
 		DisplayPopup("There are no Last.FM accounts configured.  Visit: http://" + GetSession().IPAddress + ":9999 to remedy this.",  &hb20000FF, &hBBBBBB00, 8)
 		Analytics = GetSession().Analytics
 		Analytics.AddEvent("Attempted to enable scrobbling mode without LastFM configured")
-
 		return false
 	end if
 	i = 0
 
 	'All users
-	if GetGlobalAA().ActiveLastFM = 0 OR GetGlobalAA().ActiveLastFM = totalUsers + 1
+	if GetGlobalAA().ActiveLastFM = 0
 		for each user in userArray
 			activeUsers.push(user)
 			string = string + " " + user.username
 			i  = i + 1
 		end for
+		GetGlobalAA().ActiveLastFM = 1
+
+	' No users
+	else if GetGlobalAA().ActiveLastFM > totalUsers - 1
+		activeUsers.clear()
+		user = invalid
+		string = "None"
 		GetGlobalAA().ActiveLastFM = 0
+	' Single user
 	else
 		user = userArray[GetGlobalAA().ActiveLastFM - 1]
 		activeUsers.push(user)
 		string = user.username
+		GetGlobalAA().ActiveLastFM = GetGlobalAA().ActiveLastFM + 1
 	end if
-	GetGlobalAA().ActiveLastFM = GetGlobalAA().ActiveLastFM + 1
 
 	BatLog("Toggling Last.FM Accounts: " + string)
 
