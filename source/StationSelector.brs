@@ -158,7 +158,7 @@ Function GetStationSelectionHeader()
     text = urlescape("Configure your Bat Player at http://" + ipAddress + ":9999")
     device = GetSession().deviceInfo
     width = ToStr(device.GetDisplaySize().w)
-    url = GetConfig().Batserver + "images/header/?text=" + text + "&width=" + width
+    url = GetConfig().BatserverCDN + "images/header/?text=" + text + "&width=" + width
     SyncGetFile(url, "tmp:/headerImage.jpg", true)
     print "------ Downloading header complete------"
 End Function
