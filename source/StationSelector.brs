@@ -11,7 +11,7 @@ Function StationSelectionScreen()
     SelectableStations: invalid
     Screen: CreateObject("roGridScreen")
     SelectedIndex: 0
-    GetStations: selection_getStations
+    RefreshStations: selection_getStations
     Handle: selection_handle
   }
 
@@ -35,7 +35,7 @@ Function StationSelectionScreen()
   this.Screen.SetContentList(0,this.Stations)
   GetGlobalAA().AddReplace("StationSelectionScreen", this)
 
-  this.GetStations()
+  this.RefreshStations()
 
   HandleInternetConnectivity()
 
@@ -114,7 +114,6 @@ Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Obj
 end Function
 
 Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
-
     item = CreatePosterItem("", title, description)
     url = GetConfig().BatserverCDN + "images/resize/" + urlencode(imageLocation) + "/" + "266/150"
     item.Artist = artist
@@ -189,7 +188,7 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
                 if msg.GetIndex() = 1
                     Analytics.AddEvent("Configuration Popup Dismissed")
                     dialog.close()
-                    UpdateStations()
+                    RefreshStationScreen()
                     exit while
                 end if
             else if msg.isScreenClosed()
@@ -221,4 +220,10 @@ Function selection_handle(msg as Object)
     DisplayStationLoading(Station)
 	end if
 
+End Function
+
+Function RefreshStationScreen()
+  StationSelectionScreen = GetGlobalAA().StationSelectionScreen
+  StationSelectionScreen.Stations = GetStations()
+  StationSelectionScreen.RefreshStations()
 End Function

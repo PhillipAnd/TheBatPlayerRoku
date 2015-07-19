@@ -7,7 +7,7 @@ Sub HandleSaveRequestForStations(request as Object)
 	RegWrite("stations", data, "batplayer")
 
 	if GetGlobalAA().IsStationSelectorDisplayed = true
-		UpdateStations()
+		RefreshStationScreen()
 	end if
 
 End Sub
