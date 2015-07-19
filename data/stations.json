@@ -43,9 +43,9 @@
   "format": "mp3",
   "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/somehowjazz.png"
 }, {
-  "name": "Nerdy.FM",
-  "provider": "Nerdy Show",
-  "stream": "http://streams4.museter.com:8344/",
+  "name": "Techno",
+  "provider": "Digitally Imported",
+  "stream": "http://pub5.di.fm/di_techno",
   "format": "mp3",
-  "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/nerdyfm.jpg"
+  "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/di-techno.png"
 }]
