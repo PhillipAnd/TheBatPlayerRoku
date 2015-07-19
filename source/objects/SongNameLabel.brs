@@ -4,9 +4,9 @@ Function SongNameLabel(text as string, song as object, yLocation as integer, fon
 		labelObject: invalid
 		dropShadowObject: invalid
 		font: font
-		x: ResolutionX(580)
+		x: ResolutionX(585)
 		y: ResolutionY(yLocation)
-		width: ResolutionX(590)
+		width: ResolutionX(580)
 		height: ResolutionY(200)
 		color: color
 		draw: songNameLabel_draw
