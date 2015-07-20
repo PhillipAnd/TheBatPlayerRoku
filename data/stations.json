@@ -42,6 +42,12 @@
   "stream": "http://72.55.137.198:3200/",
   "format": "mp3",
   "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/somehowjazz.png"
+  }, {
+  "name": "Radio Paradise",
+  "provider": "Radio Paradise",
+  "stream": "http://stream-dc1.radioparadise.com/mp3-192",
+  "format": "mp3",
+  "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/radio-paradise.jpg"
 }, {
   "name": "Techno",
   "provider": "Digitally Imported",
