@@ -35,6 +35,7 @@ Sub HandleNowPlayingScreenEvent (msg as Object)
 
 	  else if key = 0 then
 	    'Exit
+      RefreshStationScreen()
 			NowPlayingScreen = GetNowPlayingScreen()
 			NowPlayingScreen.screen = invalid
 
