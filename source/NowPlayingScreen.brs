@@ -184,7 +184,7 @@ Function UpdateScreen()
   end if
   NowPlayingScreen.StationTitleLabel = RlTextArea(NowPlayingScreen.stationTitle, NowPlayingScreen.headerFont, &hFFFFFFFF, 180, headerTitleY, NowPlayingScreen.screen.GetWidth() - 200, 90, 1, 1.0, "left", true)
 
-  songNameHeight = GetTextHeight(songTitle, 600, NowPlayingScreen.songNameFont)
+  songNameHeight = GetTextHeight(songTitle, 580, NowPlayingScreen.songNameFont)
   artistNameLocation = 160 - songNameHeight
   songNameLocation = artistNameLocation + 45
 
