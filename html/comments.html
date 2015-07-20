@@ -1,0 +1,143 @@
+<head>
+  <title>The Bat Player Setup</title>
+  <link rel="shortcut icon" href="http://thebatplayer.fm/favicon.ico" type="image/x-icon" />
+
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+  <script src="https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/js/analytics.js"></script>
+</head>
+
+<body>
+
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=497357097083992";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+  <nav class="navbar navbar-inverse" role="navigation">
+
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <i class="icon-cog"></i>
+        </button>
+        <a class="navbar-brand" href="/">The Bat Player</a>
+      </div>
+
+    </div>
+    <!-- /.container -->
+  </nav>
+
+
+
+
+
+  <div class="subnavbar">
+
+    <div class="subnavbar-inner">
+
+      <div class="container">
+
+        <div class="subnav">
+          <ul class="mainnav">
+
+            <li>
+              <a href="./index.html">
+                <i class="fa fa-home"></i>
+                <span>Home</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="./stations.html">
+                <i class="fa fa-music"></i>
+                <span>Stations</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="./services.html">
+                <i class="fa fa-cloud"></i>
+                <span>Services</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="./lighting.html">
+                <i class="fa fa-lightbulb-o"></i>
+                <span>Lighting</span>
+              </a>
+            </li>
+
+            <li class="active">
+              <a href="./comments.html">
+                <i class="fa fa-comments-o"></i>
+                <span>Community</span>
+              </a>
+            </li>
+
+            <li class="" id="hue-button">
+              <a href="http://thebatplayer.fm/help.php" target="_blank">
+                <i class="fa fa-question-circle"></i>
+                <span>Help</span>
+              </a>
+            </li>
+
+            <!-- 					<li>
+						<a href="./advanced.html">
+							<i class="fa fa-cogs"></i>
+							<span>Advanced</span>
+						</a>
+					</li> -->
+
+          </ul>
+        </div>
+        <!-- /.subnav-collapse -->
+
+      </div>
+      <!-- /container -->
+
+    </div>
+    <!-- /subnavbar-inner -->
+
+  </div>
+  <!-- /subnavbar -->
+
+  <div class="main">
+    <div class="container">
+
+      <div class="widget stacked">
+
+        <div class="widget-header">
+          <i class="icon-file"></i>
+          <h3>Only those with The Bat Player installed can access this comment thread.  It's kind of like a secret club.</h3>
+
+        </div>
+        <!-- /widget-header -->
+
+        <div class="widget-content">
+          <div class="fb-comments" data-href="http://thebatplayer.fm" data-numposts="50" data-colorscheme="light" data-width="100%"></div>
+      </div>
+
+      <!-- /widget-content -->
+
+    </div>
+  </div>
+  </div>
+</body>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://s3-us-west-2.amazonaws.com/batserver-static-assets/shared/theme/css/base-admin-3.css" rel="stylesheet">
+<link href="https://s3-us-west-2.amazonaws.com/batserver-static-assets/shared/css/custom.css" rel="stylesheet">
+<link href="https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/css/client.css" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/js/admin.js"></script>
+<script>
+  addAction("Web configuration home page loaded.");
+</script>
