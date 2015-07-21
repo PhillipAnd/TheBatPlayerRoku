@@ -76,6 +76,7 @@ Function ToggleLastFMAccounts()
 		user = invalid
 		string = "None"
 		GetGlobalAA().ActiveLastFM = 0
+		
 	' Single user
 	else
 		user = userArray[GetGlobalAA().ActiveLastFM - 1]
@@ -91,7 +92,13 @@ Function ToggleLastFMAccounts()
 	Analytics = GetSession().Analytics
 	Analytics.AddEvent("Toggled LastFM",details)
 
-	DisplayPopup("Now Scrobbling to Last.FM as: " + string + ".",  &h000000FF, &hBBBBBB00, 3)
+	msg = ""
+	if GetGlobalAA().ActiveLastFM = 0
+		msg = "No longer Scrobbling"
+	else
+		msg = "Now Scrobbling to Last.FM as: " + string + "."
+	end if
+	DisplayPopup(msg,  &h000000FF, &hBBBBBB00, 3)
 
 	'Reset the timer
 	timer = GetNowPlayingScreen().scrobbleTimer
