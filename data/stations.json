@@ -54,4 +54,10 @@
   "stream": "http://pub5.di.fm/di_techno",
   "format": "mp3",
   "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/di-techno.png"
+}, {
+  "name": "Techno Radio",
+  "provider": "Fnoob",
+  "stream": "http://andromeda.shoutca.st:8516/stream",
+  "format": "mp3",
+  "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/fnoobtechno.png"
 }]
