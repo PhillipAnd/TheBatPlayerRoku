@@ -189,7 +189,7 @@ End Sub
 
 Sub CreateAlbumOverlayColor(song) as integer
   if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
-    alpha = 20
+    alpha = 30
     color = MakeARGB(song.image.color.rgb.red, song.image.color.rgb.green, song.image.color.rgb.blue, alpha)
   else
     color = 0

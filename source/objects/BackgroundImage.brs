@@ -76,6 +76,6 @@ Function backgroundImage_draw(screen as Object)
 			end if
 		end if
 		screen.DrawObject(0, 0, m.image, m.alpha)
-		screen.DrawObject(0,0,m.BackgroundGrunge, &hFFFFFF00 + 50)
+		screen.DrawObject(0,0,m.BackgroundGrunge, &hFFFFFF00 + 60)
 	end if
 End Function
