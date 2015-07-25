@@ -49,9 +49,9 @@
   "format": "mp3",
   "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/radio-paradise.jpg"
 }, {
-  "name": "Techno",
+  "name": "Electropop",
   "provider": "Digitally Imported",
-  "stream": "http://pub5.di.fm/di_techno",
+  "stream": "http://pub5.di.fm/di_electropop",
   "format": "mp3",
-  "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/di-techno.png"
+  "image": "https://s3-us-west-2.amazonaws.com/batserver-static-assets/roku-client/station-icons/di-electropop.jpg"
 }]
