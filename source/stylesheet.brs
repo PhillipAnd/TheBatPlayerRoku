@@ -119,7 +119,7 @@ Function GetHeaderFont() as Object
 End Function
 
 Function GetHeaderColor() as Integer
-	return &h99090f00 + 150
+	return &h88090F00 + 150
 End Function
 
 Function GetBoldColorForSong(song as Object) as Integer

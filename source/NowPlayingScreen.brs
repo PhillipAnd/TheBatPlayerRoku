@@ -6,6 +6,9 @@ Function CreateNowPlayingScreen() as Object
 
 	NowPlayingScreen = CreateObject("roAssociativeArray")
 
+  NowPlayingScreen.Width = GetSession().deviceInfo.GetDisplaySize().w
+  NowPlayingScreen.Height = GetSession().deviceInfo.GetDisplaySize().h
+
 	NowPlayingScreen.headerFont = GetHeaderFont()
   NowPlayingScreen.boldFont = GetLargeFont()
   NowPlayingScreen.defaultFont = GetMediumFont()
@@ -14,6 +17,8 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.genreFont = GetGenreFont()
 
   NowPlayingScreen.HeaderLogo = CreateObject("roBitmap", "pkg:/images/bat.png")
+  NowPlayingScreen.HeaderHeight = ResolutionY(90)
+  NowPlayingScreen.HeaderGrunge =  RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/header-grunge.png"), NowPlayingScreen.Width, NowPlayingScreen.HeaderHeight, 1)
   NowPlayingScreen.StationDetailsLabel = invalid
   NowPlayingScreen.StationTitleLabel = invalid
 
@@ -46,8 +51,6 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.screen = invalid
   NowPlayingScreen.NowPlayingOtherStationsTimer = CreateObject("roTimespan")
 
-  NowPlayingScreen.Width = GetSession().deviceInfo.GetDisplaySize().w
-  NowPlayingScreen.Height = GetSession().deviceInfo.GetDisplaySize().h
 
 	return NowPlayingScreen
 End Function
@@ -252,7 +255,6 @@ Function DrawScreen()
       NowPlayingScreen.PreviousBackgroundImage.Draw(NowPlayingScreen.screen)
     end if
 
-
     'Overlays
     NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x + 4,NowPlayingScreen.albumPlaceholder.y + 5,NowPlayingScreen.AlbumShadow)
     if NowPlayingScreen.song.OverlayColor <> invalid
@@ -267,7 +269,8 @@ Function DrawScreen()
     if NowPlayingScreen.song.stationDetails <> invalid AND NowPlayingScreen.song.stationDetails.Listeners <> invalid
       headerTitleY = 22
     end if
-		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.screen.GetWidth(), ResolutionY(90), GetHeaderColor())
+    NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.HeaderGrunge, &hFFFFFF00 + 55)
+		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.Width, NowPlayingScreen.HeaderHeight, GetHeaderColor())
 		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
     NowPlayingScreen.StationTitleLabel.Draw(NowPlayingScreen.screen)
 
