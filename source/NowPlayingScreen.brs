@@ -24,7 +24,8 @@ Function CreateNowPlayingScreen() as Object
 
   NowPlayingScreen.BackgroundImage = invalid
   NowPlayingScreen.PreviousBackgroundImage = invalid
-  NowPlayingScreen.PopularityImage = invalid
+  NowPlayingScreen.BackgroundGrunge = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/background-grunge.png"), GetSession().deviceInfo.GetDisplaySize().w, GetSession().deviceInfo.GetDisplaySize().h, 1)
+
   NowPlayingScreen.GradientTop = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-top.png")
   NowPlayingScreen.GradientBottom = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-bottom.png")
 
@@ -105,6 +106,8 @@ Function UpdateScreen()
     song.image.color = CreateObject("roAssociativeArray")
     song.image.color.hex = "#ffffffff"
   end if
+
+  NowPlayingScreen.song.OverlayColor = CreateOverlayColor(song)
 
   'Artist Image
   if song.UseFallbackArtistImage = true
@@ -260,6 +263,7 @@ Function DrawScreen()
     if NowPlayingScreen.song.OverlayColor <> invalid
       NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.song.OverlayColor) 'Color overlay
     end if
+    NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.BackgroundGrunge, &hFFFFFF00 + 65)
     NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 205) 'Black overlay
     NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 140) 'Top Gradient
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.GradientBottom, &hFFFFFF + 255) 'Bottom Gradient

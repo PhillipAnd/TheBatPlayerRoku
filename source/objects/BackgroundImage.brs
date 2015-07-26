@@ -6,7 +6,6 @@ Function BackgroundImage(filePath as String) as Object
 
 		size: invalid
 		alpha: &hFFFFFF00
-		BackgroundGrunge: RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/background-grunge.png"), GetSession().deviceInfo.GetDisplaySize().w, GetSession().deviceInfo.GetDisplaySize().h, 1)
 
 		FadeIn: backgroundImage_FadeIn
 		FadeOut: backgroundImage_FadeOut
@@ -76,6 +75,5 @@ Function backgroundImage_draw(screen as Object)
 			end if
 		end if
 		screen.DrawObject(0, 0, m.image, m.alpha)
-		screen.DrawObject(0,0,m.BackgroundGrunge, &hFFFFFF00 + 60)
 	end if
 End Function
