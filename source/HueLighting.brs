@@ -1,6 +1,6 @@
-Sub SetLightsToColor(xyz as Object)
+Sub SetLightsToColor(rgb as Object)
 
-	if xyz = invalid OR xyz.x = invalid
+	if rgb = invalid OR rgb.red = invalid
 		return
 	end if
 
@@ -10,11 +10,7 @@ Sub SetLightsToColor(xyz as Object)
 		return
 	end if
 
-	colorX = xyz.x / (xyz.x + xyz.y + xyz.z)
-	colorY = xyz.y / (xyz.x + xyz.y + xyz.z)
-	color = CreateObject("roArray", 2, false)
-	color[0] = colorX
-	color[1] = colorY
+	color = HueColorConvert(rgb.red, rgb.green, rgb.blue)
 
 	lightRequests = CreateObject("roArray", 0, true)
 	GetGlobalAA().lightRequests = lightRequests
@@ -38,9 +34,8 @@ Sub SetLightsToColor(xyz as Object)
 			requestBody.xy = color
 	    requestBody.transitiontime = 30
 
-	    GetSession().Lighting.Brightness.Current = requestBody.colorY
 	    json = FormatJson(requestBody)
-
+			print json
 			lightRequests.push(request)
 
 		request.AsyncPostFromString(json)
@@ -74,6 +69,7 @@ Function ChangeBrightnessTo(brightness as Integer)
 	    requestBody.on = true
 	    requestBody.bri = brightness
 	    json = FormatJson(requestBody)
+			print json
 		request.PostFromString(json)
 	end for
 
@@ -123,6 +119,41 @@ Function ToggleBrightnessMode(direction as String)
 	details.LightingMOde = modeString
 	Analytics = GetSession().Analytics
 	Analytics.AddEvent("Changed Brightness changed",details)
+End Function
 
+Function HueColorConvert(r as Integer, g as Integer, b as Integer) as Object
+	normalizedRed = (r / 255)
+	normalizedGreen = (g / 255)
+	normalizedBlue = (b / 255)
 
+	red = 0.0
+	green = 0.0
+	blue = 0.0
+
+	if normalizedRed > 0.04045
+		red = ((normalizedRed + 0.055) / (1.0 + 0.055)) ^ 2.4
+	else
+		red = normalizedRed / 12.92
+	end if
+
+	if normalizedGreen > 0.04045
+		green = ((normalizedGreen + 0.055) / (1.0 + 0.055)) ^ 2.4
+	else
+		green = normalizedGreen / 12.92
+	end if
+
+	if normalizedBlue > 0.04045
+		blue = ((normalizedBlue + 0.055) / (1.0 + 0.055)) ^ 2.4
+	else
+		blue = normalizedBlue / 12.92
+	end if
+
+	X = (red * 0.649926 + green * 0.103455 + blue * 0.197109)
+  Y = (red * 0.234327 + green * 0.743075 + blue * 0.022598)
+  Z = (red * 0.0000000 + green * 0.053077 + blue * 1.035763)
+
+	Finalx = X / (X + Y + Z)
+  Finaly = Y / (X + Y + Z)
+
+	return [Finalx,Finaly]
 End Function
