@@ -35,7 +35,6 @@ Sub SetLightsToColor(rgb as Object)
 	    requestBody.transitiontime = 30
 
 	    json = FormatJson(requestBody)
-			print json
 			lightRequests.push(request)
 
 		request.AsyncPostFromString(json)
