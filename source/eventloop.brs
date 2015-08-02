@@ -69,7 +69,7 @@ Sub HandleTimers()
 
 		'LastFM Scrobbles
 		if NowPlayingScreen.scrobbleTimer <> invalid THEN
-			if NowPlayingScreen.scrobbleTimer.totalSeconds() >= 10 then
+			if NowPlayingScreen.scrobbleTimer.totalSeconds() >= 15 then
 				if song.Artist <> invalid and song.Title <> invalid and song.metadatafault <> true and song.metadataFetched = true
 					NowPlayingScreen.scrobbleTimer = invalid
       				ScrobbleTrack(song.Artist, song.Title)

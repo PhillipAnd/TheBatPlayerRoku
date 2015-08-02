@@ -91,8 +91,8 @@ Function UpdateScreen()
   end if
 
   'Lighting
-  if GetGlobalAA().lookup("song") <> song.Title AND song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color <> invalid AND song.image.color.DoesExist("xyz") then
-    SetLightsToColor(song.image.color.xyz)
+  if GetGlobalAA().lookup("song") <> song.Title AND song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color <> invalid AND song.image.color.DoesExist("rgb") then
+    SetLightsToColor(song.image.color.rgb)
   end if
 
 	GetGlobalAA().AddReplace("song", song.title)
