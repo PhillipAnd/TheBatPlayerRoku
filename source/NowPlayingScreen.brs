@@ -18,7 +18,7 @@ Function CreateNowPlayingScreen() as Object
 
   NowPlayingScreen.HeaderLogo = CreateObject("roBitmap", "pkg:/images/bat.png")
   NowPlayingScreen.HeaderHeight = ResolutionY(90)
-  NowPlayingScreen.HeaderGrunge =  RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/header-grunge.png"), NowPlayingScreen.Width, NowPlayingScreen.HeaderHeight, 1)
+  NowPlayingScreen.HeaderGrunge =  RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/header-grunge.png"), NowPlayingScreen.Width, NowPlayingScreen.HeaderHeight, 0)
   NowPlayingScreen.StationDetailsLabel = invalid
   NowPlayingScreen.StationTitleLabel = invalid
 
@@ -97,6 +97,13 @@ Function UpdateScreen()
 
 	GetGlobalAA().AddReplace("song", song.title)
 
+  if NowPlayingScreen.song.image.color.DoesExist("rgb")
+    colorOffset = GetGrungeColorOffsetForColor(NowPlayingScreen.song.image.color.rgb.red, NowPlayingScreen.song.image.color.rgb.green, NowPlayingScreen.song.image.color.rgb.blue)
+    NowPlayingScreen.backgroundGrungeColor = MakeARGB(NowPlayingScreen.song.image.color.rgb.red + colorOffset, NowPlayingScreen.song.image.color.rgb.green + colorOffset, NowPlayingScreen.song.image.color.rgb.blue + colorOffset, 200)
+  else
+    NowPlayingScreen.backgroundGrungeColor = &hFFFFFF00 + 200
+  end if
+
   'No image?
   if NOT song.DoesExist("image") then
     song.image = CreateObject("roAssociativeArray")
@@ -125,9 +132,7 @@ Function UpdateScreen()
         NowPlayingScreen.UpdateArtistImage = false
       end if
 
-
     end if
-
   end if
 
   'Artist bio
@@ -169,7 +174,6 @@ Function UpdateScreen()
 
     if NowPlayingScreen.BackgroundImage <> invalid
       NowPlayingScreen.BackgroundImage.FadeIn()
-      NowPlayingScreen.PreviousBackgroundImage = invalid
     end if
 
     NowPlayingScreen.UpdateBackgroundImage = false
@@ -260,26 +264,13 @@ Function DrawScreen()
 
     'Overlays
     NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x + 4,NowPlayingScreen.albumPlaceholder.y + 5,NowPlayingScreen.AlbumShadow)
-    if NowPlayingScreen.song.OverlayColor <> invalid
-      NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.song.OverlayColor) 'Color overlay
-    end if
-    NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.BackgroundGrunge, &hFFFFFF00 + 65)
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 200) 'Black overlay
-    NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 140) 'Top Gradient
+    'if NowPlayingScreen.song.OverlayColor <> invalid
+    ''  NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.song.OverlayColor) 'Color overlay
+    'end if
+    NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.BackgroundGrunge, NowPlayingScreen.backgroundGrungeColor)
+    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 175) 'Black overlay
+    NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 170) 'Top Gradient
     NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
-
-		'Header
-    headerTitleY = 28
-    if NowPlayingScreen.song.stationDetails <> invalid AND NowPlayingScreen.song.stationDetails.Listeners <> invalid
-      headerTitleY = 22
-    end if
-    NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.HeaderGrunge, &hFFFFFF00 + 55)
-		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.Width, NowPlayingScreen.HeaderHeight, GetHeaderColor())
-		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
-    NowPlayingScreen.StationTitleLabel.Draw(NowPlayingScreen.screen)
-
-    DrawStationDetailsLabel(NowPlayingScreen)
-    DrawHelpLabel(NowPlayingScreen)
 
 		'Artist
     if NowPlayingScreen.artistImage <> invalid
@@ -315,10 +306,19 @@ Function DrawScreen()
 		  NowPlayingScreen.screen.DrawObject(NowPlayingScreen.screen.GetWidth() - 80 ,NowPlayingScreen.screen.GetHeight() - 60, NowPlayingScreen.lastfmlogo, &hFFFFFFFF)
     end if
 
-    'Popularity image
-    if NowPlayingScreen.PopularityImage <> invalid AND NowPlayingScreen.artistimage <> invalid
-      NowPlayingScreen.screen.DrawObject(ResolutionX(NowPlayingScreen.artistimage.horizontalOffset + 130), ResolutionY(NowPlayingScreen.artistimage.verticalOffset + 83) + NowPlayingScreen.artistimage.height , NowPlayingScreen.PopularityImage, &hFFDDDD55)
+
+    'Header
+    headerTitleY = 28
+    if NowPlayingScreen.song.stationDetails <> invalid AND NowPlayingScreen.song.stationDetails.Listeners <> invalid
+      headerTitleY = 22
     end if
+    NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.HeaderGrunge, &hFFFFFF00 + 70)
+		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.Width, NowPlayingScreen.HeaderHeight, GetHeaderColor())
+		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
+    NowPlayingScreen.StationTitleLabel.Draw(NowPlayingScreen.screen)
+
+    DrawStationDetailsLabel(NowPlayingScreen)
+    DrawHelpLabel(NowPlayingScreen)
 
     'Possible UI Elements
     if NowPlayingScreen.popup <> invalid then

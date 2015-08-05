@@ -170,6 +170,32 @@ Function GetBrightnessForSong(song as Object) as Integer
 	end if
 End Function
 
+Function GetLightnessForColor(r as Integer, g as Integer, b as Integer)
+  lightness = 0.2126 * r + 0.7152 * g + 0.0722 * b
+  print ToStr(lightness)
+  return lightness
+End Function
+
+Function GetGrungeColorOffsetForColor(r as Integer, g as Integer, b as Integer) as Double
+if r > 200 AND g > 200 AND b > 2400
+  return -60
+end if
+
+if r < 30 AND g < 30 AND b < 30
+  return 100
+end if
+
+  lightness = GetLightnessForColor(r, g, b)
+  'print "Lightness: " + ToStr(lightness)
+  if lightness < 50
+    return 30
+  else
+    return -30
+  end if
+
+  return 0
+End Function
+
 Function GetDropShadowColorForSong(song as Object) as integer
 	return &h000000FF
 End Function
@@ -186,6 +212,18 @@ Sub CreateOverlayColor(song) as integer
 	end if
   return color
 End Sub
+
+Function OpacityForSong(song) as integer
+  alpha = 200
+
+	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
+    brightness = Sqr(0.299 * (song.image.color.rgb.red * song.image.color.rgb.red) + 0.587 * (song.image.color.rgb.green * song.image.color.rgb.green) + 0.114 * (song.image.color.rgb.blue * song.image.color.rgb.blue))
+    alpha = RlMin(100 * (190 / brightness), 200)
+	end if
+  print "BAckground grunge alpha: " + ToStr(alpha)
+  return alpha
+
+End Function
 
 Sub CreateAlbumOverlayColor(song) as integer
   if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid

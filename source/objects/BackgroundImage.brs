@@ -72,6 +72,8 @@ Function backgroundImage_draw(screen as Object)
 			if m.alpha = &hFFFFFF00
 				m.isFadingOut = false
 				m.bitmap = invalid
+				m = invalid
+				return true
 			end if
 		end if
 		screen.DrawObject(0, 0, m.image, m.alpha)
