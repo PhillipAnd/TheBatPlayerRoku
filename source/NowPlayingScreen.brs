@@ -27,6 +27,9 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.ArtistImage = invalid
   NowPlayingScreen.previousArtistImage = invalid
 
+  NowPlayingScreen.bioLabel = invalid
+  NowPlayingScreen.PreviousBioLabel = invalid
+
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
   NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 240)
   NowPlayingScreen.AlbumShadow = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-shadow.png"), ResolutionX(200), ResolutionY(200), 1)
@@ -127,8 +130,6 @@ Function UpdateScreen()
 
   end if
 
-  'Artist bio
-  bioText = GetBioTextForSong(song)
 
   'Song Name
   if song.Title <> invalid then
@@ -174,6 +175,17 @@ Function UpdateScreen()
     NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/" + makemdfive(song.hdposterurl))
   end if
 
+  'Change bio label if text is different
+  bioText = GetBioTextForSong(song)
+  if NowPlayingScreen.bioLabel = invalid OR (NowPlayingScreen.bioLabel <> invalid AND NowPlayingScreen.bioLabel.text <> bioText)
+    if NowPlayingScreen.bioLabel <> invalid
+      NowPlayingScreen.PreviousBioLabel = NowPlayingScreen.bioLabel
+      NowPlayingScreen.PreviousBioLabel.FadeOut()
+    end if
+    NowPlayingScreen.bioLabel = BatBioLabel(bioText, song)
+    NowPlayingScreen.bioLabel.FadeIn()
+  end if
+
 	'Station Name
 	stationTitle = ""
 	if song.stationProvider <> song.stationName then
@@ -194,7 +206,6 @@ Function UpdateScreen()
   NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, artistNameLocation, NowPlayingScreen.boldFont, GetRegularColorForSong(song))
   NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont, GetRegularColorForSong(song))
   NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(675), ResolutionY(425), ResolutionX(400), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
-  NowPlayingScreen.bioLabel = BatBioLabel(bioText, song)
 
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
 
@@ -286,7 +297,12 @@ Function DrawScreen()
     'All the text
     NowPlayingScreen.artistNameLabel.draw(NowPlayingScreen.screen)
     NowPlayingScreen.songNameLabel.draw(NowPlayingScreen.screen)
-    NowPlayingScreen.bioLabel.draw(NowPlayingScreen.screen)
+    if NowPlayingScreen.bioLabel <> invalid
+      NowPlayingScreen.bioLabel.draw(NowPlayingScreen.screen)
+    end if
+    if NowPlayingScreen.PreviousBioLabel <> invalid
+      NowPlayingScreen.PreviousBioLabel.Draw(NowPlayingScreen.screen)
+    end if
     if NowPlayingScreen.genresLabel <> invalid
       NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
     end if
