@@ -41,6 +41,18 @@ Function BackgroundImage(filePath as String) as Object
 		this.alpha = this.alpha + this.MaxFade
 	end if
 
+	GradientTop = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-top.png")
+  GradientBottom = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-bottom.png")
+	if this.image <> invalid
+		this.image.SetAlphaEnable(true)
+		this.image.DrawObject(0, 0, GradientTop, &hFFFFFF + 140) 'Top Gradient
+		this.image.DrawObject(0, this.size.h - 365, GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
+		this.image.DrawRect(0, 0, this.size.w, this.size.h, &h00000000 + 205) 'Black overlay
+		this.image.SetAlphaEnable(false)
+		this.image.finish()
+	end if
+
+
 	return this
 End Function
 

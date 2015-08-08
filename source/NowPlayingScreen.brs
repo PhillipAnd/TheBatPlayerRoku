@@ -20,8 +20,6 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.BackgroundImage = invalid
   NowPlayingScreen.PreviousBackgroundImage = invalid
   NowPlayingScreen.PopularityImage = invalid
-  NowPlayingScreen.GradientTop = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-top.png")
-  NowPlayingScreen.GradientBottom = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-bottom.png")
 
   NowPlayingScreen.albumImage = invalid
   NowPlayingScreen.previousAlbumImage = invalid
@@ -261,11 +259,9 @@ Function DrawScreen()
     'Overlays
     NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x + 4,NowPlayingScreen.albumPlaceholder.y + 5,NowPlayingScreen.AlbumShadow)
     if NowPlayingScreen.song.OverlayColor <> invalid
-      NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.song.OverlayColor) 'Color overlay
+      'NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.song.OverlayColor) 'Color overlay
     end if
-    NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, &h00000000 + 205) 'Black overlay
-    NowPlayingScreen.screen.DrawObject(0, 0, NowPlayingScreen.GradientTop, &hFFFFFF + 140) 'Top Gradient
-    NowPlayingScreen.screen.DrawObject(0, NowPlayingScreen.Height - 365, NowPlayingScreen.GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
+
 
 		'Header
     headerTitleY = 28

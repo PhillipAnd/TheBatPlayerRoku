@@ -33,7 +33,7 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 	' Add the subtle overlay color
 	if this.overlayColor <> 0 AND this.image <> invalid
 		this.image.SetAlphaEnable(true)
-		this.image.DrawRect(0, 0, this.image.GetWidth(), this.image.GetHeight(), this.overlayColor + 150)
+		this.image.DrawRect(0, 0, this.image.GetWidth(), this.image.GetHeight(), this.overlayColor + 50)
 		this.image.finish()
 		this.image.SetAlphaEnable(false)
 	end if
