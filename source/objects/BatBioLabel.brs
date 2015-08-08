@@ -14,6 +14,7 @@ Function BatBioLabel(text as string, song as object, enableFade = true as Boolea
 		FadeOut: bioLabel_FadeOut
 		MaxFade: 255
 		MinFade: 0
+
 		x: ResolutionX(120)
 		y: ResolutionY(500)
 		width: ResolutionX(1030)
@@ -58,7 +59,6 @@ Function bioLabel_FadeOut()
 End Function
 
 Function bioLabel_draw(screen as Object)
-	'screen.DrawObject(m.x, m.y, m.image)
 
 	if m.image <> invalid
 

@@ -27,8 +27,20 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.ArtistImage = invalid
   NowPlayingScreen.previousArtistImage = invalid
 
+  NowPlayingScreen.artistNameLabel = invalid
+  NowPlayingScreen.PreviousArtistNameLabel = invalid
+
+  NowPlayingScreen.songNameLabel = invalid
+  NowPlayingScreen.PreviousSongNameLabel = invalid
+
   NowPlayingScreen.bioLabel = invalid
   NowPlayingScreen.PreviousBioLabel = invalid
+
+  NowPlayingScreen.albumNameLabel = invalid
+  NowPlayingScreen.PreviousAlbumNameLabel = invalid
+
+  NowPlayingScreen.genresLabel = invalid
+  NowPlayingScreen.PreviousGenresLabel = invalid
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
   NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 240)
@@ -152,14 +164,6 @@ Function UpdateScreen()
     endif
   endif
 
-  'Genres
-  if song.DoesExist("Genres") AND song.Genres <> invalid AND song.Genres.count() > 0 then
-    for i=0 to song.Genres.count()-1
-      if song.Genres[i] <> invalid
-          genreText = genreText + song.Genres[i] + " "
-      end if
-    end for
-  end if
 
   'Background Image
  	if FileExists(makemdfive(song.backgroundimage)) AND NowPlayingScreen.UpdateBackgroundImage <> false
@@ -203,9 +207,35 @@ Function UpdateScreen()
   artistNameLocation = 160 - songNameHeight
   songNameLocation = artistNameLocation + 45
 
-  NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, artistNameLocation, NowPlayingScreen.boldFont, GetRegularColorForSong(song))
-  NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont, GetRegularColorForSong(song))
-  NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(675), ResolutionY(425), ResolutionX(400), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
+  'Song Name Label
+  if NowPlayingScreen.songNameLabel = invalid OR (NowPlayingScreen.SongNameLabel <> invalid AND NowPlayingScreen.SongNameLabel.text <> songTitle)
+    if NowPlayingScreen.SongNameLabel <> invalid
+      NowPlayingScreen.PreviousSongNameLabel = NowPlayingScreen.SongNameLabel
+      NowPlayingScreen.PreviousSongNameLabel.labelObject.FadeOut()
+    end if
+    NowPlayingScreen.songNameLabel = SongNameLabel(songTitle, song, songNameLocation, NowPlayingScreen.songNameFont, GetRegularColorForSong(song))
+    NowPlayingScreen.SongNameLabel.labelObject.FadeIn()
+  end if
+
+  'Album name label
+  if NowPlayingScreen.albumNameLabel = invalid OR (NowPlayingScreen.albumNameLabel <> invalid AND NowPlayingScreen.albumNameLabel.text <> albumTitle)
+    if NowPlayingScreen.albumNameLabel <> invalid
+      NowPlayingScreen.PreviousAlbumNameLabel = NowPlayingScreen.albumNameLabel
+      NowPlayingScreen.PreviousAlbumNameLabel.FadeOut()
+    end if
+    NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(675), ResolutionY(425), ResolutionX(400), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
+    NowPlayingScreen.albumNameLabel.FadeIn()
+  end if
+
+  'Artist label
+  if NowPlayingScreen.artistNameLabel = invalid OR (NowPlayingScreen.artistNameLabel <> invalid AND NowPlayingScreen.artistNameLabel.text <> song.artist)
+    if NowPlayingScreen.artistNameLabel <> invalid
+      NowPlayingScreen.PreviousArtistNameLabel = NowPlayingScreen.artistNameLabel
+      NowPlayingScreen.PreviousArtistNameLabel.labelObject.FadeOut()
+    end if
+    NowPlayingScreen.artistNameLabel = ArtistNameLabel(song.artist, artistNameLocation, NowPlayingScreen.boldFont, GetRegularColorForSong(song))
+    NowPlayingScreen.artistNameLabel.labelObject.Fadein()
+  end if
 
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
 
@@ -216,14 +246,28 @@ Function UpdateScreen()
     genreX = ResolutionX(120)
     genreY = ResolutionY(460)
   end if
-  NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(490), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song), "center", 1, 2, 2, false)
-  onTourText = ""
-  if song.isOnTour = true
-    onTourText = "On Tour"
+
+  'Genre Text
+  if song.DoesExist("Genres") AND song.Genres <> invalid AND song.Genres.count() > 0 then
+    for i=0 to song.Genres.count()-1
+      if song.Genres[i] <> invalid
+          genreText = genreText + song.Genres[i] + " "
+      end if
+    end for
   end if
 
+  'Genres label
+  if NowPlayingScreen.genresLabel = invalid OR (NowPlayingScreen.genresLabel <> invalid AND NowPlayingScreen.genresLabel.text <> genreText)
+    if NowPlayingScreen.genresLabel <> invalid
+      NowPlayingScreen.PreviousGenresLabel = NowPlayingScreen.genresLabel
+      NowPlayingScreen.PreviousGenresLabel.FadeOut()
+    end if
+    NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(490), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song), "center", 1, 2, 2, false)
+    NowPlayingScreen.genresLabel.FadeIn()
+  end if
+
+
   if NowPlayingScreen.artistImage <> invalid then horizontalOffset = NowPlayingScreen.artistImage.horizontalOffset else horizontalOffset = 0
-  NowPlayingScreen.onTourLabel = RlTextArea(onTourText, NowPlayingScreen.smallFont, &hFFFFFF00 + 100, ResolutionX(120 + horizontalOffset + 5), ResolutionY(125 + verticalOffset), 300, 50, 1, 1.0, "left")
 
   if NowPlayingScreen.loadingScreen <> invalid then
     NowPlayingScreen.loadingScreen.close()
@@ -295,20 +339,40 @@ Function DrawScreen()
     end if
 
     'All the text
-    NowPlayingScreen.artistNameLabel.draw(NowPlayingScreen.screen)
-    NowPlayingScreen.songNameLabel.draw(NowPlayingScreen.screen)
+    'Artist name'
+    if NowPlayingScreen.artistNameLabel <> invalid
+      NowPlayingScreen.artistNameLabel.draw(NowPlayingScreen.screen)
+    end if
+    if NowPlayingScreen.PreviousArtistNameLabel <> invalid
+      NowPlayingScreen.PreviousArtistNameLabel.draw(NowPlayingScreen.screen)
+    end if
+
+    'Song name
+    if NowPlayingScreen.songNameLabel <> invalid
+      NowPlayingScreen.songNameLabel.draw(NowPlayingScreen.screen)
+    end if
+    if NowPlayingScreen.PreviousSongNameLabel <> invalid
+      NowPlayingScreen.PreviousSongNameLabel.draw(NowPlayingScreen.screen)
+    end if
+
+    'Bio
     if NowPlayingScreen.bioLabel <> invalid
       NowPlayingScreen.bioLabel.draw(NowPlayingScreen.screen)
     end if
     if NowPlayingScreen.PreviousBioLabel <> invalid
       NowPlayingScreen.PreviousBioLabel.Draw(NowPlayingScreen.screen)
     end if
+
+    'Genres
     if NowPlayingScreen.genresLabel <> invalid
       NowPlayingScreen.genresLabel.draw(NowPlayingScreen.screen)
     end if
+    if NowPlayingScreen.PreviousGenresLabel <> invalid
+      NowPlayingScreen.PreviousGenresLabel.draw(NowPlayingScreen.screen)
+    end if
 
 
-		'Album
+		'Album image
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
     if NowPlayingScreen.albumImage <> invalid
       NowPlayingScreen.albumImage.Draw(NowPlayingScreen.screen)
@@ -318,6 +382,9 @@ Function DrawScreen()
     end if
     if NowPlayingScreen.albumNameLabel <> invalid
       NowPlayingScreen.albumNameLabel.draw(NowPlayingScreen.screen)
+    end if
+    if NowPlayingScreen.PreviousAlbumNameLabel <> invalid
+      NowPlayingScreen.PreviousAlbumNameLabel.Draw(NowPlayingScreen.screen)
     end if
 
 		'LastFM Logo
