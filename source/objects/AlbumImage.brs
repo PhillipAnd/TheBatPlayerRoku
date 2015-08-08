@@ -30,11 +30,21 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 	this.image = RlGetScaledImage(this.bitmap, this.width, this.height, 1)
 	this.bitmap = invalid
 
+	' Add the subtle overlay color
+	if this.overlayColor <> 0 AND this.image <> invalid
+		this.image.SetAlphaEnable(true)
+		this.image.DrawRect(0, 0, this.image.GetWidth(), this.image.GetHeight(), this.overlayColor + 150)
+		this.image.finish()
+		this.image.SetAlphaEnable(false)
+	end if
+
 	'Disable fading for old devices
 	if NOT SupportsAdvancedFeatures()
 		this.alpha = this.alpha + this.MaxFade
 		this.enableFade = false
 	end if
+
+
 
 
 	return this
@@ -77,9 +87,6 @@ Function albumImage_draw(screen as Object)
 		end if
 
 		screen.DrawObject(m.x, m.y, m.image, m.alpha)
-		if m.overlayColor <> 0 AND m.image <> invalid
-			screen.DrawRect(m.x, m.y, m.image.GetWidth(), m.image.GetHeight(), m.overlayColor)
-		end if
 
 	end if
 End Function
