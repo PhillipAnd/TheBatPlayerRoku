@@ -213,8 +213,8 @@ Function selection_handle(msg as Object)
 		metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
 		print "JSON for selected station: " + metadataUrl
 
-    Show_Audio_Screen(Station)
     DisplayStationLoading(Station)
+    Show_Audio_Screen(Station)
 	end if
 
 End Function

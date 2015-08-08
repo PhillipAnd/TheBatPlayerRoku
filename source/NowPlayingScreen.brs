@@ -78,6 +78,11 @@ Function UpdateScreen()
 
     GetGlobalAA().IsStationSelectorDisplayed = false
     GetGlobalAA().IsStationLoadingDisplayed = false
+
+    StationLoadingScreen = GetGlobalAA().StationLoadingScreen
+    if StationLoadingScreen <> invalid
+      StationLoadingScreen.close()
+    end if
   end if
 
 	song = NowPlayingScreen.song
