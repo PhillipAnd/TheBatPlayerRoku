@@ -54,6 +54,13 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 		this.GrungeX = this.GrungeX + this.width
 	end if
 
+	' Add the subtle overlay color
+	if this.overlayColor <> 0 AND this.image <> invalid
+		this.image.SetAlphaEnable(true)
+		this.image.DrawRect(0, 0, this.image.GetWidth(), this.image.GetHeight(), this.overlayColor + 30)
+		this.image.finish()
+		this.image.SetAlphaEnable(false)
+	end if
 
 	'Disable fading for old devices
 	if NOT SupportsAdvancedFeatures()
@@ -107,9 +114,6 @@ Function albumImage_draw(screen as Object)
 
 		screen.DrawObject(m.x, m.y, m.image, m.alpha)
 
-		if m.overlayColor <> 0 AND m.image <> invalid
-			screen.DrawRect(m.x, m.y, m.image.GetWidth(), m.image.GetHeight(), m.overlayColor)
-		end if
 
 		if m.DrawGrunge = true AND m.isFadingOut = false
 			screen.DrawRotatedObject(m.GrungeX, m.GrungeY, m.GrungeAngle, m.grunge, m.alpha)

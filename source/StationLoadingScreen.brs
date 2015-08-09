@@ -62,6 +62,7 @@ Function Loading_close()
 	m.canvas.close()
 	m.canvas = invalid
 	m = invalid
+	GetGlobalAA().StationLoadingScreen = invalid
 End Function
 
 Function HandleStationLoadingScreenEvent(msg)

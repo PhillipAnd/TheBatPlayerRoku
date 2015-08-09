@@ -71,7 +71,6 @@ Function selection_getStations()
       FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
   end for
 
-  'GetGlobalAA().AddReplace("SelectableStations", SelectableStations)
   m.Stations = SelectableStations
 End Function
 
@@ -143,10 +142,9 @@ Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynam
         return false
       end if
 
-        'nowPlayingString = track
-        station = Stations[index]
-        station.Description = track
-        Screen.SetContentListSubset(0, Stations, index, 1)
+      station = Stations[index]
+      station.Description = track
+      Screen.SetContentListSubset(0, Stations, index, 1)
     end if
 
 End Function
@@ -215,9 +213,8 @@ Function selection_handle(msg as Object)
 		metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
 		print "JSON for selected station: " + metadataUrl
 
-    GetGlobalAA().AddReplace("SongObject", Station)
-    Show_Audio_Screen(Station)
     DisplayStationLoading(Station)
+    Show_Audio_Screen(Station)
 	end if
 
 End Function
