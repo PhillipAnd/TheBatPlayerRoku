@@ -21,6 +21,7 @@ Sub Show_Audio_Screen(station as Object)
       CurrentStation = GetGlobalAA().SongObject
       if CurrentStation <> invalid
         if CurrentStation.feedurl = Station.feedurl
+          UpdateScreen()
           return
         end if
       end if
