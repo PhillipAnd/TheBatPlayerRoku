@@ -69,7 +69,7 @@ Function BackgroundImage(filePath as String, overlayColor = 0 as Integer, grunge
 			'this.image.DrawRect(0, 0, this.size.w, this.size.h, this.OverlayColor) 'Color overlay
 		end if
 
-		this.image.DrawObject(0, 0, GradientTop, &hFFFFFF + 160) 'Top Gradient
+		this.image.DrawObject(0, 0, GradientTop, &hFFFFFF + 230) 'Top Gradient
 		this.image.DrawObject(0, this.size.h - 365, GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
 		this.image.DrawRect(0, 0, this.size.w, this.size.h, &h00000000 + 205) 'Black overlay
 
