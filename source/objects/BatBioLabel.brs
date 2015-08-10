@@ -31,12 +31,16 @@ Function BatBioLabel(text as string, song as object, enableFade = true as Boolea
 		this.dropShadowObject = RlTextArea(this.text, GetMediumFont(), dropShadowColor, 2.0, 3.0, this.width, this.height, 6, 1.15)
 	end if
 
+	TextGrunge = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/text-grunge-overlay.png"), this.width, this.height, 1)
+
 	' Create the bitmap
 	this.image = CreateObject("roBitmap", {width:this.width, height: this.height, alphaenable: true})
 	this.dropShadowObject.Draw(this.image)
 	this.labelObject.Draw(this.image)
 	this.image.finish()
 	this.image.SetAlphaEnable(false)
+
+	BackgroundGrunge = invalid
 
 	return this
 End Function

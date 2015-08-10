@@ -25,7 +25,6 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.BackgroundImage = invalid
   NowPlayingScreen.PreviousBackgroundImage = invalid
 
-  NowPlayingScreen.BackgroundGrunge = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/background-grunge.png"), GetSession().deviceInfo.GetDisplaySize().w, GetSession().deviceInfo.GetDisplaySize().h, 1)
 
   NowPlayingScreen.albumImage = invalid
   NowPlayingScreen.previousAlbumImage = invalid
@@ -119,7 +118,7 @@ Function UpdateScreen()
     colorOffset = GetGrungeColorOffsetForColor(NowPlayingScreen.song.image.color.rgb.red, NowPlayingScreen.song.image.color.rgb.green, NowPlayingScreen.song.image.color.rgb.blue)
     NowPlayingScreen.backgroundGrungeColor = MakeARGB(NowPlayingScreen.song.image.color.rgb.red + colorOffset, NowPlayingScreen.song.image.color.rgb.green + colorOffset, NowPlayingScreen.song.image.color.rgb.blue + colorOffset, 200)
   else
-    NowPlayingScreen.backgroundGrungeColor = &hFFFFFF00 + 200
+    NowPlayingScreen.backgroundGrungeColor = &hFFFFFF00 + 255
   end if
 
   'No image?
@@ -178,7 +177,7 @@ Function UpdateScreen()
 
   'Background Image
  	if FileExists(makemdfive(song.backgroundimage)) AND NowPlayingScreen.UpdateBackgroundImage <> false
-    NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/" + makemdfive(song.backgroundimage))
+    NowPlayingScreen.BackgroundImage = BackgroundImage("tmp:/" + makemdfive(song.backgroundimage), &hFFFFFF00 + NowPlayingScreen.song.OverlayColor, NowPlayingScreen.backgroundGrungeColor)
 
     if NowPlayingScreen.BackgroundImage <> invalid
       NowPlayingScreen.BackgroundImage.FadeIn()
@@ -211,7 +210,7 @@ Function UpdateScreen()
   if NowPlayingScreen.song.stationDetails <> invalid AND NowPlayingScreen.song.stationDetails.Listeners <> invalid
     headerTitleY = 22
   end if
-  NowPlayingScreen.StationTitleLabel = RlTextArea(NowPlayingScreen.stationTitle, NowPlayingScreen.headerFont, &hFFFFFFFF, 180, headerTitleY, NowPlayingScreen.screen.GetWidth() - 200, 90, 1, 1.0, "left", true)
+  NowPlayingScreen.StationTitleLabel = RlTextArea(NowPlayingScreen.stationTitle, NowPlayingScreen.headerFont, &hFFFFFFFF, 180, headerTitleY, NowPlayingScreen.screen.GetWidth() - 200, 90, 1, 1.0, "left", true, false)
 
   songNameHeight = GetTextHeight(songTitle, 580, NowPlayingScreen.songNameFont)
   artistNameLocation = 160 - songNameHeight
@@ -322,10 +321,6 @@ Function DrawScreen()
 
     'Overlays
     NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x + 4,NowPlayingScreen.albumPlaceholder.y + 5,NowPlayingScreen.AlbumShadow)
-    NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.BackgroundGrunge, NowPlayingScreen.backgroundGrungeColor)
-    if NowPlayingScreen.song.OverlayColor <> invalid
-      'NowPlayingScreen.screen.DrawRect(0, 0, NowPlayingScreen.Width, NowPlayingScreen.Height, NowPlayingScreen.song.OverlayColor) 'Color overlay
-    end if
 
 		'Artist
     if NowPlayingScreen.artistImage <> invalid
