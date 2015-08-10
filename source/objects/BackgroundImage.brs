@@ -1,4 +1,4 @@
-Function BackgroundImage(filePath as String) as Object
+Function BackgroundImage(filePath as String, overlayColor = 0 as Integer, grungeColor = 255 as Integer) as Object
 
 	this = {
 		bitmap: invalid
@@ -6,6 +6,9 @@ Function BackgroundImage(filePath as String) as Object
 
 		size: invalid
 		alpha: &hFFFFFF00
+
+		overlayColor: overlayColor
+		grungeColor: grungeColor
 
 		FadeIn: backgroundImage_FadeIn
 		FadeOut: backgroundImage_FadeOut
@@ -22,19 +25,21 @@ Function BackgroundImage(filePath as String) as Object
 	}
 
 	this.size = GetSession().deviceInfo.GetDisplaySize()
-	this.bitmap = CreateObject("roBitmap", filePath)
-	if this.bitmap = invalid then
+	bitmap = CreateObject("roBitmap", filePath)
+	BackgroundGrunge = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/background-grunge.png"), this.size.w, this.size.h, 1)
+	Bat = CreateObject("roBitmap", "pkg:/images/bat.png")
+
+	if bitmap = invalid then
 		print "*** Background image is INVALID"
 		return invalid
 	end if
 
-	this.image = RlGetScaledImage(this.bitmap, this.size.w, this.size.h, 1)
+	this.image = RlGetScaledImage(bitmap, this.size.w, this.size.h, 1)
 	if this.image = invalid
 		return invalid
 	end if
 
 	this.valid = true
-	this.bitmap = invalid
 
 	'Disable fading for old devices
 	if NOT SupportsAdvancedFeatures()
@@ -43,16 +48,40 @@ Function BackgroundImage(filePath as String) as Object
 
 	GradientTop = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-top.png")
   GradientBottom = CreateObject("roBitmap", "pkg:/images/background-gradient-overlay-bottom.png")
+
 	if this.image <> invalid
 		this.image.SetAlphaEnable(true)
-		this.image.DrawObject(0, 0, GradientTop, &hFFFFFF + 140) 'Top Gradient
+
+		'Bats
+		for i = 0 to 5
+			rotation = Rnd(40)
+			if Rnd(1) > 0
+				rotation = rotation * -1
+			end if
+			x = Rnd(this.size.w)
+			y = Rnd(this.size.h)
+			alpha = RlMin(Rnd(50), 30)
+			this.image.DrawRotatedObject(x, y, rotation, Bat, &hFFFFFF00 + alpha)
+		end for
+
+		this.image.DrawObject(0, 0, BackgroundGrunge, this.grungeColor) 'Grunge overlay
+		if this.OverlayColor <> invalid
+			'this.image.DrawRect(0, 0, this.size.w, this.size.h, this.OverlayColor) 'Color overlay
+		end if
+
+		this.image.DrawObject(0, 0, GradientTop, &hFFFFFF + 160) 'Top Gradient
 		this.image.DrawObject(0, this.size.h - 365, GradientBottom, &hFFFFFF + 255) 'Bottom Gradient
 		this.image.DrawRect(0, 0, this.size.w, this.size.h, &h00000000 + 205) 'Black overlay
+
 		this.image.SetAlphaEnable(false)
 		this.image.finish()
 	end if
 
-
+	'Reclaim memory
+	this.BackgroundGrunge = invalid
+	this.bitmap = invalid
+	GradientTop = invalid
+	GradientBottom = invalid
 	return this
 End Function
 

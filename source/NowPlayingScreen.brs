@@ -390,7 +390,7 @@ Function DrawScreen()
     if NowPlayingScreen.song.stationDetails <> invalid AND NowPlayingScreen.song.stationDetails.Listeners <> invalid
       headerTitleY = 22
     end if
-    NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.HeaderGrunge, &hFFFFFF00 + 70)
+    'NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.HeaderGrunge, &hFFFFFF00 + 70)
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.Width, NowPlayingScreen.HeaderHeight, GetHeaderColor())
 		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
     NowPlayingScreen.StationTitleLabel.Draw(NowPlayingScreen.screen)
