@@ -77,14 +77,6 @@ Sub HandleTimers()
       end if
     end if
 
-  	'Popularity Ranking
-  	if NowPlayingScreen.PopularityTimer <> invalid AND Song.PopularityFetchCounter <> invalid
-  		if NowPlayingScreen.PopularityTimer.totalSeconds() >= 5 AND Song.PopularityFetchCounter < 10
-  			FetchPopularityForArtistName(song.Artist)
-  		end if
-  	end if
-
-
   	'Now Playing on other stations
   	if (Session.StationDownloads <> invalid AND Session.StationDownloads.Timer <> invalid AND Session.StationDownloads.Timer.totalSeconds() > GetConfig().MetadataFetchTimer)
   		CancelOtherStationsNowPlayingRequests()
@@ -283,7 +275,6 @@ function StartEventLoop()
 	while NOT GetGlobalAA().lookup("endloop")
 		HandleTimers()
 
-		'msg = wait(1, port)
 		msg = port.GetMessage() ' get a message, if available
 
 		HandleWebEvent(msg)
@@ -336,16 +327,4 @@ Sub GetPort() as Object
 	end if
 
 	return port
-End Sub
-
-
-Sub NowPlayingScreenTimer() as Object
-	timer = GetGlobalAA().lookup("NowPlayingScreenTimer")
-	if timer = invalid then
-    	timer = CreateObject("roTimespan")
-    	timer.mark()
-    	GetGlobalAA().AddReplace("NowPlayingScreenTimer", timer)
-    end if
-
-    return timer
 End Sub

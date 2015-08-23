@@ -65,24 +65,6 @@ Sub AppTheme() as Object
   return theme
 End Sub
 
-Function GetReverseColorForRGB(Red as Integer, Green as Integer, Blue as Integer) as Integer
-  Contrast = SQR(Red * Red * 0.241 + Green * Green * 0.691 + Blue * Blue * 0.068)
-
-  if Contrast > 90 then
-    print "Dark dropshadow " + str(Contrast)
-    return int(&h00000000 + 0)
-  else if Contrast < 40 then
-    print "Light dropshadow " + str(Contrast)
-    return int(&hDDDDDD00 + 35)
-  else if Contrast > 50 AND Contrast < 90
-    print "Medium light dropshadow"
-    return int(&h99999900 + 45)
-  else
-    print "No dropshadow " + str(Contrast)
-    return int(&h00000000)
-  end if
-End Function
-
 Function GetIPAddress() as String
   IPs = GetSession().deviceInfo.getIpAddrs()
   IPs.reset()
