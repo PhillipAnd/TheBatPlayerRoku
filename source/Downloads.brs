@@ -86,7 +86,7 @@ Function IsBackgroundImageDownload(Identity as String) as Boolean
 
     ' I don't know why non-requests (ints to be specific) are showing up
     ' but for now let's just guard against it.
-    if type(BackgroundImageDownload) <> "roUrlRequest"
+    if type(BackgroundImageDownload) <> "roUrlTransfer"
       return false
     end if
 
@@ -112,7 +112,7 @@ Function IsArtistImageDownload(Identity as String) as Boolean
 
     ' I don't know why non-requests (ints to be specific) are showing up
     ' but for now let's just guard against it.
-    if type(ArtistImageDownload) <> "roUrlRequest"
+    if type(ArtistImageDownload) <> "roUrlTransfer"
       return false
     end if
 
