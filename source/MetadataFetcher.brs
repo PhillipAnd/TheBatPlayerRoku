@@ -2,7 +2,7 @@ Function GetJSONAtUrl(url as String)
   NowPlayingScreen = GetNowPlayingScreen()
 
   if NOT GetGlobalAA().DoesExist("jsontransfer") then
-    Request = CreateObject("roUrlTransfer")
+    Request = GetRequest()
 
     'Sanitize the stream url to get the correct metadata
     if right(url,1) = "/" then
@@ -15,10 +15,6 @@ Function GetJSONAtUrl(url as String)
     metadataUrl = GetConfig().Batserver + "metadata/" + url
     'print "Checking for JSON at " metadataUrl
     Request.SetUrl(metadataUrl)
-    Request.SetPort(GetPort())
-    Request.EnableEncodings(True)
-    Request.AddHeader("Accept-Encoding","gzip")
-    Request.AddHeader("Accept-Encoding","deflate")
     GetGlobalAA().AddReplace("jsontransfer", Request)
 
     Request.AsyncGetToString()
@@ -159,7 +155,7 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 	if url <> invalid
 		url = GetConfig().Batserver + "nowplaying/" + UrlEncode(url)
 
-		Request = CreateObject("roUrlTransfer")
+		Request = GetRequest()
 		Request.SetUrl(url)
 		Request.SetPort(GetPort())
 		if Request.AsyncGetToString() then
