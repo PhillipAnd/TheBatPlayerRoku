@@ -129,6 +129,8 @@ End Function
 Function RdioPlaylistSearchResult(result as string)
 	GetGlobalAA().Delete("RdioPlaylistSearchRequest")
 
+	print result
+
 	playlistName = RdioPlaylistName()
 
 	playlistsObject = ParseJSON(result)
@@ -186,18 +188,19 @@ Function GetRdioAccessToken() as dynamic
 	return token
 End Function
 
-Function GetRdioRefreshToken() as dynamic
-	rdioRefreshToken = RegRead("rdioRefreshToken", "batplayer")
-	return rdioRefreshToken
-End Function
+'Function GetRdioRefreshToken() as dynamic
+''	rdioRefreshToken = RegRead("rdioRefreshToken", "batplayer")
+''	return rdioRefreshToken
+'End Function
 
 Function RefreshRdioAuthToken() as dynamic
-	refreshToken = GetRdioRefreshToken()
+	accessToken = GetRdioAccessToken()
 	tokenEndpoint = "https://services.rdio.com/oauth2/token"
 
 	request = PostRequest()
 	request.SetUrl(tokenEndpoint)
-	body = "access_token=" + refreshToken
+	body = "grant_type=refresh_token&refresh_token=" + accessToken + "&client_id=" + GetConfig().RdioClientID + "&client_secret=" + GetConfig().RdioClientSecret
+	print body
 
 	GetGlobalAA().RdioRefreshRequest = request
 	request.AsyncPostFromString(body)
