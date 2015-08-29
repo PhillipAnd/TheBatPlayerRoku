@@ -38,6 +38,7 @@ Function HandleJSON(jsonString as String)
 
   song.backgroundimage = song.hdposterurl
   song.artistimage = song.stationimage
+  song.UsedFallbackImage = true
 
   if song.MetadataFetchFailure = invalid
     song.MetadataFetchFailure = 0
@@ -76,6 +77,7 @@ Function HandleJSON(jsonString as String)
     if jsonObject.image <> invalid AND jsonObject.image.url <> "" AND jsonObject.image.url <> invalid
       song.image = jsonObject.image 'Used for colors
       song.artistimage = jsonObject.image.url
+      song.UsedFallbackImage = false
 
       if jsonObject.image.backgroundurl <> invalid AND isnonemptystr(jsonObject.image.backgroundurl)
         song.backgroundimage = jsonObject.image.backgroundurl
@@ -102,6 +104,7 @@ Function HandleJSON(jsonString as String)
     song.MetadataFetchFailure = song.MetadataFetchFailure + 1
     song.backgroundImage = song.hdposterurl
     song.artistImage = song.hdposterurl
+    song.UsedFallbackImage = true
   end if
   NowPlayingScreen.song = song
 

@@ -1,4 +1,4 @@
-Function ArtistImage(filePath as string) as Object
+Function ArtistImage(filePath as string, yOffset = 0) as Object
 
 	this = {
 		bitmap: invalid
@@ -6,7 +6,8 @@ Function ArtistImage(filePath as string) as Object
 
 		x: 0.0
 		y: 0.0
-
+		yOffset: yOffset
+		
 		verticalOffset: 0.0
 		horizontalOffset: 0.0
 		resizeRatio: 1.0
@@ -52,7 +53,7 @@ Function ArtistImage(filePath as string) as Object
 		end if
 
 		this.x = ResolutionX(120 + this.horizontalOffset)
-		this.y = ResolutionY(120 + this.verticalOffset)
+		this.y = ResolutionY(120 + this.verticalOffset + this.yOffset)
 
 		this.image = RlGetScaledImage(this.bitmap, this.width, this.height, 1)
 		if this.image = invalid then this.valid = false
