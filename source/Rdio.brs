@@ -34,13 +34,8 @@ Function AddSongKeyToRdioPlaylist(key as string)
 	body = body + "&method=addToPlaylist"
 	body = body + "&access_token=" + accessToken
 
-	request = CreateObject("roUrlTransfer")
-    request.RetainBodyOnError(true)
-    request.EnablePeerVerification(false)
-    request.EnableHostVerification(false)
-    request.SetRequest("POST")
-    request.SetPort(GetPort())
-    request.SetUrl(url)
+	request = PostRequest()
+  request.SetUrl(url)
 	request.PostFromString(body)
 
 End Function
@@ -57,13 +52,9 @@ Function FindRdioSourceIdForSong(artist as string, track as string)
 	accessToken = GetRdioAccessToken()
 
 	if accessToken <> invalid
-	    request = CreateObject("roUrlTransfer")
-	    request.RetainBodyOnError(true)
-	    request.EnablePeerVerification(false)
-	    request.EnableHostVerification(false)
-	    request.SetRequest("POST")
-	    request.SetPort(GetPort())
-	    request.SetUrl(url)
+    request = PostRequest()
+    request.SetPort(GetPort())
+    request.SetUrl(url)
 
 		body = "query=" + UrlEscape(artist) + "+" + UrlEscape(track)
 		body = body + "&types%5B%5D=Track&never_or=true&method=search"
@@ -119,20 +110,15 @@ Function FindRdioPlaylist()
 		Analytics = GetSession().Analytics
 		Analytics.AddEvent("Rdio playlist search began")
 
-	  request = CreateObject("roUrlTransfer")
+	  request = PostRequest()
 		url = "https://www.rdio.com/api/1/getPlaylists"
 
 		body = "access_token=" + accessToken
 		body = body + "&method=getPlaylists"
 		body = body + "&extras=-*,name,key"
 
-	    request = CreateObject("roUrlTransfer")
-	    request.RetainBodyOnError(true)
-	    request.EnablePeerVerification(false)
-	    request.EnableHostVerification(false)
-	    request.SetRequest("POST")
-	    request.SetPort(GetPort())
-	    request.SetUrl(url)
+    request = PostRequest()
+    request.SetUrl(url)
 
 		GetGlobalAA().RdioPlaylistSearchRequest = request
 
@@ -142,6 +128,8 @@ End Function
 
 Function RdioPlaylistSearchResult(result as string)
 	GetGlobalAA().Delete("RdioPlaylistSearchRequest")
+
+	print result
 
 	playlistName = RdioPlaylistName()
 
@@ -172,7 +160,7 @@ Function CreateRdioPlaylistWithTrackId(trackId as String)
 
 		description = "Songs discovered by listening to The Bat Player on my Roku."
 
-	    request = CreateObject("roUrlTransfer")
+	  request = PostRequest()
 		description = request.UrlEncode(description)
 
 		body = "access_token=" + accessToken
@@ -181,12 +169,7 @@ Function CreateRdioPlaylistWithTrackId(trackId as String)
 		body = body + "&description=" + description
 		body = body + "&tracks=" + trackId
 
-	    request.RetainBodyOnError(true)
-	    request.EnablePeerVerification(false)
-	    request.EnableHostVerification(false)
-	    request.SetRequest("POST")
-	    request.SetPort(GetPort())
-	    request.SetUrl(url)
+    request.SetUrl(url)
 		request.AsyncPostFromString(body)
 		GetGlobalAA().RdioCreatePlaylistRequest = request
 	end if
@@ -203,6 +186,24 @@ Function GetRdioAccessToken() as dynamic
 	end if
 
 	return token
+End Function
+
+'Function GetRdioRefreshToken() as dynamic
+''	rdioRefreshToken = RegRead("rdioRefreshToken", "batplayer")
+''	return rdioRefreshToken
+'End Function
+
+Function RefreshRdioAuthToken() as dynamic
+	accessToken = GetRdioAccessToken()
+	tokenEndpoint = "https://services.rdio.com/oauth2/token"
+
+	request = PostRequest()
+	request.SetUrl(tokenEndpoint)
+	body = "grant_type=refresh_token&refresh_token=" + accessToken + "&client_id=" + GetConfig().RdioClientID + "&client_secret=" + GetConfig().RdioClientSecret
+	print body
+
+	GetGlobalAA().RdioRefreshRequest = request
+	request.AsyncPostFromString(body)
 End Function
 
 Function RdioPlaylistName() as String

@@ -15,11 +15,7 @@ Sub ScrobbleTrack(artist as String, track as String)
 				api_sig_unsigned = "api_key" + api_key + "artist" + artist  + "methodtrack.scrobble" + "sk" + sk + "timestamp" + timestamp + "track" + track + api_secret
 				api_sig = makemdfive(api_sig_unsigned)
 
-			    request = CreateObject("roUrlTransfer")
-			    request.RetainBodyOnError(true)
-			    request.EnablePeerVerification(false)
-			    request.EnableHostVerification(false)
-			    request.SetRequest("POST")
+			    request = PostRequest()
 			    request.SetUrl(url)
 			    request.SetMessagePort(GetPort())
 
@@ -76,7 +72,7 @@ Function ToggleLastFMAccounts()
 		user = invalid
 		string = "None"
 		GetGlobalAA().ActiveLastFM = 0
-		
+
 	' Single user
 	else
 		user = userArray[GetGlobalAA().ActiveLastFM - 1]

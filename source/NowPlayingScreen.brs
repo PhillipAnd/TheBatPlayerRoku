@@ -48,12 +48,14 @@ Function CreateNowPlayingScreen() as Object
   NowPlayingScreen.PreviousGenresLabel = invalid
 
   NowPlayingScreen.lastfmlogo = CreateObject("roBitmap", "pkg:/images/audioscrobbler_black.png")
-  NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, 240, false, 240, 0, false)
+  NowPlayingScreen.albumPlaceholder = invalid
   NowPlayingScreen.AlbumShadow = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-shadow.png"), ResolutionX(200), ResolutionY(200), 1)
 
   NowPlayingScreen.UpdateBackgroundImage = true
   NowPlayingScreen.UpdateArtistImage = true
   NowPlayingScreen.UpdateAlbumImage = true
+
+  NowPlayingScreen.YOffset = 0
 
   NowPlayingScreen.ScrobbleTimer = invalid
   NowPlayingScreen.NowPlayingOtherStationsTimer = invalid
@@ -78,11 +80,16 @@ End Function
 'Called whenever the data for the screen changes (song)
 Function UpdateScreen()
 	NowPlayingScreen = GetNowPlayingScreen()
+  song = NowPlayingScreen.song
+
+  if song = invalid
+    return false
+  end if
 
   albumTitle = ""
-  bioText = ""
   songTitle = ""
   genreText = ""
+  bioText = GetBioTextForSong(song)
 
   if NowPlayingScreen.screen = invalid
     screen = CreateObject("roScreen", true, NowPlayingScreen.Width, NowPlayingScreen.Height)
@@ -99,12 +106,6 @@ Function UpdateScreen()
     if StationLoadingScreen <> invalid
       StationLoadingScreen.close()
     end if
-  end if
-
-	song = NowPlayingScreen.song
-
-  if song = invalid
-    return false
   end if
 
   'Lighting
@@ -135,12 +136,12 @@ Function UpdateScreen()
 
   'Artist Image
   if song.UseFallbackArtistImage = true
-    NowPlayingScreen.artistImage = ArtistImage("tmp:/" + makemdfive(song.StationImage))
+    NowPlayingScreen.artistImage = ArtistImage("tmp:/" + makemdfive(song.StationImage), NowPlayingScreen.yOffset)
   else if isstr(song.artistimage) AND FileExists(makemdfive(song.artistimage)) then
     artistImageFilePath = "tmp:/" + makemdfive(song.artistimage)
 
     if artistImageFilePath <> invalid AND NowPlayingScreen.UpdateArtistImage = true then
-      NowPlayingScreen.artistImage = ArtistImage(artistImageFilePath)
+      NowPlayingScreen.artistImage = ArtistImage(artistImageFilePath, NowPlayingScreen.YOffset)
 
       if NowPlayingScreen.artistImage = invalid
         song.UseFallbackArtistImage = true
@@ -161,7 +162,7 @@ Function UpdateScreen()
   'Album Image
   if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = true then
     albumImageFilePath = "tmp:/album-" + makemdfive(song.album.name + song.artist)
-    NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 250, CreateAlbumOverlayColor(song))
+    NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 250 + NowPlayingScreen.YOffset, CreateAlbumOverlayColor(song))
     NowPlayingScreen.UpdateAlbumImage = false
   endif
 
@@ -189,7 +190,6 @@ Function UpdateScreen()
   end if
 
   'Change bio label if text is different
-  bioText = GetBioTextForSong(song)
   if NowPlayingScreen.bioLabel = invalid OR (NowPlayingScreen.bioLabel <> invalid AND NowPlayingScreen.bioLabel.text <> bioText)
     if NowPlayingScreen.bioLabel <> invalid
       NowPlayingScreen.PreviousBioLabel = NowPlayingScreen.bioLabel
@@ -212,8 +212,8 @@ Function UpdateScreen()
   end if
   NowPlayingScreen.StationTitleLabel = RlTextArea(NowPlayingScreen.stationTitle, NowPlayingScreen.headerFont, &hFFFFFFFF, 180, headerTitleY, NowPlayingScreen.screen.GetWidth() - 200, 90, 1, 1.0, "left", true, false)
 
-  songNameHeight = GetTextHeight(songTitle, 580, NowPlayingScreen.songNameFont)
-  artistNameLocation = 160 - songNameHeight
+  songNameHeight = GetTextHeight(songTitle, 570, NowPlayingScreen.songNameFont)
+  artistNameLocation = 160 - songNameHeight + NowPlayingScreen.YOffset
   songNameLocation = artistNameLocation + 45
 
   'Song Name Label
@@ -232,7 +232,7 @@ Function UpdateScreen()
       NowPlayingScreen.PreviousAlbumNameLabel = NowPlayingScreen.albumNameLabel
       NowPlayingScreen.PreviousAlbumNameLabel.FadeOut()
     end if
-    NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(675), ResolutionY(425), ResolutionX(400), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
+    NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(675), ResolutionY(425 + NowPlayingScreen.YOffset), ResolutionX(400), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
     NowPlayingScreen.albumNameLabel.FadeIn()
   end if
 
@@ -255,6 +255,9 @@ Function UpdateScreen()
     genreX = ResolutionX(120)
     genreY = ResolutionY(460)
   end if
+
+  genreY = genreY + NowPlayingScreen.YOffset
+  if song.UsedFallbackImage = true then genreY = genreY + 20
 
   'Genre Text
   if song.DoesExist("Genres") AND song.Genres <> invalid AND song.Genres.count() > 0 then
@@ -320,7 +323,7 @@ Function DrawScreen()
     end if
 
     'Overlays
-    NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x + 4,NowPlayingScreen.albumPlaceholder.y + 5,NowPlayingScreen.AlbumShadow)
+    NowPlayingScreen.screen.DrawObject(NowPlayingScreen.albumPlaceholder.x + 4, NowPlayingScreen.albumPlaceholder.y + 5, NowPlayingScreen.AlbumShadow)
 
 		'Artist
     if NowPlayingScreen.artistImage <> invalid
@@ -423,7 +426,12 @@ Function RefreshNowPlayingScreen()
   song = NowPlayingScreen.song
 
   GetGlobalAA().lastSongTitle = invalid
-  NowPlayingScreen.PopularityImage = invalid
+
+  NowPlayingScreen.YOffset = 0
+  bioText = GetBioTextForSong(song)
+  if bioText = invalid OR bioText = ""
+    NowPlayingScreen.YOffset = 60
+  end if
 
   if NowPlayingScreen.artistImage <> invalid
     if SupportsAdvancedFeatures()
@@ -446,6 +454,12 @@ Function RefreshNowPlayingScreen()
       NowPlayingScreen.PreviousBackgroundImage = NowPlayingScreen.BackgroundImage
       NowPlayingScreen.PreviousBackgroundImage.FadeOut()
     end if
+  end if
+
+  ' Album placeholder.  Only recreate it if we have to move it.
+  albumPlaceholderY = 240 + NowPlayingScreen.YOffset
+  if NowPlayingScreen.albumPlaceholder = invalid OR NowPlayingScreen.albumPlaceholder.y <> albumPlaceholderY
+    NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, albumPlaceholderY, true, 255, 0, false)
   end if
 
   NowPlayingScreen.UpdateBackgroundImage = true

@@ -2,7 +2,7 @@ Function GetJSONAtUrl(url as String)
   NowPlayingScreen = GetNowPlayingScreen()
 
   if NOT GetGlobalAA().DoesExist("jsontransfer") then
-    Request = CreateObject("roUrlTransfer")
+    Request = GetRequest()
 
     'Sanitize the stream url to get the correct metadata
     if right(url,1) = "/" then
@@ -15,10 +15,6 @@ Function GetJSONAtUrl(url as String)
     metadataUrl = GetConfig().Batserver + "metadata/" + url
     'print "Checking for JSON at " metadataUrl
     Request.SetUrl(metadataUrl)
-    Request.SetPort(GetPort())
-    Request.EnableEncodings(True)
-    Request.AddHeader("Accept-Encoding","gzip")
-    Request.AddHeader("Accept-Encoding","deflate")
     GetGlobalAA().AddReplace("jsontransfer", Request)
 
     Request.AsyncGetToString()
@@ -38,6 +34,7 @@ Function HandleJSON(jsonString as String)
 
   song.backgroundimage = song.hdposterurl
   song.artistimage = song.stationimage
+  song.UsedFallbackImage = true
 
   if song.MetadataFetchFailure = invalid
     song.MetadataFetchFailure = 0
@@ -76,6 +73,7 @@ Function HandleJSON(jsonString as String)
     if jsonObject.image <> invalid AND jsonObject.image.url <> "" AND jsonObject.image.url <> invalid
       song.image = jsonObject.image 'Used for colors
       song.artistimage = jsonObject.image.url
+      song.UsedFallbackImage = false
 
       if jsonObject.image.backgroundurl <> invalid AND isnonemptystr(jsonObject.image.backgroundurl)
         song.backgroundimage = jsonObject.image.backgroundurl
@@ -102,6 +100,7 @@ Function HandleJSON(jsonString as String)
     song.MetadataFetchFailure = song.MetadataFetchFailure + 1
     song.backgroundImage = song.hdposterurl
     song.artistImage = song.hdposterurl
+    song.UsedFallbackImage = true
   end if
   NowPlayingScreen.song = song
 
@@ -139,10 +138,7 @@ Function HandleJSON(jsonString as String)
         endif
       end if
 
-      'Download album art
-      if type(song.album) = "roAssociativeArray" AND isnonemptystr(song.album.image)
-        AsyncGetFile(song.album.image, "tmp:/album-" + makemdfive(song.album.name + song.artist))
-      endif
+      DownloadAlbumImageForSong(song)
 
       if NowPlayingScreen.scrobbleTimer = invalid then
         NowPlayingScreen.scrobbleTimer = CreateObject("roTimespan")
@@ -159,7 +155,7 @@ Function FetchMetadataForStreamUrlAndName(url as string, name as string, usedFor
 	if url <> invalid
 		url = GetConfig().Batserver + "nowplaying/" + UrlEncode(url)
 
-		Request = CreateObject("roUrlTransfer")
+		Request = GetRequest()
 		Request.SetUrl(url)
 		Request.SetPort(GetPort())
 		if Request.AsyncGetToString() then

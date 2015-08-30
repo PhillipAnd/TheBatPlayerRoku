@@ -6,15 +6,8 @@ Function AsyncGetFile(url as string, filepath as string, overrideFileCheck = fal
       'We already have this file
       'print "*** It seems we already have file: " +url
     else
-      Request = CreateObject("roUrlTransfer")
+      Request = GetRequest()
       Request.SetUrl(url)
-      Request.SetPort(GetPort())
-      Request.EnableEncodings(True)
-      Request.EnablePeerVerification(false)
-      Request.EnableHostVerification(false)
-
-      Request.AddHeader("Accept-Encoding","deflate")
-      Request.AddHeader("Accept-Encoding","gzip")
       if Request.AsyncGetToFile(filepath) then
         Identity = ToStr(Request.GetIdentity())
         Downloads = GetSession().Downloads
@@ -36,18 +29,11 @@ Function SyncGetFile(url as string, filepath as string, overrideFileCheck = fals
       'We already have this file
       'print "*** It seems we already have file: " +url
     else
-      Request = CreateObject("roUrlTransfer")
+      Request = GetRequest()
       Request.SetUrl(url)
-      Request.AddHeader("Accept-Encoding","deflate")
-      Request.AddHeader("Accept-Encoding","gzip")
-      Request.EnableEncodings(True)
-      Request.EnableResume(true)
-      Request.EnablePeerVerification(false)
-      Request.EnableHostVerification(false)
-
-      Request.SetPort(GetPort())
       if Request.GetToFile(filepath) then
         print "Started download of: " + url + " to " + filepath ". "
+        return Request
       else
         BatLog("***** Failure BEGINNING download.", "error")
         return invalid
@@ -72,6 +58,12 @@ Function DownloadArtistImageForSong(song as object)
   end if
 End Function
 
+Function DownloadAlbumImageForSong(song as object)
+  if type(song.album) = "roAssociativeArray" AND isnonemptystr(song.album.image)
+    AsyncGetFile(song.album.image, "tmp:/album-" + makemdfive(song.album.name + song.artist))
+  endif
+End Function
+
 Function IsDownloading(Identity as String) as Boolean
     Downloads = GetSession().Downloads
     return (Downloads.DoesExist(Identity))
@@ -86,7 +78,7 @@ Function IsBackgroundImageDownload(Identity as String) as Boolean
 
     ' I don't know why non-requests (ints to be specific) are showing up
     ' but for now let's just guard against it.
-    if type(BackgroundImageDownload) <> "roUrlRequest"
+    if type(BackgroundImageDownload) <> "roUrlTransfer"
       return false
     end if
 
@@ -112,7 +104,7 @@ Function IsArtistImageDownload(Identity as String) as Boolean
 
     ' I don't know why non-requests (ints to be specific) are showing up
     ' but for now let's just guard against it.
-    if type(ArtistImageDownload) <> "roUrlRequest"
+    if type(ArtistImageDownload) <> "roUrlTransfer"
       return false
     end if
 
@@ -128,4 +120,27 @@ Function IsArtistImageDownload(Identity as String) as Boolean
 
     return false
 
+End Function
+
+Function UrlTransferRequest() as object
+  request = CreateObject("roUrlTransfer")
+  request.EnablePeerVerification(false)
+  request.EnableHostVerification(false)
+  request.SetPort(GetPort())
+  request.setCertificatesFile("common:/certs/ca-bundle.crt")
+  return request
+End Function
+
+Function PostRequest() as Object
+  request = UrlTransferRequest()
+  request.SetRequest("POST")
+  return request
+End Function
+
+Function GetRequest() as Object
+  request = UrlTransferRequest()
+  request.EnableEncodings(True)
+  request.AddHeader("Accept-Encoding","deflate")
+  request.AddHeader("Accept-Encoding","gzip")
+  return request
 End Function

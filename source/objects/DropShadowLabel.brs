@@ -31,8 +31,8 @@ Function DropShadowLabel(text as string, x as integer, y as integer, width as in
 		draw: dropShadowLabelLabel_draw
 
 	}
-	this.labelObject = RlTextArea(this.text, font, color, 0, 0, this.width, this.height, maxLines, 1.0, this.alignment, useEllipses)
-	this.dropShadowObject = RlTextArea(this.text, font, &h000000FF, this.shadowOffsetX, this.shadowOffsetY, this.width, this.height, maxLines, 1.0, this.alignment, useEllipses)
+	this.labelObject = RlTextArea(this.text, font, color, 0, 0, this.width, this.height, maxLines, 1.0, this.alignment, useEllipses, true)
+	this.dropShadowObject = RlTextArea(this.text, font, &h000000FF, this.shadowOffsetX, this.shadowOffsetY, this.width, this.height, maxLines, 1.0, this.alignment, useEllipses, true)
 
 	'TextGrunge = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/text-grunge-overlay.png"), this.labelObject.width, this.labelObject.height, 0)
 

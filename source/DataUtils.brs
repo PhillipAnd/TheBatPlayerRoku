@@ -1,7 +1,6 @@
 Sub HandleSaveRequestForStations(request as Object)
 	data = GetDataFromRequest(request)
-	decoder = CreateObject("roUrlTransfer")
-	data = decoder.unescape(data)
+	data = urlunescape(data)
 
 	print "Saving Data: " + data
 	RegWrite("stations", data, "batplayer")
@@ -14,8 +13,7 @@ End Sub
 
 Sub HandleSaveRequestForLights(request as Object)
 	data = GetDataFromRequest(request)
-	decoder = CreateObject("roUrlTransfer")
-	data = decoder.unescape(data)
+	data = urlunescape(data)
 	RegWrite("lights", data, "batplayer")
 End Sub
 
@@ -36,8 +34,7 @@ Sub HandleSaveRequestForLastFM(request as Object)
 	print "Running HandleSaveRequestForLastFM"
 
 	data = GetDataFromRequest(request)
-	decoder = CreateObject("roUrlTransfer")
-	data = decoder.unescape(data)
+	data = urlunescape(data)
 
 	RegWrite("lastfmData", data, "batplayer")
 	print "saved data: " + data
@@ -47,8 +44,7 @@ Sub HandleSaveRdio(request as Object)
 	print "Running HandleSaveRdio"
 
 	data = GetDataFromRequest(request)
-	decoder = CreateObject("roUrlTransfer")
-	data = decoder.unescape(data)
+	data = urlunescape(data)
 
 	RegWrite("rdioAuthToken", data, "batplayer")
 	print "saved data: " + data

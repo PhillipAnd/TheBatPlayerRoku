@@ -24,11 +24,11 @@ Function BatBioLabel(text as string, song as object, enableFade = true as Boolea
 
 	}
 
-	this.labelObject = RlTextArea(this.text, GetMediumFont(), GetRegularColorForSong(song), 0, 0, this.width, this.height, 6, 1.15)
+	this.labelObject = RlTextArea(this.text, GetMediumFont(), GetRegularColorForSong(song), 0, 0, this.width, this.height, 6, 1.15, "left", true, true)
 
 	dropShadowColor = GetDropShadowColorForSong(song)
 	if dropShadowColor <> 0
-		this.dropShadowObject = RlTextArea(this.text, GetMediumFont(), dropShadowColor, 2.0, 3.0, this.width, this.height, 6, 1.15)
+		this.dropShadowObject = RlTextArea(this.text, GetMediumFont(), dropShadowColor, 2.0, 3.0, this.width, this.height, 6, 1.15, "left", true, true)
 	end if
 
 	TextGrunge = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/text-grunge-overlay.png"), this.width, this.height, 1)
