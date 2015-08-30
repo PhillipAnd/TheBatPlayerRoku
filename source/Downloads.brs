@@ -48,6 +48,7 @@ Function SyncGetFile(url as string, filepath as string, overrideFileCheck = fals
       Request.SetPort(GetPort())
       if Request.GetToFile(filepath) then
         print "Started download of: " + url + " to " + filepath ". "
+        return Request
       else
         BatLog("***** Failure BEGINNING download.", "error")
         return invalid
@@ -70,6 +71,12 @@ Function DownloadArtistImageForSong(song as object)
     request = AsyncGetFile(url, "tmp:/" + makemdfive(url))
     GetSession().ArtistImageDownload = request
   end if
+End Function
+
+Function DownloadAlbumImageForSong(song as object)
+  if type(song.album) = "roAssociativeArray" AND isnonemptystr(song.album.image)
+    AsyncGetFile(song.album.image, "tmp:/album-" + makemdfive(song.album.name + song.artist))
+  endif
 End Function
 
 Function IsDownloading(Identity as String) as Boolean

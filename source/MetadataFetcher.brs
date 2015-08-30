@@ -142,10 +142,7 @@ Function HandleJSON(jsonString as String)
         endif
       end if
 
-      'Download album art
-      if type(song.album) = "roAssociativeArray" AND isnonemptystr(song.album.image)
-        AsyncGetFile(song.album.image, "tmp:/album-" + makemdfive(song.album.name + song.artist))
-      endif
+      DownloadAlbumImageForSong(song)
 
       if NowPlayingScreen.scrobbleTimer = invalid then
         NowPlayingScreen.scrobbleTimer = CreateObject("roTimespan")
