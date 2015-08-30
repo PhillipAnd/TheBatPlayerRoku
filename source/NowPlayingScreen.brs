@@ -84,21 +84,9 @@ Function UpdateScreen()
   end if
 
   albumTitle = ""
-  bioText = ""
   songTitle = ""
   genreText = ""
-  NowPlayingScreen.YOffset = 0
-
   bioText = GetBioTextForSong(song)
-  if bioText = invalid OR bioText = ""
-    NowPlayingScreen.YOffset = 60
-  end if
-
-  ' Album placeholder.  Only recreate it if we have to move it.
-  albumPlaceholderY = 240 + NowPlayingScreen.YOffset
-  if NowPlayingScreen.albumPlaceholder = invalid OR NowPlayingScreen.albumPlaceholder.y <> albumPlaceholderY
-    NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, albumPlaceholderY, true, 240)
-  end if
 
   if NowPlayingScreen.screen = invalid
     screen = CreateObject("roScreen", true, NowPlayingScreen.Width, NowPlayingScreen.Height)
@@ -437,7 +425,12 @@ Function RefreshNowPlayingScreen()
   song = NowPlayingScreen.song
 
   GetGlobalAA().lastSongTitle = invalid
-  NowPlayingScreen.PopularityImage = invalid
+
+  NowPlayingScreen.YOffset = 0
+  bioText = GetBioTextForSong(song)
+  if bioText = invalid OR bioText = ""
+    NowPlayingScreen.YOffset = 60
+  end if
 
   if NowPlayingScreen.artistImage <> invalid
     if SupportsAdvancedFeatures()
@@ -460,6 +453,12 @@ Function RefreshNowPlayingScreen()
       NowPlayingScreen.PreviousBackgroundImage = NowPlayingScreen.BackgroundImage
       NowPlayingScreen.PreviousBackgroundImage.FadeOut()
     end if
+  end if
+
+  ' Album placeholder.  Only recreate it if we have to move it.
+  albumPlaceholderY = 240 + NowPlayingScreen.YOffset
+  if NowPlayingScreen.albumPlaceholder = invalid OR NowPlayingScreen.albumPlaceholder.y <> albumPlaceholderY
+    NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, albumPlaceholderY, true, 240)
   end if
 
   NowPlayingScreen.UpdateBackgroundImage = true
