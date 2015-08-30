@@ -6,15 +6,8 @@ Function AsyncGetFile(url as string, filepath as string, overrideFileCheck = fal
       'We already have this file
       'print "*** It seems we already have file: " +url
     else
-      Request = CreateObject("roUrlTransfer")
+      Request = GetRequest()
       Request.SetUrl(url)
-      Request.SetPort(GetPort())
-      Request.EnableEncodings(True)
-      Request.EnablePeerVerification(false)
-      Request.EnableHostVerification(false)
-
-      Request.AddHeader("Accept-Encoding","deflate")
-      Request.AddHeader("Accept-Encoding","gzip")
       if Request.AsyncGetToFile(filepath) then
         Identity = ToStr(Request.GetIdentity())
         Downloads = GetSession().Downloads
@@ -36,16 +29,8 @@ Function SyncGetFile(url as string, filepath as string, overrideFileCheck = fals
       'We already have this file
       'print "*** It seems we already have file: " +url
     else
-      Request = CreateObject("roUrlTransfer")
+      Request = GetRequest()
       Request.SetUrl(url)
-      Request.AddHeader("Accept-Encoding","deflate")
-      Request.AddHeader("Accept-Encoding","gzip")
-      Request.EnableEncodings(True)
-      Request.EnableResume(true)
-      Request.EnablePeerVerification(false)
-      Request.EnableHostVerification(false)
-
-      Request.SetPort(GetPort())
       if Request.GetToFile(filepath) then
         print "Started download of: " + url + " to " + filepath ". "
         return Request
@@ -135,4 +120,27 @@ Function IsArtistImageDownload(Identity as String) as Boolean
 
     return false
 
+End Function
+
+Function UrlTransferRequest() as object
+  request = CreateObject("roUrlTransfer")
+  request.EnablePeerVerification(false)
+  request.EnableHostVerification(false)
+  request.SetPort(GetPort())
+  request.setCertificatesFile("common:/certs/ca-bundle.crt")
+  return request
+End Function
+
+Function PostRequest() as Object
+  request = UrlTransferRequest()
+  request.SetRequest("POST")
+  return request
+End Function
+
+Function GetRequest() as Object
+  request = UrlTransferRequest()
+  request.EnableEncodings(True)
+  request.AddHeader("Accept-Encoding","deflate")
+  request.AddHeader("Accept-Encoding","gzip")
+  return request
 End Function

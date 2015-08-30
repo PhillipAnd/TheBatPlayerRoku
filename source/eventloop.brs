@@ -203,6 +203,16 @@ Sub HandleDownloadEvents(msg)
 				end if
 			end if
 
+      'Rdio refresh auth token
+      if GetGlobalAA().DoesExist("RdioRefreshRequest")
+        transfer = GetGlobalAA().RdioRefreshRequest
+        if ToStr(transfer.GetIdentity()) = Identity
+          result = msg.GetString()
+          print result
+          GetGlobalAA().Delete("RdioRefreshRequest")
+        end if
+      end if
+
 
 			'Downloads for what other stations are playing
 			if (IsOtherStationsValidDownload(msg))
