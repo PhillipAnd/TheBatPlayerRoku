@@ -60,13 +60,13 @@ Function BackgroundImage(filePath as String, overlayColor = 0 as Integer, grunge
 			end if
 			x = Rnd(this.size.w)
 			y = Rnd(this.size.h)
-			alpha = RlMin(Rnd(50), 30)
+			alpha = RlMin(Rnd(40), 20)
 			this.image.DrawRotatedObject(x, y, rotation, Bat, &hFFFFFF00 + alpha)
 		end for
 
-		this.image.DrawObject(0, 0, BackgroundGrunge, this.grungeColor) 'Grunge overlay
+		this.image.DrawObject(0, 0, BackgroundGrunge, &hFFFFFF00 + 255) 'Grunge overlay
 		if this.OverlayColor <> invalid
-			'this.image.DrawRect(0, 0, this.size.w, this.size.h, this.OverlayColor) 'Color overlay
+			this.image.DrawRect(0, 0, this.size.w, this.size.h, this.OverlayColor) 'Color overlay
 		end if
 
 		this.image.DrawObject(0, 0, GradientTop, &hFFFFFF + 230) 'Top Gradient
