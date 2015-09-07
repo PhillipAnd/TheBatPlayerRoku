@@ -210,7 +210,7 @@ Function UpdateScreen()
   if NowPlayingScreen.song.stationDetails <> invalid AND NowPlayingScreen.song.stationDetails.Listeners <> invalid
     headerTitleY = 22
   end if
-  NowPlayingScreen.StationTitleLabel = RlTextArea(NowPlayingScreen.stationTitle, NowPlayingScreen.headerFont, &hFFFFFFFF, 180, headerTitleY, NowPlayingScreen.screen.GetWidth() - 200, 90, 1, 1.0, "left", true, false)
+  NowPlayingScreen.StationTitleLabel = RlTextArea(NowPlayingScreen.stationTitle, NowPlayingScreen.headerFont, &hDDDDDD00 + 200, 180, headerTitleY, NowPlayingScreen.screen.GetWidth() - 200, 90, 1, 1.0, "left", true, false)
 
   songNameHeight = GetTextHeight(songTitle, 570, NowPlayingScreen.songNameFont)
   artistNameLocation = 160 - songNameHeight + NowPlayingScreen.YOffset
@@ -369,7 +369,7 @@ Function DrawScreen()
 
 		'Album image
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
-    if NowPlayingScreen.albumImage <> invalid
+    if NowPlayingScreen.albumImage <> invalid AND NowPlayingScreen.albumImage.bitmap <> invalid
       NowPlayingScreen.albumImage.Draw(NowPlayingScreen.screen)
     end if
     if NowPlayingScreen.previousAlbumImage <> invalid
@@ -393,7 +393,6 @@ Function DrawScreen()
     if NowPlayingScreen.song.stationDetails <> invalid AND NowPlayingScreen.song.stationDetails.Listeners <> invalid
       headerTitleY = 22
     end if
-    'NowPlayingScreen.screen.DrawObject(0,0,NowPlayingScreen.HeaderGrunge, &hFFFFFF00 + 70)
 		NowPlayingScreen.screen.DrawRect(0,0, NowPlayingScreen.Width, NowPlayingScreen.HeaderHeight, GetHeaderColor())
 		NowPlayingScreen.screen.DrawObject(ResolutionX(30),ResolutionY(13),NowPlayingScreen.HeaderLogo)
     NowPlayingScreen.StationTitleLabel.Draw(NowPlayingScreen.screen)

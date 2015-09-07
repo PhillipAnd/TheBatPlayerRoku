@@ -7,7 +7,7 @@ Function ArtistImage(filePath as string, yOffset = 0) as Object
 		x: 0.0
 		y: 0.0
 		yOffset: yOffset
-		
+
 		verticalOffset: 0.0
 		horizontalOffset: 0.0
 		resizeRatio: 1.0
@@ -39,11 +39,11 @@ Function ArtistImage(filePath as string, yOffset = 0) as Object
 		this.height = this.bitmap.GetHeight()
 
 		this.resizeRatio = GetResizeRatioForArtistImage(this.bitmap)
-	  	this.width = ResolutionX(this.width * this.resizeRatio)
-	  	this.height = ResolutionX(this.height * this.resizeRatio)
+  	this.width = ResolutionX(this.width * this.resizeRatio)
+  	this.height = ResolutionX(this.height * this.resizeRatio)
 
-	  	this.horizontalOffset = ResolutionX(RLMax(0,Int(500.0 - this.width)))
-	  	this.verticalOffset = ResolutionY(RLMax(0,Int(330 - (this.height + 5))))
+  	this.horizontalOffset = ResolutionX(RLMax(0,Int(500.0 - this.width)))
+  	this.verticalOffset = ResolutionY(RLMax(0,Int(330 - (this.height + 5))))
 
 		if this.verticalOffset > 0 then
 			this.verticalOffset = ResolutionY(this.verticalOffset / 2)
@@ -56,7 +56,7 @@ Function ArtistImage(filePath as string, yOffset = 0) as Object
 		this.y = ResolutionY(120 + this.verticalOffset + this.yOffset)
 
 		this.image = RlGetScaledImage(this.bitmap, this.width, this.height, 1)
-		if this.image = invalid then this.valid = false
+		if this.image = invalid then this.valid = true
 		this.bitmap = invalid
 	else
 		print "*** Artist image is INVALID"
