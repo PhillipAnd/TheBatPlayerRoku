@@ -57,7 +57,7 @@ Function ToggleLastFMAccounts()
 	end if
 	i = 0
 
-	'All users
+	'All users or single user
 	if GetGlobalAA().ActiveLastFM = 0
 		for each user in userArray
 			activeUsers.push(user)
@@ -65,20 +65,18 @@ Function ToggleLastFMAccounts()
 			i  = i + 1
 		end for
 		GetGlobalAA().ActiveLastFM = 1
-
-	' No users
-	else if GetGlobalAA().ActiveLastFM > totalUsers - 1
-		activeUsers.clear()
-		user = invalid
-		string = "None"
-		GetGlobalAA().ActiveLastFM = 0
-
+	else if totalUsers = 2 AND GetGlobalAA().ActiveLastFM <= totalUsers
 	' Single user
-	else
 		user = userArray[GetGlobalAA().ActiveLastFM - 1]
 		activeUsers.push(user)
 		string = user.username
 		GetGlobalAA().ActiveLastFM = GetGlobalAA().ActiveLastFM + 1
+	else
+	' No users
+		activeUsers.clear()
+		user = invalid
+		string = "None"
+		GetGlobalAA().ActiveLastFM = 0
 	end if
 
 	BatLog("Toggling Last.FM Accounts: " + string)
