@@ -59,10 +59,12 @@ End Function
 Function Loading_close()
 	print "Closing loading screen"
 	GetGlobalAA().IsStationLoadingDisplayed = false
-	m.canvas.close()
-	m.canvas = invalid
-	m = invalid
-	GetGlobalAA().StationLoadingScreen = invalid
+	if m.canvas <> invalid
+		m.canvas.close()
+		m.canvas = invalid
+		m = invalid
+		GetGlobalAA().StationLoadingScreen = invalid
+	end if 
 End Function
 
 Function HandleStationLoadingScreenEvent(msg)

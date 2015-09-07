@@ -12,20 +12,20 @@ REM Upon entering screen, should start playing first audio stream
 REM
 REM ******************************************************
 Sub Show_Audio_Screen(station as Object)
-
-    ResetNowPlayingScreen()
-    GetGlobalAA().AddReplace("NowPlaying", true)
+  GetGlobalAA().AddReplace("NowPlaying", true)
 
     'If we're already playing this station then don't make any changes
     if GetGlobalAA().DoesExist("SongObject")
       CurrentStation = GetGlobalAA().SongObject
       if CurrentStation <> invalid
         if CurrentStation.feedurl = Station.feedurl
-          UpdateScreen()
+          RefreshNowPlayingScreen()
           return
         end if
       end if
     end if
+
+    ResetNowPlayingScreen()
 
     if GetGlobalAA().DoesExist("AudioPlayer") then
       Audio = GetGlobalAA().AudioPlayer
