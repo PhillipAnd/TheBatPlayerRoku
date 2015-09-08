@@ -64,7 +64,7 @@ Function BackgroundImage(filePath as String, overlayColor = 0 as Integer, grunge
 			this.image.DrawRotatedObject(x, y, rotation, Bat, &hFFFFFF00 + alpha)
 		end for
 
-		this.image.DrawObject(0, 0, BackgroundGrunge, &hFFFFFF00 + 255) 'Grunge overlay
+		this.image.DrawObject(0, 0, BackgroundGrunge, &hFFFFFF00 + 200) 'Grunge overlay
 		if this.OverlayColor <> invalid
 			this.image.DrawRect(0, 0, this.size.w, this.size.h, this.OverlayColor) 'Color overlay
 		end if

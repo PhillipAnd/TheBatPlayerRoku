@@ -214,7 +214,7 @@ Function OpacityForSong(song) as integer
 
 	if song.DoesExist("image") AND song.image.DoesExist("color") AND song.image.color.DoesExist("rgb") AND song.image.color.rgb <> invalid
     brightness = Sqr(0.299 * (song.image.color.rgb.red * song.image.color.rgb.red) + 0.587 * (song.image.color.rgb.green * song.image.color.rgb.green) + 0.114 * (song.image.color.rgb.blue * song.image.color.rgb.blue))
-    targetBrightness = 100
+    targetBrightness = 80
     difference = targetBrightness / brightness
     baseAlpha = 100
     alpha = RlMin(baseAlpha * difference, targetBrightness)
