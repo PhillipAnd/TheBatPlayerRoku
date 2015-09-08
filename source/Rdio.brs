@@ -128,9 +128,6 @@ End Function
 
 Function RdioPlaylistSearchResult(result as string)
 	GetGlobalAA().Delete("RdioPlaylistSearchRequest")
-
-	print result
-
 	playlistName = RdioPlaylistName()
 
 	playlistsObject = ParseJSON(result)
