@@ -430,7 +430,7 @@ Function DrawScreen()
 
 		'Album image
     NowPlayingScreen.albumPlaceholder.Draw(NowPlayingScreen.screen)
-    if NowPlayingScreen.albumImage <> invalid AND NowPlayingScreen.albumImage.bitmap <> invalid
+    if NowPlayingScreen.albumImage <> invalid AND NowPlayingScreen.albumImage.image <> invalid
       NowPlayingScreen.albumImage.Draw(NowPlayingScreen.screen)
     end if
     if NowPlayingScreen.previousAlbumImage <> invalid

@@ -69,7 +69,7 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 	end if
 
 	if this.DrawGrunge = true
-		random = 0 'Rnd(1)
+		random = 0
 		this.grunge = RlGetScaledImage(CreateObject("roBitmap", "pkg:/images/album-grunge" + ToStr(random) + ".png"), this.width, this.height, 1)
 	end if
 
