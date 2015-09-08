@@ -13,9 +13,7 @@ function GrungeLabel(text as String, font as Object, rgba as Integer, x = 0 as i
         Draw: GrungeLabel_Draw
         Set: GrungeLabel_Set
         TextGrunge: invalid
-
     }
-
     this.Set()
 
     return this
