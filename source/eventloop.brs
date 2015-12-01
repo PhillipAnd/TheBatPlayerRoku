@@ -31,7 +31,7 @@ Sub HandleNowPlayingScreenEvent (msg as Object)
 
 	  else if key = 4 then
 	  	song = GetGlobalAA().SongObject
-	  	if song <> invalid then AttemptToAddToRdioPlaylist(song.artist, song.title)
+	  	'if song <> invalid then AttemptToAddToRdioPlaylist(song.artist, song.title)
 
 	  else if key = 0 then
 	    'Exit

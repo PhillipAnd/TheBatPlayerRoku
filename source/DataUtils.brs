@@ -50,7 +50,7 @@ Sub HandleSaveRdio(request as Object)
 	print "saved data: " + data
 
 	if data <> invalid
-		FindRdioPlaylist()
+		'FindRdioPlaylist()
 	end if
 End Sub
 
