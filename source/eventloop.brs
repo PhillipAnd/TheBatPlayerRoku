@@ -116,11 +116,9 @@ Sub HandleAudioPlayerEvent(msg as Object)
 	song = GetGlobalAA().SongObject
 
 	    if msg.isStatusMessage() then
-	        message = msg.getMessage()
+	        'message = msg.getMessage()
 	    else if msg.isListItemSelected() then
 	        Station.failCounter = 0
-					Audio.audioplayer.Seek(-180000)
-	        Get_Metadata(song, GetPort())
 	    else if msg.isRequestSucceeded() OR msg.isRequestFailed()
 	    	if Audio.failCounter < 5 then
 
