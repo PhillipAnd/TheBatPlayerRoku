@@ -317,7 +317,7 @@ Function UpdateScreen()
     genreY = ResolutionY(460)
   end if
 
-  genreY = genreY + NowPlayingScreen.YOffset
+  genreY = genreY + NowPlayingScreen.YOffset + 10
   if song.UsedFallbackImage = true then genreY = genreY + 20
 
   'Genre Text
