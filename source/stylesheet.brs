@@ -70,7 +70,7 @@ End Function
 
 Function GetSongNameFont() as Object
 	reg = GetGlobalAA().FontRegistry
-  size = 28
+  size = 29
 
   deviceSize = GetSession().deviceInfo.GetDisplaySize()
 
@@ -78,7 +78,7 @@ Function GetSongNameFont() as Object
     size = 13
   end if
 
-  Font = reg.GetFont("Lato", size, false, false)
+  Font = reg.GetFont("Lato Light", size, false, false)
   return Font
 End Function
 
@@ -96,25 +96,25 @@ End Function
 
 Function GetGenreFont() as Object
 	reg = GetGlobalAA().FontRegistry
-  Font = reg.GetFont("Lato Medium", ResolutionY(19), false, false)
+  Font = reg.GetFont("Lato", ResolutionY(19), false, false)
   return Font
 End Function
 
 Function GetLargeBoldFont() as Object
 	reg = GetGlobalAA().FontRegistry
-  Font = reg.GetFont("Lato", ResolutionY(42), true, false)
+  Font = reg.GetFont("Lato Light", ResolutionY(42), true, false)
   return Font
 End Function
 
 Function GetLargeFont() as Object
 	reg = GetGlobalAA().FontRegistry
-  Font = reg.GetFont("Lato Medium", ResolutionY(42), false, false)
+  Font = reg.GetFont("Lato Light", ResolutionY(42), false, false)
   return Font
 End Function
 
 Function GetHeaderFont() as Object
 	reg = GetGlobalAA().FontRegistry
-  Font = reg.GetFont("Lato Semibold", ResolutionY(39), true, false)
+  Font = reg.GetFont("Lato", ResolutionY(39), true, false)
   return Font
 End Function
 
@@ -196,7 +196,7 @@ Function GetGrungeColorOffsetForColor(r as Integer, g as Integer, b as Integer) 
 End Function
 
 Function GetDropShadowColorForSong(song as Object) as integer
-	return &h000000FF
+	return &h000000CC
 End Function
 
 Sub CreateOverlayColor(song) as integer
