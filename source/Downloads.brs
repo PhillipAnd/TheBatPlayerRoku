@@ -122,6 +122,24 @@ Function IsArtistImageDownload(Identity as String) as Boolean
 
 End Function
 
+Function GetStationSelectionHeader()
+    print "------ Downloading header ------"
+    ipAddress = GetSession().IPAddress
+    text = urlescape("Configure your Bat Player at http://" + ipAddress + ":9999")
+    device = GetSession().deviceInfo
+    width = ToStr(device.GetDisplaySize().w)
+
+    originalHeaderFile = "selection_bat_logo-HD.png"
+    query = "?fm=jpg&q=90&txtfont=Helvetica+Neue&txtclr=aaffffff&txtalign=center&txtsize=30&txtfit=max&txtpad=35&txt=" + text + "&w=" + width
+
+    imgixHost = GetConfig().ImgixHost
+    url = imgixHost + "/" + urlescape(originalHeaderFile) + query
+    print url
+
+    SyncGetFile(url, "tmp:/headerImage.jpg", true)
+    print "------ Downloading header complete------"
+End Function
+
 Function UrlTransferRequest() as object
   request = CreateObject("roUrlTransfer")
   request.EnablePeerVerification(false)

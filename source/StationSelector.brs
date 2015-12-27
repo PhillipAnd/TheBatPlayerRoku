@@ -12,19 +12,36 @@ Function StationSelectionScreen()
     Screen: CreateObject("roGridScreen")
     SelectedIndex: 0
     RefreshStations: selection_getStations
+
+    SomaFMStations: invalid
+    GetSomaFMStations: selection_getSomaFMStations
+
+    DIStations: invalid
+    GetDIStations: selection_getDIStations
+
+    FeaturedStations: invalid
     GetFeaturedStations: selection_getFeaturedStations
+
+    DisplayStationPopup: selection_showDirectoryPopup
     Handle: selection_handle
   }
 
   this.Screen.SetGridStyle("two-row-flat-landscape-custom")
-  this.Screen.SetDescriptionVisible(true)
-  this.Screen.SetUpBehaviorAtTopRow("stop")
-  this.Screen.SetBreadcrumbEnabled(false)
+  'this.Screen.SetDescriptionVisible(false)
+  'this.Screen.SetUpBehaviorAtTopRow("stop")
+  'this.Screen.SetBreadcrumbEnabled(false)
   this.Screen.SetLoadingPoster("pkg:/images/icon-hd.png", "pkg:/images/icon-sd.png")
 
-  this.Screen.SetupLists(2)
+  this.Screen.SetupLists(4)
   this.Screen.SetListName(0, "Your Stations")
-  this.Screen.SetListName(1, "Featured Stations")
+  this.Screen.SetListName(1, "Stations from SomaFM")
+  this.Screen.SetListName(2, "Stations from Digitally Imported")
+  this.Screen.SetListName(3, "Featured Stations")
+
+  this.Screen.SetListVisible(0, true)
+  this.Screen.SetListVisible(1, false)
+  this.Screen.SetListVisible(2, false)
+  this.Screen.SetListVisible(3, false)
 
   port = GetPort()
   this.Screen.SetMessagePort(port)
@@ -41,8 +58,10 @@ Function StationSelectionScreen()
   GetGlobalAA().AddReplace("StationSelectionScreen", this)
 
   this.RefreshStations()
+  this.GetSomaFMStations()
+  this.GetDIStations()
   this.GetFeaturedStations()
-
+  
   HandleInternetConnectivity()
 
   'First launch popup
@@ -80,25 +99,51 @@ Function selection_getStations()
   m.Stations = SelectableStations
 End Function
 
+Function selection_getSomaFMStations()
+  url = "https://s3-us-west-2.amazonaws.com/batserver-static-assets/directory/somaFMStations.json"
+  stations = GetStationsAtUrl(url)
+
+  m.Screen.SetContentList(1, stations)
+  m.Screen.SetListVisible(1, true)
+
+  m.SomaFMStations = stations
+End Function
+
+Function selection_getDIStations()
+  url = "https://s3-us-west-2.amazonaws.com/batserver-static-assets/directory/diStations.json"
+  stations = GetStationsAtUrl(url)
+
+  m.Screen.SetContentList(2, stations)
+  m.Screen.SetListVisible(2, true)
+
+  m.DIStations = stations
+End Function
+
 Function selection_getFeaturedStations()
   url = "https://s3-us-west-2.amazonaws.com/batserver-static-assets/directory/featured.json"
+  stations = GetStationsAtUrl(url)
 
+  m.Screen.SetContentList(3, stations)
+  m.Screen.SetListVisible(3, true)
+
+  m.FeaturedStations = stations
+End Function
+
+Function GetStationsAtUrl(url as String) as object
   Request = GetRequest()
   Request.SetUrl(url)
   jsonString = Request.GetToString()
   stationsJsonArray = ParseJSON(jsonString)
 
-  featuredStationsArray = CreateObject("roArray", stationsJsonArray.count() -1, true)
+  stationsArray = CreateObject("roArray", stationsJsonArray.count() -1, true)
 
   for i = 1 to stationsJsonArray.Count()-1
     singleStation = stationsJsonArray[i]
     singleStationItem = CreateSong(singleStation.name, singleStation.provider, "", "mp3", singleStation.playlist, singleStation.image)
-    featuredStationsArray.push(singleStationItem)
+    stationsArray.push(singleStationItem)
   end for
 
-  m.Screen.SetContentList(1, featuredStationsArray)
-  m.Screen.SetListOffset(1,0)
-
+  return stationsArray
 End Function
 
 Function HandleInternetConnectivity()
@@ -176,25 +221,6 @@ Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynam
 
 End Function
 
-Function GetStationSelectionHeader()
-    print "------ Downloading header ------"
-    ipAddress = GetSession().IPAddress
-    text = urlescape("Configure your Bat Player at http://" + ipAddress + ":9999")
-    device = GetSession().deviceInfo
-    width = ToStr(device.GetDisplaySize().w)
-
-    originalHeaderFile = "selection_bat_logo-HD.png"
-    query = "?fm=jpg&q=90&txtfont=Helvetica+Neue&txtclr=aaffffff&txtalign=center&txtsize=30&txtfit=max&txtpad=35&txt=" + text + "&w=" + width
-
-    imgixHost = GetConfig().ImgixHost
-    url = imgixHost + "/" + urlescape(originalHeaderFile) + query
-    print url
-
-    SyncGetFile(url, "tmp:/headerImage.jpg", true)
-    print "------ Downloading header complete------"
-End Function
-
-
 Function ShowConfigurationMessage(StationSelectionScreen as object)
     Analytics = GetSession().Analytics
     Analytics.AddEvent("Configuration Popup Displayed")
@@ -230,25 +256,82 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
     end while
 End Function
 
+Function selection_showDirectoryPopup(station as object)
+  'Analytics = GetSession().Analytics
+  'Analytics.AddEvent("Directory Popup Displayed")
+
+  port = GetPort()
+
+  dialog = CreateObject("roMessageDialog")
+  dialog.SetMessagePort(port)
+  dialog.SetTitle(station.stationname)
+  dialog.SetText("Add or Play this station.")
+
+  dialog.AddButton(1, "Play")
+  dialog.AddButton(2, "Add Station")
+  dialog.EnableBackButton(true)
+
+  dialog.Show()
+
+  While True
+      msg = port.GetMessage()
+      HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
+      If type(msg) = "roMessageDialogEvent"
+          if msg.isButtonPressed()
+
+              if msg.GetIndex() = 2
+                  ' Add Station'
+              else if msg.GetIndex() = 1
+                ' Play Station'
+              end if
+
+              dialog.close()
+              RefreshStationScreen()
+              exit while
+
+          else if msg.isScreenClosed()
+              exit while
+          end if
+      end if
+  end while
+
+End Function
+
 Function selection_handle(msg as Object)
 
 	if GetGlobalAA().IsStationSelectorDisplayed <> true
 		return false
 	end if
 
+  row = msg.GetIndex()
+  item = msg.GetData()
+
 	if msg.isListItemSelected()
-		GetGlobalAA().IsStationSelectorDisplayed = false
 
-    selectionIndex = msg.GetData()
-    m.SelectedIndex = selectionIndex
-    Station = m.SelectableStations[selectionIndex]
-		Analytics_StationSelected(Station.stationName, Station.feedurl)
+    if row = 0
+		  GetGlobalAA().IsStationSelectorDisplayed = false
 
-		metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
-		print "JSON for selected station: " + metadataUrl
+      m.SelectedIndex = item
+      Station = m.SelectableStations[item]
+  		Analytics_StationSelected(Station.stationName, Station.feedurl)
 
-    DisplayStationLoading(Station)
-    Show_Audio_Screen(Station)
+  		metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
+  		print "JSON for selected station: " + metadataUrl
+
+      DisplayStationLoading(Station)
+      Show_Audio_Screen(Station)
+    else
+      station = m.SomaFMStations[item]
+      m.DisplayStationPopup(station)
+    end if
+  else if msg.isListItemFocused()
+    ' Hide now playing bubble'
+    if row <> 0
+      m.Screen.SetDescriptionVisible(false)
+    else
+      m.Screen.SetDescriptionVisible(true)
+    end if
+
 	end if
 
 End Function
