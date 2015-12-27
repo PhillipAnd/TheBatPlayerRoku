@@ -15,8 +15,8 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 		GrungeX: 0
 		GrungeY: 0
 
-		width: ResolutionY(180)
-		height: ResolutionY(180)
+		width: ResolutionY(210)
+		height: ResolutionY(210)
 
 		EnableFade: enableFade
 		FadeIn: albumImage_FadeIn
@@ -57,7 +57,7 @@ Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade =
 	' Add the subtle overlay color
 	if this.overlayColor <> 0 AND this.image <> invalid
 		this.image.SetAlphaEnable(true)
-		this.image.DrawRect(0, 0, this.image.GetWidth(), this.image.GetHeight(), this.overlayColor + 30)
+		this.image.DrawRect(0, 0, this.image.GetWidth(), this.image.GetHeight(), this.overlayColor + 20)
 		this.image.finish()
 		this.image.SetAlphaEnable(false)
 	end if

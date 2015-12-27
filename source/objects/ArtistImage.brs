@@ -38,12 +38,13 @@ Function ArtistImage(filePath as string, yOffset = 0) as Object
 		this.width = this.bitmap.GetWidth()
 		this.height = this.bitmap.GetHeight()
 
+		increaseSizeBy = 50
 		this.resizeRatio = GetResizeRatioForArtistImage(this.bitmap)
-  	this.width = ResolutionX(this.width * this.resizeRatio)
-  	this.height = ResolutionX(this.height * this.resizeRatio)
+  	this.width = ResolutionX((this.width + increaseSizeBy) * this.resizeRatio)
+  	this.height = ResolutionX((this.height + increaseSizeBy) * this.resizeRatio)
 
   	this.horizontalOffset = ResolutionX(RLMax(0,Int(500.0 - this.width)))
-  	this.verticalOffset = ResolutionY(RLMax(0,Int(330 - (this.height + 5))))
+  	this.verticalOffset = ResolutionY(RLMax(0,Int(340 - (this.height + 5))))
 
 		if this.verticalOffset > 0 then
 			this.verticalOffset = ResolutionY(this.verticalOffset / 2)
@@ -52,7 +53,7 @@ Function ArtistImage(filePath as string, yOffset = 0) as Object
 			this.horizontalOffset = ResolutionX(this.horizontalOffset / 2)
 		end if
 
-		this.x = ResolutionX(120 + this.horizontalOffset)
+		this.x = ResolutionX(100 + this.horizontalOffset)
 		this.y = ResolutionY(120 + this.verticalOffset + this.yOffset)
 
 		this.image = RlGetScaledImage(this.bitmap, this.width, this.height, 1)

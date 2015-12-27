@@ -119,9 +119,9 @@ Function RefreshNowPlayingScreen()
   end if
 
   ' Album placeholder.  Only recreate it if we have to move it.
-  albumPlaceholderY = 240 + NowPlayingScreen.YOffset
+  albumPlaceholderY = 210 + NowPlayingScreen.YOffset
   if NowPlayingScreen.albumPlaceholder = invalid OR NowPlayingScreen.albumPlaceholder.y <> albumPlaceholderY
-    NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 780, albumPlaceholderY, true, 255, 0, false)
+    NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 830, albumPlaceholderY, true, 255, 0, false)
   end if
 
   NowPlayingScreen.UpdateBackgroundImage = true
@@ -176,7 +176,7 @@ Function UpdateScreen()
 
 	GetGlobalAA().AddReplace("song", song.title)
 
-  if NowPlayingScreen.song.image.color.DoesExist("rgb") AND NowPlayingScreen.song.image.color.rgb <> invalid
+  if NowPlayingScreen.song.image.DoesExist("color") AND NowPlayingScreen.song.image.color.DoesExist("rgb") AND NowPlayingScreen.song.image.color.rgb <> invalid
     colorOffset = GetGrungeColorOffsetForColor(NowPlayingScreen.song.image.color.rgb.red, NowPlayingScreen.song.image.color.rgb.green, NowPlayingScreen.song.image.color.rgb.blue)
     NowPlayingScreen.backgroundGrungeColor = MakeARGB(NowPlayingScreen.song.image.color.rgb.red + colorOffset, NowPlayingScreen.song.image.color.rgb.green + colorOffset, NowPlayingScreen.song.image.color.rgb.blue + colorOffset, 200)
   else
@@ -223,7 +223,7 @@ Function UpdateScreen()
   'Album Image
   if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = true then
     albumImageFilePath = "tmp:/album-" + makemdfive(song.album.name + song.artist)
-    NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 780, 240, true, 250 + NowPlayingScreen.YOffset, CreateAlbumOverlayColor(song))
+    NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 830, 210, true, 250 + NowPlayingScreen.YOffset, CreateAlbumOverlayColor(song))
     NowPlayingScreen.UpdateAlbumImage = false
   endif
 
@@ -274,7 +274,7 @@ Function UpdateScreen()
   NowPlayingScreen.StationTitleLabel = RlTextArea(NowPlayingScreen.stationTitle, NowPlayingScreen.headerFont, &hDDDDDD00 + 200, 180, headerTitleY, NowPlayingScreen.screen.GetWidth() - 200, 90, 1, 1.0, "left", true, false)
 
   songNameHeight = GetTextHeight(songTitle, 570, NowPlayingScreen.songNameFont)
-  artistNameLocation = 160 - songNameHeight + NowPlayingScreen.YOffset
+  artistNameLocation = 150 - songNameHeight + NowPlayingScreen.YOffset
   songNameLocation = artistNameLocation + 45
 
   'Song Name Label
@@ -293,7 +293,7 @@ Function UpdateScreen()
       NowPlayingScreen.PreviousAlbumNameLabel = NowPlayingScreen.albumNameLabel
       NowPlayingScreen.PreviousAlbumNameLabel.FadeOut()
     end if
-    NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(675), ResolutionY(425 + NowPlayingScreen.YOffset), ResolutionX(400), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
+    NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(740), ResolutionY(425 + NowPlayingScreen.YOffset), ResolutionX(400), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
     NowPlayingScreen.albumNameLabel.FadeIn()
   end if
 
@@ -310,11 +310,11 @@ Function UpdateScreen()
   if NowPlayingScreen.artistImage <> invalid then verticalOffset = NowPlayingScreen.artistImage.verticalOffset else verticalOffset = 0
 
   if GetSession().deviceInfo.GetDisplaySize().W = 1280
-    genreX = ResolutionX(120)
-    genreY = 437 - verticalOffset
+    genreX = ResolutionX(110)
+    genreY = 465 - verticalOffset
   else
-    genreX = ResolutionX(120)
-    genreY = ResolutionY(460)
+    genreX = ResolutionX(110)
+    genreY = ResolutionY(465)
   end if
 
   genreY = genreY + NowPlayingScreen.YOffset + 10
@@ -335,7 +335,7 @@ Function UpdateScreen()
       NowPlayingScreen.PreviousGenresLabel = NowPlayingScreen.genresLabel
       NowPlayingScreen.PreviousGenresLabel.FadeOut()
     end if
-    NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(490), ResolutionY(30), NowPlayingScreen.genreFont, GetRegularColorForSong(song), "center", 1, 2, 2, false)
+    NowPlayingScreen.genresLabel = DropShadowLabel(genreText, genreX, genreY, ResolutionX(480), ResolutionY(35), NowPlayingScreen.genreFont, GetRegularColorForSong(song), "center", 1, 2, 2, false)
     NowPlayingScreen.genresLabel.FadeIn()
   end if
 

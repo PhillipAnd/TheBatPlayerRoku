@@ -70,7 +70,7 @@ End Function
 
 Function GetSongNameFont() as Object
 	reg = GetGlobalAA().FontRegistry
-  size = 29
+  size = 30
 
   deviceSize = GetSession().deviceInfo.GetDisplaySize()
 
@@ -108,7 +108,7 @@ End Function
 
 Function GetLargeFont() as Object
 	reg = GetGlobalAA().FontRegistry
-  Font = reg.GetFont("Lato Light", ResolutionY(42), false, false)
+  Font = reg.GetFont("Lato Light", ResolutionY(43), false, false)
   return Font
 End Function
 

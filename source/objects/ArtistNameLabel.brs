@@ -3,9 +3,9 @@ Function ArtistNameLabel(text as string, yLocation as integer, font as Object, c
 		text: text
 		labelObject: invalid
 		font: font
-		x: ResolutionX(580)
+		x: ResolutionX(640)
 		y: ResolutionY(yLocation)
-		width: ResolutionX(590)
+		width: ResolutionX(600)
 		height: ResolutionY(60)
 		color: color
 
