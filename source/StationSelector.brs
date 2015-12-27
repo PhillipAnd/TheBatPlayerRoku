@@ -12,6 +12,7 @@ Function StationSelectionScreen()
     Screen: CreateObject("roGridScreen")
     SelectedIndex: 0
     RefreshStations: selection_getStations
+    GetFeaturedStations: selection_getFeaturedStations
     Handle: selection_handle
   }
 
@@ -20,10 +21,14 @@ Function StationSelectionScreen()
   this.Screen.SetUpBehaviorAtTopRow("stop")
   this.Screen.SetBreadcrumbEnabled(false)
   this.Screen.SetLoadingPoster("pkg:/images/icon-hd.png", "pkg:/images/icon-sd.png")
+
+  this.Screen.SetupLists(2)
+  this.Screen.SetListName(0, "Your Stations")
+  this.Screen.SetListName(1, "Featured Stations")
+
   port = GetPort()
   this.Screen.SetMessagePort(port)
-  this.Screen.SetupLists(1)
-  this.Screen.SetListName(0, "Stations")
+
   this.Screen.Show()
 
   GetGlobalAA().IsStationSelectorDisplayed = true
@@ -36,6 +41,7 @@ Function StationSelectionScreen()
   GetGlobalAA().AddReplace("StationSelectionScreen", this)
 
   this.RefreshStations()
+  this.GetFeaturedStations()
 
   HandleInternetConnectivity()
 
@@ -72,6 +78,27 @@ Function selection_getStations()
   end for
 
   m.Stations = SelectableStations
+End Function
+
+Function selection_getFeaturedStations()
+  url = "https://s3-us-west-2.amazonaws.com/batserver-static-assets/directory/featured.json"
+
+  Request = GetRequest()
+  Request.SetUrl(url)
+  jsonString = Request.GetToString()
+  stationsJsonArray = ParseJSON(jsonString)
+
+  featuredStationsArray = CreateObject("roArray", stationsJsonArray.count() -1, true)
+
+  for i = 1 to stationsJsonArray.Count()-1
+    singleStation = stationsJsonArray[i]
+    singleStationItem = CreateSong(singleStation.name, singleStation.provider, "", "mp3", singleStation.playlist, singleStation.image)
+    featuredStationsArray.push(singleStationItem)
+  end for
+
+  m.Screen.SetContentList(1, featuredStationsArray)
+  m.Screen.SetListOffset(1,0)
+
 End Function
 
 Function HandleInternetConnectivity()
