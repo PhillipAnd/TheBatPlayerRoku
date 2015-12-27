@@ -114,7 +114,7 @@ end Function
 
 Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
     item = CreatePosterItem("", title, description)
-    url = GetConfig().BatserverCDN + "images/resize/" + urlencode(imageLocation) + "/" + "266/150"
+    url = imageLocation
     item.Artist = artist
     item.Title = title    ' Song name
     item.feedurl = feedurl
