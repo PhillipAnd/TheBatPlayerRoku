@@ -16,7 +16,7 @@ Function BatBioLabel(text as string, song as object, enableFade = true as Boolea
 		MinFade: 0
 
 		x: ResolutionX(90)
-		y: ResolutionY(500)
+		y: ResolutionY(510)
 		width: ResolutionX(1080)
 		height: ResolutionY(200)
 
