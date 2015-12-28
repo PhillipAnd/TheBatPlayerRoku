@@ -44,3 +44,51 @@ Sub Show_Audio_Screen(station as Object)
     Audio.setPlayState(2)		' start playing
     Audio.audioplayer.Seek(-180000)
 End Sub
+
+
+Function GetDirectoryStation(station) as Object
+  if station.DoesExist("feedurl") AND station.feedurl <> invalid AND station.feedurl <> ""
+    PlayStation(station)
+  else
+    ' Need to get the audio stream from playlist
+
+    if station.DoesExist("playlist") AND station.playlist <> invalid
+      print "Trying to convert playlist " + station.playlist + " to an audio stream."
+
+      Request = GetRequest()
+      Request.SetUrl(station.playlist)
+      playlistString = Request.GetToString()
+      splitStringArray = playlistString.tokenize(CHR(10))
+
+      audiourl = invalid
+
+      for i = 0 to splitStringArray.Count()
+        singleString = splitStringArray[i]
+        if singleString <> invalid
+          if singleString.Instr(0, "File1=") <> -1
+            startAtCharIndex = singleString.Instr(0, "=") + 1
+            audiourl = singleString.Mid(startAtCharIndex)
+            station.feedurl = audiourl
+            return station
+          else
+            audiourl = singleString
+          end if
+        end if
+      end for
+
+    end if
+
+  'end if
+End Function
+
+Function PlayStation(station)
+  if station.DoesExist("feedurl") AND station.feedurl <> ""
+    Analytics_StationSelected(Station.stationName, Station.feedurl)
+
+    metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
+    print "JSON for selected station: " + metadataUrl
+
+    DisplayStationLoading(Station)
+    Show_Audio_Screen(Station)
+  end if
+End Function

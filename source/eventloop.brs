@@ -220,9 +220,9 @@ Sub HandleDownloadEvents(msg)
 		else
 			if TransferRequest <> invalid
 				errorUrl = TransferRequest.GetUrl()
-				BatLog("Download failed. " + errorUrl + " " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason(), "error")
+				'BatLog("Download failed. " + errorUrl + " " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason(), "error")
 			else
-				BatLog("Download failed. " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason(), "error")
+				'BatLog("Download failed. " + str(msg.GetResponseCode()) + " : " + msg.GetFailureReason(), "error")
 			endif
 
 			if GetGlobalAA().DoesExist("jsontransfer")

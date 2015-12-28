@@ -61,7 +61,7 @@ Function StationSelectionScreen()
   this.GetSomaFMStations()
   this.GetDIStations()
   this.GetFeaturedStations()
-  
+
   HandleInternetConnectivity()
 
   'First launch popup
@@ -139,7 +139,8 @@ Function GetStationsAtUrl(url as String) as object
 
   for i = 1 to stationsJsonArray.Count()-1
     singleStation = stationsJsonArray[i]
-    singleStationItem = CreateSong(singleStation.name, singleStation.provider, "", "mp3", singleStation.playlist, singleStation.image)
+    singleStationItem = CreateSong(singleStation.name, singleStation.provider, "", "mp3", "", singleStation.image)
+    singleStationItem.playlist = singleStation.playlist
     stationsArray.push(singleStationItem)
   end for
 
@@ -276,17 +277,21 @@ Function selection_showDirectoryPopup(station as object)
   While True
       msg = port.GetMessage()
       HandleWebEvent(msg) 'Because we created a standalone event loop I still want the web server to respond, so send over events.
+
       If type(msg) = "roMessageDialogEvent"
           if msg.isButtonPressed()
-
-              if msg.GetIndex() = 2
-                  ' Add Station'
+            if msg.GetIndex() = 2
+                ' Add Station'
               else if msg.GetIndex() = 1
-                ' Play Station'
+                ' Play Station
+                updatedStation = GetDirectoryStation(station)
+                dialog.close()
+                PlayStation(updatedStation)
+                exit while
               end if
 
-              dialog.close()
-              RefreshStationScreen()
+              dialog.ShowBusyAnimation()
+              'RefreshStationScreen()
               exit while
 
           else if msg.isScreenClosed()
@@ -307,19 +312,13 @@ Function selection_handle(msg as Object)
   item = msg.GetData()
 
 	if msg.isListItemSelected()
-
+    'print row
     if row = 0
 		  GetGlobalAA().IsStationSelectorDisplayed = false
 
       m.SelectedIndex = item
       Station = m.SelectableStations[item]
-  		Analytics_StationSelected(Station.stationName, Station.feedurl)
-
-  		metadataUrl = GetConfig().Batserver + "metadata/" + UrlEncode(Station.feedurl)
-  		print "JSON for selected station: " + metadataUrl
-
-      DisplayStationLoading(Station)
-      Show_Audio_Screen(Station)
+      PlayStation(Station)
     else
       station = m.SomaFMStations[item]
       m.DisplayStationPopup(station)

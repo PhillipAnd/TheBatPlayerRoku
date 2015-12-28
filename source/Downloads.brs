@@ -134,8 +134,6 @@ Function GetStationSelectionHeader()
 
     imgixHost = GetConfig().ImgixHost
     url = imgixHost + "/" + urlescape(originalHeaderFile) + query
-    print url
-
     SyncGetFile(url, "tmp:/headerImage.jpg", true)
     print "------ Downloading header complete------"
 End Function
