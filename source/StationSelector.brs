@@ -22,31 +22,31 @@ Function StationSelectionScreen()
     FeaturedStations: invalid
     GetFeaturedStations: selection_getFeaturedStations
 
+    GabeStations: invalid
+    GetGabeStations: selection_getGabeStations
+
     DisplayStationPopup: selection_showDirectoryPopup
     Handle: selection_handle
   }
 
   this.Screen.SetGridStyle("two-row-flat-landscape-custom")
-  'this.Screen.SetDescriptionVisible(false)
-  'this.Screen.SetUpBehaviorAtTopRow("stop")
-  'this.Screen.SetBreadcrumbEnabled(false)
   this.Screen.SetLoadingPoster("pkg:/images/icon-hd.png", "pkg:/images/icon-sd.png")
 
-  this.Screen.SetupLists(4)
+  this.Screen.SetupLists(5)
   this.Screen.SetListName(0, "Your Stations")
   this.Screen.SetListName(1, "Stations from SomaFM")
   this.Screen.SetListName(2, "Stations from Digitally Imported")
   this.Screen.SetListName(3, "Featured Stations")
+  this.Screen.SetListName(4, "Gabe's Current Favorites")
 
   this.Screen.SetListVisible(0, true)
   this.Screen.SetListVisible(1, false)
   this.Screen.SetListVisible(2, false)
   this.Screen.SetListVisible(3, false)
+  this.Screen.SetListVisible(4, false)
 
   port = GetPort()
   this.Screen.SetMessagePort(port)
-
-  this.Screen.Show()
 
   GetGlobalAA().IsStationSelectorDisplayed = true
   GetGlobalAA().delete("screen")
@@ -57,10 +57,14 @@ Function StationSelectionScreen()
   this.Screen.SetContentList(0,this.Stations)
   GetGlobalAA().AddReplace("StationSelectionScreen", this)
 
+
   this.RefreshStations()
+  this.Screen.Show()
+
   this.GetSomaFMStations()
   this.GetDIStations()
   this.GetFeaturedStations()
+  this.GetGabeStations()
 
   HandleInternetConnectivity()
 
@@ -111,6 +115,7 @@ Function selection_getSomaFMStations()
   m.Screen.SetListVisible(1, true)
 
   m.SomaFMStations = stations
+  RefreshStationScreen()
 End Function
 
 Function selection_getDIStations()
@@ -131,6 +136,16 @@ Function selection_getFeaturedStations()
   m.Screen.SetListVisible(3, true)
 
   m.FeaturedStations = stations
+End Function
+
+Function selection_getGabeStations()
+  url = "https://s3-us-west-2.amazonaws.com/batserver-static-assets/directory/gabeFavorites.json"
+  stations = GetStationsAtUrl(url)
+
+  m.Screen.SetContentList(4, stations)
+  m.Screen.SetListVisible(4, true)
+
+  m.GabeStations = stations
 End Function
 
 Function GetStationsAtUrl(url as String) as object
@@ -287,7 +302,6 @@ Function selection_showDirectoryPopup(station as object)
               end if
 
               dialog.ShowBusyAnimation()
-              'RefreshStationScreen()
               exit while
 
           else if msg.isScreenClosed()
@@ -324,6 +338,8 @@ Function selection_handle(msg as Object)
         station = m.DIStations[item]
       else if row = 3
         station = m.FeaturedStations[item]
+      else if row = 4
+        station = m.GabeStations[item]
       end if
 
       if station <> invalid
