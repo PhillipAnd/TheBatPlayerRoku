@@ -51,6 +51,7 @@ Function GetDirectoryStation(station) as Object
     PlayStation(station)
   else
     ' Need to get the audio stream from playlist
+  end if
 
     if station.DoesExist("playlist") AND station.playlist <> invalid
       print "Trying to convert playlist " + station.playlist + " to an audio stream."
@@ -91,4 +92,24 @@ Function PlayStation(station)
     DisplayStationLoading(Station)
     Show_Audio_Screen(Station)
   end if
+End Function
+
+
+Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
+    item = CreatePosterItem("", title, description)
+    url = imageLocation
+    item.Artist = artist
+    item.Title = title    ' Song name
+    item.feedurl = feedurl
+    item.streamformat = streamformat
+    item.picture = url      ' default audioscreen picture to PosterScreen Image
+    item.stationProvider = description
+    item.stationName = title
+    item.StationImage = imagelocation
+    item.Description = "Select Station to find what is currently playing."
+    item.JSONDownloadDelay = 0
+    item.dataExpires = 0
+    item.HDPosterUrl = url
+    item.SDPosterUrl = item.HDPosterUrl
+    return item
 End Function

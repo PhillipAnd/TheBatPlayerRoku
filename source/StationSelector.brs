@@ -81,20 +81,24 @@ Function selection_getStations()
   for i = 0 to m.Stations.Count()-1
 
       station = m.Stations[i]
-      stationObject = CreateSong(station.name,station.provider,"", station.format, station.stream, station.image)
-      SelectableStations.Push(stationObject)
+      if station.DoesExist("stream") AND station.stream <> ""
+        stationObject = CreateSong(station.name,station.provider,"", station.format, station.stream, station.image)
+        SelectableStations.Push(stationObject)
+        FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
 
-      'Download custom poster images
-      if NOT FileExists(makemdfive(stationObject.hdposterurl))
-        AsyncGetFile(stationObject.hdposterurl, "tmp:/" + makemdfive(stationObject.hdposterurl))
+        'Download custom poster images
+        if NOT FileExists(makemdfive(stationObject.hdposterurl))
+          SyncGetFile(stationObject.hdposterurl, "tmp:/" + makemdfive(stationObject.hdposterurl))
+        end if
+        if NOT FileExists(makemdfive(stationObject.stationimage))
+          SyncGetFile(stationObject.stationimage, "tmp:/" + makemdfive(stationObject.stationimage))
+        end if
+
       end if
-      if NOT FileExists(makemdfive(stationObject.stationimage))
-        AsyncGetFile(stationObject.stationimage, "tmp:/" + makemdfive(stationObject.stationimage))
-      end if
-      m.Screen.SetContentList(0, SelectableStations)
-      m.SelectableStations = SelectableStations
-      FetchMetadataForStreamUrlAndName(station.stream, station.name, true, i)
   end for
+
+  m.Screen.SetContentList(0, SelectableStations)
+  m.SelectableStations = SelectableStations
 
   m.Stations = SelectableStations
 End Function
@@ -130,6 +134,7 @@ Function selection_getFeaturedStations()
 End Function
 
 Function GetStationsAtUrl(url as String) as object
+  print "Fetching stations at: " + url
   Request = GetRequest()
   Request.SetUrl(url)
   jsonString = Request.GetToString()
@@ -185,24 +190,7 @@ Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Obj
     return item
 end Function
 
-Function CreateSong(title as string, description as string, artist as string, streamformat as string, feedurl as string, imagelocation as string) as Object
-    item = CreatePosterItem("", title, description)
-    url = imageLocation
-    item.Artist = artist
-    item.Title = title    ' Song name
-    item.feedurl = feedurl
-    item.streamformat = streamformat
-    item.picture = url      ' default audioscreen picture to PosterScreen Image
-    item.stationProvider = description
-    item.stationName = title
-    item.StationImage = imagelocation
-    item.Description = "Select Station to find what is currently playing."
-    item.JSONDownloadDelay = 0
-    item.dataExpires = 0
-    item.HDPosterUrl = url
-    item.SDPosterUrl = item.HDPosterUrl
-    return item
-End Function
+
 
 Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynamic)
     StationSelectionScreen = GetGlobalAA().StationSelectionScreen
@@ -258,8 +246,8 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
 End Function
 
 Function selection_showDirectoryPopup(station as object)
-  'Analytics = GetSession().Analytics
-  'Analytics.AddEvent("Directory Popup Displayed")
+  Analytics = GetSession().Analytics
+  Analytics.AddEvent("Directory Popup Displayed")
 
   port = GetPort()
 
@@ -280,11 +268,19 @@ Function selection_showDirectoryPopup(station as object)
 
       If type(msg) = "roMessageDialogEvent"
           if msg.isButtonPressed()
+            updatedStation = GetDirectoryStation(station)
+
             if msg.GetIndex() = 2
                 ' Add Station'
+                stationObject = CreateObject("roAssociativeArray")
+                stationObject.format = updatedStation.streamformat
+                stationObject.image = updatedStation.stationimage
+                stationObject.name = updatedStation.stationname
+                stationObject.provider = updatedStation.stationprovider
+                stationObject.stream = updatedStation.feedurl
+                AddStation(stationObject)
               else if msg.GetIndex() = 1
                 ' Play Station
-                updatedStation = GetDirectoryStation(station)
                 dialog.close()
                 PlayStation(updatedStation)
                 exit while
@@ -320,8 +316,20 @@ Function selection_handle(msg as Object)
       Station = m.SelectableStations[item]
       PlayStation(Station)
     else
-      station = m.SomaFMStations[item]
-      m.DisplayStationPopup(station)
+      station = invalid
+
+      if row = 1
+        station = m.SomaFMStations[item]
+      else if row = 2
+        station = m.DIStations[item]
+      else if row = 3
+        station = m.FeaturedStations[item]
+      end if
+
+      if station <> invalid
+        m.DisplayStationPopup(station)
+      end if
+
     end if
   else if msg.isListItemFocused()
     ' Hide now playing bubble'

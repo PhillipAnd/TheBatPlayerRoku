@@ -113,6 +113,29 @@ Sub GetStations() as Object
 	return stationsArray
 End Sub
 
+Function AddStation(station as Object)
+
+	Analytics = GetSession().Analytics
+	Analytics.AddEvent("Station added in-app")
+
+	json = GetStationsJson()
+	stationsArray = ParseJSON(json)
+
+	if stationsArray <> invalid
+		stationsArray.push(station)
+		jsonArray = FormatJson(stationsArray)
+
+		print "Saving Data: " + jsonArray
+		RegWrite("stations", jsonArray, "batplayer")
+
+		if GetGlobalAA().IsStationSelectorDisplayed = true
+			RefreshStationScreen()
+		end if
+
+	end if
+
+End Function
+
 Sub GetLights(returnAsJson as Boolean) as Object
 	lightsJson = RegRead("lights", "batplayer")
 
