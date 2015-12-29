@@ -35,9 +35,11 @@ Sub HandleNowPlayingScreenEvent (msg as Object)
 
 	  else if key = 0 then
 	    'Exit
-      'RefreshStationScreen()
 			NowPlayingScreen = GetNowPlayingScreen()
 			NowPlayingScreen.screen = invalid
+
+      StationSelectionScreen = GetGlobalAA().StationSelectionScreen
+      StationSelectionScreen.RefreshNowPlayingData()
 
       GetGlobalAA().lastSongTitle = invalid
 			GetGlobalAA().IsStationSelectorDisplayed = true

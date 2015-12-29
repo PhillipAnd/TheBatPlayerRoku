@@ -11,7 +11,9 @@ Function StationSelectionScreen()
     SelectableStations: invalid
     Screen: CreateObject("roGridScreen")
     SelectedIndex: 0
+
     RefreshStations: selection_getStations
+    RefreshNowPlayingData: selection_refreshNowPlayingData
 
     SomaFMStations: invalid
     GetSomaFMStations: selection_getSomaFMStations
@@ -107,6 +109,15 @@ Function selection_getStations()
   m.Stations = SelectableStations
 End Function
 
+Function selection_refreshNowPlayingData()
+  for i = 0 to m.Stations.Count()-1
+    station = m.Stations[i]
+    if station.DoesExist("feedurl") AND station.feedurl <> ""
+      FetchMetadataForStreamUrlAndName(station.feedurl, station.stationname, true, i)
+    end if
+  end for
+End Function
+
 Function selection_getSomaFMStations()
   url = "https://s3-us-west-2.amazonaws.com/batserver-static-assets/directory/somaFMStations.json"
   stations = GetStationsAtUrl(url)
@@ -148,7 +159,6 @@ Function selection_getGabeStations()
 End Function
 
 Function GetStationsAtUrl(url as String) as object
-  print "Fetching stations at: " + url
   Request = GetRequest()
   Request.SetUrl(url)
   jsonString = Request.GetToString()
@@ -204,8 +214,6 @@ Function CreatePosterItem(id as string, desc1 as string, desc2 as string) as Obj
     item.ShortDescriptionLine2 = desc2
     return item
 end Function
-
-
 
 Function StationSelectorNowPlayingTrackReceived(track as dynamic, index as dynamic)
     StationSelectionScreen = GetGlobalAA().StationSelectionScreen
@@ -322,7 +330,6 @@ Function selection_handle(msg as Object)
   item = msg.GetData()
 
 	if msg.isListItemSelected()
-    'print row
     if row = 0
 		  GetGlobalAA().IsStationSelectorDisplayed = false
 
