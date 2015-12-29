@@ -57,9 +57,8 @@ Function StationSelectionScreen()
   this.Screen.SetContentList(0,this.Stations)
   GetGlobalAA().AddReplace("StationSelectionScreen", this)
 
-
-  this.RefreshStations()
   this.Screen.Show()
+  this.RefreshStations()
 
   this.GetSomaFMStations()
   this.GetDIStations()
@@ -92,10 +91,10 @@ Function selection_getStations()
 
         'Download custom poster images
         if NOT FileExists(makemdfive(stationObject.hdposterurl))
-          SyncGetFile(stationObject.hdposterurl, "tmp:/" + makemdfive(stationObject.hdposterurl))
+          ASyncGetFile(stationObject.hdposterurl, "tmp:/" + makemdfive(stationObject.hdposterurl))
         end if
         if NOT FileExists(makemdfive(stationObject.stationimage))
-          SyncGetFile(stationObject.stationimage, "tmp:/" + makemdfive(stationObject.stationimage))
+          ASyncGetFile(stationObject.stationimage, "tmp:/" + makemdfive(stationObject.stationimage))
         end if
 
       end if
@@ -115,7 +114,6 @@ Function selection_getSomaFMStations()
   m.Screen.SetListVisible(1, true)
 
   m.SomaFMStations = stations
-  RefreshStationScreen()
 End Function
 
 Function selection_getDIStations()
@@ -161,6 +159,7 @@ Function GetStationsAtUrl(url as String) as object
     singleStation = stationsJsonArray[i]
     singleStationItem = CreateSong(singleStation.name, singleStation.provider, "", "mp3", "", singleStation.image)
     singleStationItem.playlist = singleStation.playlist
+    ASyncGetFile(singleStation.image, "tmp:/" + makemdfive(singleStation.image))
     stationsArray.push(singleStationItem)
   end for
 
