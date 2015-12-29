@@ -115,9 +115,9 @@ Function albumImage_draw(screen as Object)
 		screen.DrawObject(m.x, m.y, m.image, m.alpha)
 
 
-		if m.DrawGrunge = true AND m.isFadingOut = false
-			screen.DrawRotatedObject(m.GrungeX, m.GrungeY, m.GrungeAngle, m.grunge, m.alpha)
-		end if
+		'if m.DrawGrunge = true AND m.isFadingOut = false
+		''	screen.DrawRotatedObject(m.GrungeX, m.GrungeY, m.GrungeAngle, m.grunge, m.alpha)
+		'end if
 
 
 	end if
