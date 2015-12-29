@@ -154,9 +154,9 @@ Function GetStationsAtUrl(url as String) as object
   jsonString = Request.GetToString()
   stationsJsonArray = ParseJSON(jsonString)
 
-  stationsArray = CreateObject("roArray", stationsJsonArray.count() -1, true)
+  stationsArray = CreateObject("roArray", stationsJsonArray.count(), true)
 
-  for i = 1 to stationsJsonArray.Count()-1
+  for i = 0 to stationsJsonArray.Count() -1
     singleStation = stationsJsonArray[i]
     singleStationItem = CreateSong(singleStation.name, singleStation.provider, "", "mp3", "", singleStation.image)
     singleStationItem.playlist = singleStation.playlist
