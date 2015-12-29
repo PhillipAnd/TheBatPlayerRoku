@@ -87,6 +87,10 @@ Function RefreshNowPlayingScreen()
 
   song = NowPlayingScreen.song
 
+  if song = invalid
+    NowPlayingScreen.screen.close()
+  end if
+
   GetGlobalAA().lastSongTitle = invalid
 
   NowPlayingScreen.YOffset = 0
@@ -119,7 +123,7 @@ Function RefreshNowPlayingScreen()
   end if
 
   ' Album placeholder.  Only recreate it if we have to move it.
-  albumPlaceholderY = 210 + NowPlayingScreen.YOffset
+  albumPlaceholderY = 230 + NowPlayingScreen.YOffset
   if NowPlayingScreen.albumPlaceholder = invalid OR NowPlayingScreen.albumPlaceholder.y <> albumPlaceholderY
     NowPlayingScreen.albumPlaceholder = AlbumImage("pkg:/images/album-placeholder.png", 830, albumPlaceholderY, true, 255, 0, false)
   end if
@@ -223,7 +227,9 @@ Function UpdateScreen()
   'Album Image
   if type(song.album) = "roAssociativeArray" AND song.album.DoesExist("name") AND song.album.name <> invalid AND FileExists("album-" + makemdfive(song.album.name + song.artist)) AND NowPlayingScreen.UpdateAlbumImage = true then
     albumImageFilePath = "tmp:/album-" + makemdfive(song.album.name + song.artist)
-    NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 830, 210, true, 250 + NowPlayingScreen.YOffset, CreateAlbumOverlayColor(song))
+    'Function AlbumImage(filePath as String, x as Integer, y as Integer, enableFade = true as Boolean, maxAlpha = 225 as Integer, overlayColor = 0 as Integer, DrawGrunge = true as Boolean) as Object
+'
+    NowPlayingScreen.albumImage = AlbumImage(albumImageFilePath, 830, 230 + NowPlayingScreen.YOffset, true, 255, CreateAlbumOverlayColor(song))
     NowPlayingScreen.UpdateAlbumImage = false
   endif
 
@@ -274,7 +280,7 @@ Function UpdateScreen()
   NowPlayingScreen.StationTitleLabel = RlTextArea(NowPlayingScreen.stationTitle, NowPlayingScreen.headerFont, &hDDDDDD00 + 200, 180, headerTitleY, NowPlayingScreen.screen.GetWidth() - 200, 90, 1, 1.0, "left", true, false)
 
   songNameHeight = GetTextHeight(songTitle, 570, NowPlayingScreen.songNameFont)
-  artistNameLocation = 150 - songNameHeight + NowPlayingScreen.YOffset
+  artistNameLocation = 160 - songNameHeight + NowPlayingScreen.YOffset
   songNameLocation = artistNameLocation + 45
 
   'Song Name Label
@@ -293,7 +299,7 @@ Function UpdateScreen()
       NowPlayingScreen.PreviousAlbumNameLabel = NowPlayingScreen.albumNameLabel
       NowPlayingScreen.PreviousAlbumNameLabel.FadeOut()
     end if
-    NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(740), ResolutionY(425 + NowPlayingScreen.YOffset), ResolutionX(400), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
+    NowPlayingScreen.albumNameLabel = DropShadowLabel(albumTitle, ResolutionX(740), ResolutionY(440 + NowPlayingScreen.YOffset), ResolutionX(400), ResolutionY(200), NowPlayingScreen.smallFont, GetBoldColorForSong(song), "center", 2, 2, 2)
     NowPlayingScreen.albumNameLabel.FadeIn()
   end if
 
