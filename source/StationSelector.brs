@@ -60,6 +60,13 @@ Function StationSelectionScreen()
   this.Screen.Show()
   this.RefreshStations()
 
+  'First launch popup
+  if RegRead("initialpopupdisplayed", "batplayer") = invalid
+    Analytics = GetSession().Analytics
+    Analytics.AddEvent("First Session began")
+    ShowConfigurationMessage(StationSelectionScreen)
+  end if
+
   this.GetSomaFMStations()
   this.GetDIStations()
   this.GetFeaturedStations()
@@ -67,12 +74,6 @@ Function StationSelectionScreen()
 
   HandleInternetConnectivity()
 
-  'First launch popup
-  if RegRead("initialpopupdisplayed", "batplayer") = invalid
-    Analytics = GetSession().Analytics
-    Analytics.AddEvent("First Session began")
-    ShowConfigurationMessage(StationSelectionScreen)
-  end if
 
   return this
 End Function
@@ -231,7 +232,7 @@ Function ShowConfigurationMessage(StationSelectionScreen as object)
     port = GetPort()
     ipAddress = GetSession().IPAddress
 
-    message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":9999 to customize your Bat Player experience by adding stations, enabling lighting, Last.FM, Rdio support and more."
+    message = "Thanks for checking out The Bat Player.  Jump on your computer and visit http://" + ipAddress + ":9999 to customize your Bat Player experience by adding stations, enabling lighting and setting up Last.FM support.  A select number of stations are also featured in the Stations directory in the channel for you to check out."
 
     dialog = CreateObject("roMessageDialog")
     dialog.SetMessagePort(port)
@@ -271,7 +272,7 @@ Function selection_showDirectoryPopup(station as object)
   dialog.SetText("Add or Play this station.")
 
   dialog.AddButton(1, "Play")
-  dialog.AddButton(2, "Add Station")
+  dialog.AddButton(2, "Add To My Stations")
   dialog.EnableBackButton(true)
 
   dialog.Show()
