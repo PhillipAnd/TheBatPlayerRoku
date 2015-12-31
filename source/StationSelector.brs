@@ -17,21 +17,25 @@ Function StationSelectionScreen()
 
     SomaFMStations: invalid
     GetSomaFMStations: selection_getSomaFMStations
+    FetchingSomaFmStations: false
 
     DIStations: invalid
     GetDIStations: selection_getDIStations
+    FetchingDIStations: false
 
     FeaturedStations: invalid
     GetFeaturedStations: selection_getFeaturedStations
+    FetchingFeturedStations: false
 
     GabeStations: invalid
     GetGabeStations: selection_getGabeStations
+    FetchingGabeStations: false
 
     DisplayStationPopup: selection_showDirectoryPopup
     Handle: selection_handle
   }
 
-  this.Screen.SetGridStyle("two-row-flat-landscape-custom")
+  this.Screen.SetGridStyle("four-column-flat-landscape")
   this.Screen.SetLoadingPoster("pkg:/images/icon-hd.png", "pkg:/images/icon-sd.png")
 
   this.Screen.SetupLists(5)
@@ -56,7 +60,6 @@ Function StationSelectionScreen()
   GetGlobalAA().Delete("jsonEtag")
   GetGlobalAA().lastSongTitle = invalid
 
-  this.Screen.SetContentList(0,this.Stations)
   GetGlobalAA().AddReplace("StationSelectionScreen", this)
 
   this.Screen.Show()
@@ -70,12 +73,7 @@ Function StationSelectionScreen()
   end if
 
   this.GetSomaFMStations()
-  this.GetDIStations()
-  this.GetFeaturedStations()
-  this.GetGabeStations()
-
   HandleInternetConnectivity()
-
 
   return this
 End Function
@@ -105,7 +103,7 @@ Function selection_getStations()
 
   m.Screen.SetContentList(0, SelectableStations)
   m.SelectableStations = SelectableStations
-
+  m.Screen.SetListVisible(0, true)
   m.Stations = SelectableStations
 End Function
 
@@ -360,6 +358,18 @@ Function selection_handle(msg as Object)
       m.Screen.SetDescriptionVisible(false)
     else
       m.Screen.SetDescriptionVisible(true)
+    end if
+
+    ' Download the content for the next row in the directory'
+    if row = 1 AND m.DIStations = invalid AND m.FetchingDIStations = false
+      m.FetchingDIStations = true
+      m.GetDIStations()
+    else if row = 2 AND m.FeaturedStations = invalid AND m.FetchingFeturedStations = false
+      m.FetchingFeturedStations = true
+      m.GetFeaturedStations()
+    else if row = 3 AND m.GabeStations = invalid AND m.FetchingGabeStations = false
+      m.FetchingGabeStations = true
+      m.GetGabeStations()
     end if
 
 	end if
