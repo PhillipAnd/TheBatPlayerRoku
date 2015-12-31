@@ -353,13 +353,6 @@ Function selection_handle(msg as Object)
 
     end if
   else if msg.isListItemFocused()
-    ' Hide now playing bubble'
-    if row <> 0
-      m.Screen.SetDescriptionVisible(false)
-    else
-      m.Screen.SetDescriptionVisible(true)
-    end if
-
     ' Download the content for the next row in the directory'
     if row = 1 AND m.DIStations = invalid AND m.FetchingDIStations = false
       m.FetchingDIStations = true
