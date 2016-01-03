@@ -176,7 +176,7 @@ Function UpdateScreen()
 
 	GetGlobalAA().AddReplace("song", song.title)
 
-  if NowPlayingScreen.song.image.DoesExist("color") AND NowPlayingScreen.song.image.color.DoesExist("rgb") AND NowPlayingScreen.song.image.color.rgb <> invalid
+  if NowPlayingScreen.song.DoesExist("image") AND NowPlayingScreen.song.image.DoesExist("color") AND NowPlayingScreen.song.image.color.DoesExist("rgb") AND NowPlayingScreen.song.image.color.rgb <> invalid
     colorOffset = GetGrungeColorOffsetForColor(NowPlayingScreen.song.image.color.rgb.red, NowPlayingScreen.song.image.color.rgb.green, NowPlayingScreen.song.image.color.rgb.blue)
     NowPlayingScreen.backgroundGrungeColor = MakeARGB(NowPlayingScreen.song.image.color.rgb.red + colorOffset, NowPlayingScreen.song.image.color.rgb.green + colorOffset, NowPlayingScreen.song.image.color.rgb.blue + colorOffset, 200)
   else
