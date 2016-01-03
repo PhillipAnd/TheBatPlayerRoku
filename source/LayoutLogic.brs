@@ -1,6 +1,10 @@
 Function GetBioTextForSong(song as Object) as string
 	bioText = ""
 
+		if song = invalid
+			return ""
+		end if
+		
     if (song.DoesExist("bio") and song.bio <> invalid and song.bio.DoesExist("published")) AND song.bio.published <> invalid
       publishedYear = ToStr(song.bio.published)
       bioText = song.bio.text + " (" + publishedYear + ")"
